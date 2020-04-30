@@ -21,13 +21,13 @@ import  Loader  from '../../../components/loader/Loader';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Enums
-import { auth0, messages } from '../../../enums/global-constants';
+import { messages } from '../../../enums/global-constants';
 
 // Styles sheet
 import { styles } from './style-login-ui';
 
 // Utils 
-import { validateValue, validateObject } from '../../../utils/validation/validation';
+
 import validationTypes from '../../../enums/validation/validation-types';
 import { _storeData } from  '../../../utils/async_storage/async-storage-functions';
 
