@@ -25,7 +25,7 @@ export default class OnlineExam extends Component{
         console.log("componentWillMount()");
         // Orientation.lockToLandscape();
     }
-
+    
     render(){
         return(
             <View style={ styles.container }>
@@ -59,59 +59,184 @@ export default class OnlineExam extends Component{
                     <View style={ styles.containerQuestionLeft }>
                         <KeyboardAwareScrollView enableAutomaticScroll={(Platform.OS === 'ios')} enableOnAndroid={true}>
                             <View>
-                                <Text style={texts.primary}>  
-                                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>
-                                    Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>  
-                                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>
-                                    Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>  
-                                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>
-                                    Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>  
-                                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>
-                                    Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>  
-                                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>
-                                    Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>  
-                                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>
-                                    Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>  
-                                    Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
-                                </Text>
-                                <Text style={texts.primary}>
-                                    LAST Ipsum
-                                </Text>
+                                <View style={ styles.containerQuestionLeftTop }>
+                                    <View style={styles.containerQuestionLeftTopCircle}>
+                                        <View style={styles.containerQuestionLeftTopCircleInner}>
+                                            <Text style= {texts.optionButtonTopCircleInnerText}>
+                                                8
+                                            </Text>
+                                        </View>
+                                    </View>
+                                    <View style={styles.containerQuestionLeftTopQuestion}>
+                                        <Text style={texts.primary}>  
+                                            What was the day of week on 17th June 1998?
+                                        </Text>
+                                    </View>
+                                </View>
+                                <View style={ styles.containerQuestionLeftMiddle }>
+                                    <Text style={texts.primary}>  
+                                        Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+                                    </Text>
+                                </View>
+                                <View style={ styles.containerQuestionLeftBottom }>
+                                    <TouchableOpacity>
+                                        <View style={ buttons.optionButtonTop }>
+                                            <View style={ buttons.optionButtonTopCircle }>
+                                                <View style={ buttons.optionButtonTopCircleInner }>
+                                                    <Text style= {texts.optionButtonTopCircleInnerText}>
+                                                        A
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <View style={buttons.optionButtonTopQuestion}>
+                                                <Text style={texts.primary}>  
+                                                    option 1
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={ buttons.optionButtonTop }>
+                                            <View style={buttons.optionButtonTopCircle}>
+                                                <View style={buttons.optionButtonTopCircleInner}>
+                                                    <Text style= {texts.optionButtonTopCircleInnerText}>
+                                                        B
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <View style={buttons.optionButtonTopQuestion}>
+                                                <Text style={texts.primary}>  
+                                                    option 2
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={ buttons.optionButtonTop }>
+                                            <View style={buttons.optionButtonTopCircle}>
+                                                <View style={buttons.optionButtonTopCircleInner}>
+                                                    <Text style= {texts.optionButtonTopCircleInnerText}>
+                                                        C
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <View style={buttons.optionButtonTopQuestion}>
+                                                <Text style={texts.primary}>  
+                                                    option 3
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity>
+                                        <View style={ buttons.optionButtonTop }>
+                                            <View style={buttons.optionButtonTopCircle}>
+                                                <View style={buttons.optionButtonTopCircleInner}>
+                                                    <Text style= {texts.optionButtonTopCircleInnerText}>
+                                                        D
+                                                    </Text>
+                                                </View>
+                                            </View>
+                                            <View style={buttons.optionButtonTopQuestion}>
+                                                <Text style={texts.primary}>  
+                                                    option 4
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
                         </KeyboardAwareScrollView>
                     </View> 
                     <View style={ styles.containerQuestionRight }>
-                        <ScrollView>
-                            <Text style={texts.questionPaletteText}>
-                                Question
-                            </Text>       
-                            <Text style={texts.questionPaletteText}>
-                                Palette
-                            </Text>
+                        <ScrollView contentContainerStyle={{flexGrow:1}} style = {{ marginTop: 5 }}>
+                            <View>
+                                <Text style={texts.questionPaletteText}>
+                                    Question
+                                </Text>       
+                                <Text style={texts.questionPaletteText}>
+                                    Palette
+                                </Text>
+                                <Text style={texts.questionPaletteText}>
+                                    Info
+                                </Text>
+                            </View>
+                            <View style = { styles.containerQuestionPalleteQuestions }>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        1
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        2
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        3
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        4
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        5
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        6
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        7
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        8
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        9
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        10
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        11
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        12
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        13
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        14
+                                    </Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style = { buttons.buttonsQuestionPalleteQuestions }>
+                                    <Text>  
+                                        15
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>    
                         </ScrollView>
                     </View>     
                 </View>
