@@ -35,10 +35,13 @@ export default class OnlineExam extends Component{
             question_obj: questions_array_object[0],
             disable_prev_button: true,
             disable_next_button: false,
-            questionsObj: questions_array_object  
+            questionsObj: questions_array_object,
+            optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'] 
         };
         
+        this.clearResponseFunction = this.clearResponseFunction.bind(this);
         this.decreaseIndexChange = this.decreaseIndexChange.bind(this);
+        this.getOptionId = this.getOptionId.bind(this);
         this.increaseIndexChange = this.increaseIndexChange.bind(this);
 	}
 
@@ -54,7 +57,8 @@ export default class OnlineExam extends Component{
                 return { 
                     index: prevState.index - 1,
                     question_obj: questions_array_object[prevState.index - 1],
-                    disable_prev_button: true 
+                    disable_prev_button: true,
+                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'] 
                 }
             });
         }else{
@@ -62,7 +66,8 @@ export default class OnlineExam extends Component{
                 return { 
                     index: prevState.index - 1,
                     question_obj: questions_array_object[prevState.index - 1],
-                    disable_prev_button: false
+                    disable_prev_button: false,
+                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
                 }
             });
         }
@@ -74,10 +79,8 @@ export default class OnlineExam extends Component{
         if(this.state.index == indexLength - 1 ){
             this.setState(prevState => {
                 return { 
-                    // index: prevState.index + 1,
-                    // question_obj: questions_array_object[prevState.index + 1],
                     disable_prev_button: false,
-                    // disable_next_button: true
+                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
                 }
             });
         }else{
@@ -86,17 +89,44 @@ export default class OnlineExam extends Component{
                     index: prevState.index + 1,
                     question_obj: questions_array_object[prevState.index + 1],
                     disable_prev_button: false,
-                    disable_next_button: false
+                    disable_next_button: false,
+                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
                 }
             });
         }
     }
 
-    render() {
-        // console.log("render function()");
-        // console.log(this.state.question_obj);
-        return(
+    // Summary: This function handles the color change of option selected by user.
+    getOptionId(buttonId){
+        // Summary: arrInt is used to maintain the indexing. 
+        let arrInt = [0, 1, 2, 3];
+        // Summary: Index of clicked button removed.
+        arrInt.splice(buttonId, 1);
+        let arrColor = [];
+        for(let i in arrInt){
+            arrColor[arrInt[i]] = '#C9D7DD';
+        }
+        // Summary: Set different color on clicked button.
+        arrColor[buttonId] = '#9ACD32';
+        this.setState(prevState => {
+            return{
+                optionButtonColor: arrColor,
+            }
+        });
+    }
 
+    // Summary: This function will clear the answer.
+    clearResponseFunction(){
+        this.setState(prevState => {
+            return { 
+                optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
+            }
+        });
+    }
+
+    render() {
+
+        return(
             <View style={ styles.container }>
                 <View style={{flex:1}}>
                     <HeaderOnlineExam />
@@ -104,7 +134,11 @@ export default class OnlineExam extends Component{
                 <View style={{flex:5}}>
                     <View style = { styles.containerQuestion}>
                         <View style={ styles.containerQuestionLeft }>
-                            <QuestionSectionLeft questionObjProps = { this.state.question_obj } />
+                            <QuestionSectionLeft 
+                                questionObjProps = { this.state.question_obj }
+                                getOptionIdProps = { this.getOptionId }
+                                optionButtonColorProps = { this.state.optionButtonColor } 
+                            />
                         </View> 
                         <View style={ styles.containerQuestionRight }>
                             <QuestionSectionRight 
@@ -117,6 +151,7 @@ export default class OnlineExam extends Component{
                     <AnswerButtons 
                         actionDecreaseIndexChange = { this.decreaseIndexChange }
                         actionIncreaseIndexChange = { this.increaseIndexChange }
+                        actionClearResponseFunction = { this.clearResponseFunction }
                         disablePrev = { this.state.disable_prev_button } 
                         disableNext = { this.state.disable_next_button }  
                     />

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
 import {
+    Image,
     Text, 
     TouchableOpacity,
+    ScrollView,
     View
 } from 'react-native';
 
+// Component
+import CheckBox from '../../common_components/check_box';
+import FillInTheBlankesAnswer from './answer_type/fill_in_the_blankes_answer';
+import OptionAnswer from './answer_type/option_answer';
+
 // Dependency
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
 
 // Stylesheet
 import { buttons, texts, styles } from './style-question-section-left';
@@ -21,19 +27,103 @@ export default class QuestionSectionLeft extends Component{
     //     "options": {"a": "Wednesday", "b": "Monday", "c": "Thursday", "d": "Friday"}, 
     //     "question_no": 1, "question_text": "What was the day of week on 17th June 1998?", 
     //     "right_answer": "b", "right_answer_multiselect": [], "save": false, 
-    //     "save_mark_review": false, "selected_option": "a"
+    //     "save_mark_review": false, "selected_option": "a", image_url: ""
     // }
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            products : 
+            [
+                {
+                    id: 1,
+                    option: "Bye Bye"
+                },
+                {
+                    id: 2,
+                    option: "See You"
+                },
+                {
+                    id: 3,
+                    option: "Tata"
+                },
+                {
+                    id: 4,
+                    option: "Good Day"
+                }
+            ],
+            checkSelected: [],
+            
+        };
+
+        this.displayImage = this.displayImage.bind(this);    
+        this.displayAnswerOption = this.displayAnswerOption.bind(this);
+    }
+
     componentDidMount(){
-        console.log("componentDidMount()");
-        console.log(this.props.questionObjProps.options.a);
+    }
+
+    // Summary: this function will handle the conditional rendering.
+    displayImage(){
+        // console.log("displayImage(){");
+        // console.log(this.props.questionObjProps);
+        if(this.props.questionObjProps.image_url == ""){
+            return <Text style = {{ marginTop: 25, marginBottom:25 }}> </Text>; 
+        }else{
+            
+           return <Image source={{ uri: this.props.questionObjProps.image_url }} style = {{ height: 200, resizeMode : 'stretch', margin: 5 }} />;
+        }
+    }
+
+    // Summary: This function will display mcqoption or textInput for giving answer.
+    displayAnswerOption(){
+
+        if(this.props.questionObjProps.descriptive_answer == true){
+            return <FillInTheBlankesAnswer />;
+        }else if(this.props.questionObjProps.multiselect == true){
+            const checkboxs = this.state.products.map(({id, option}) =>
+                <CheckBox 
+                    style={{ marginTop: 25 }} 
+                    key={id} 
+                    value={option}
+                    clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
+                >
+                </CheckBox>
+            );
+            return checkboxs;
+        }else{
+            return <OptionAnswer 
+                getOptionIdProps = { this.props.getOptionIdProps }
+                optionButtonColorProps = { this.props.optionButtonColorProps }
+                questionObjProps = { this.props.questionObjProps }
+            />;
+        }
+    }
+
+    // Summary: This will give us the selected values for the checkbox.
+    toggleCheckBox = (id, option, isCheck) => {
+        let { checkSelected } = this.state;
+        if (isCheck) {
+          checkSelected.push(option);
+        } else { // remove element
+          var index = checkSelected.indexOf(option);
+          if (index > -1) {
+            checkSelected.splice(index, 1);
+          }
+        }
+    
+        this.setState({ checkSelected });
+    
+        console.log(this.state.checkSelected); // logging
     }
 
     render(){
-        
+       
         return(
             <View>
-                <KeyboardAwareScrollView enableAutomaticScroll={(Platform.OS === 'ios')} enableOnAndroid={true}>
+                {/* <KeyboardAwareScrollView enableAutomaticScroll={(Platform.OS === 'ios')} enableOnAndroid={true}> */}
+                <ScrollView>
                     <View>
                         <View style={ styles.containerQuestionLeftTop }>
                             <View style={styles.containerQuestionLeftTopCircle}>
@@ -50,78 +140,17 @@ export default class QuestionSectionLeft extends Component{
                             </View>
                         </View>
                         <View style={ styles.containerQuestionLeftMiddle }>
-                            <Text style={texts.primary}>  
-                                Image can appear here
-                            </Text>
+                            {
+                                this.displayImage()
+                            }
                         </View>
-                        <View style={ styles.containerQuestionLeftBottom }>
-                            <TouchableOpacity>
-                                <View style={ buttons.optionButtonTop }>
-                                    <View style={ buttons.optionButtonTopCircle }>
-                                        <View style={ buttons.optionButtonTopCircleInner }>
-                                            <Text style= {texts.optionButtonTopCircleInnerText}>
-                                                A
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <View style={buttons.optionButtonTopQuestion}>
-                                        <Text style={texts.primary}>  
-                                            {this.props.questionObjProps.options.a}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={ buttons.optionButtonTop }>
-                                    <View style={buttons.optionButtonTopCircle}>
-                                        <View style={buttons.optionButtonTopCircleInner}>
-                                            <Text style= {texts.optionButtonTopCircleInnerText}>
-                                                B
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <View style={buttons.optionButtonTopQuestion}>
-                                        <Text style={texts.primary}>  
-                                            {this.props.questionObjProps.options.b}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={ buttons.optionButtonTop }>
-                                    <View style={buttons.optionButtonTopCircle}>
-                                        <View style={buttons.optionButtonTopCircleInner}>
-                                            <Text style= {texts.optionButtonTopCircleInnerText}>
-                                                C
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <View style={buttons.optionButtonTopQuestion}>
-                                        <Text style={texts.primary}>  
-                                            {this.props.questionObjProps.options.c}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                                <View style={ buttons.optionButtonTop }>
-                                    <View style={buttons.optionButtonTopCircle}>
-                                        <View style={buttons.optionButtonTopCircleInner}>
-                                            <Text style= {texts.optionButtonTopCircleInnerText}>
-                                                D
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <View style={buttons.optionButtonTopQuestion}>
-                                        <Text style={texts.primary}>  
-                                            {this.props.questionObjProps.options.d}
-                                        </Text>
-                                    </View>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
+                        {/* Answer option Will display here based on the condition handled in displayAnswerOption() */}
+                        {
+                            this.displayAnswerOption()
+                        }
                     </View>
-                </KeyboardAwareScrollView>
+                </ScrollView>
+                {/* </KeyboardAwareScrollView> */}
             </View>
         );
     }

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import {
     Text, 
     TouchableOpacity,
+    ScrollView,
     View
 } from 'react-native';
 
 // Dependency
-import { ScrollView } from 'react-native-gesture-handler';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 // StyleSheet
 import { buttons, texts, styles } from './style-question-section-right';

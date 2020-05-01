@@ -11,12 +11,9 @@ import { buttons, texts, styles } from './style-answer-buttons';
 // Summary: AnswerButton class contains the functionality of answer button s.
 export default class AnswerButtons extends Component{
     componentDidMount(){
-        console.log("AnswerButtons componentDidMount()");
-        console.log(this.props);
     }
+
     render(){
-        console.log("AnswerButtons componentDidMount()");
-        console.log(this.props);
         return(
             <View style = { styles.containerAnswer }>
                 <View style = { styles.containerAnswerChild }>
@@ -48,7 +45,11 @@ export default class AnswerButtons extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
-                    <TouchableOpacity style= { buttons.buttonContainer }>
+                    <TouchableOpacity 
+                        style= { buttons.buttonContainer }
+                        onPress = { this.props.actionIncreaseIndexChange }
+                        disabled={ this.props.disableNext }
+                    >
                         <Text style= { texts.buttonText }>
                             Save
                         </Text>
@@ -64,7 +65,11 @@ export default class AnswerButtons extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
-                    <TouchableOpacity style= { buttons.buttonContainer }>
+                    <TouchableOpacity 
+                        style= { buttons.buttonContainer }
+                        onPress = { this.props.actionIncreaseIndexChange }
+                        disabled={ this.props.disableNext }
+                    >
                         <Text style= { texts.buttonText }>
                             Mark
                         </Text>
@@ -80,7 +85,10 @@ export default class AnswerButtons extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
-                    <TouchableOpacity style= { buttons.buttonContainer }>
+                    <TouchableOpacity 
+                        style= { buttons.buttonContainer }
+                        onPress = { this.props.actionClearResponseFunction }
+                    >
                         <Text style= { texts.buttonText }>
                             Clear
                         </Text>
@@ -103,7 +111,11 @@ export default class AnswerButtons extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
-                    <TouchableOpacity style= { buttons.buttonContainer }>
+                    <TouchableOpacity 
+                        style= { buttons.buttonContainer }
+                        onPress = { this.props.actionIncreaseIndexChange }
+                        disabled={ this.props.disableNext }
+                    >
                         <Text style= { texts.buttonText }>
                             Next
                         </Text>
