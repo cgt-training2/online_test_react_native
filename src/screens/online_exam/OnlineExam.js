@@ -43,10 +43,17 @@ export default class OnlineExam extends Component{
         this.decreaseIndexChange = this.decreaseIndexChange.bind(this);
         this.getOptionId = this.getOptionId.bind(this);
         this.increaseIndexChange = this.increaseIndexChange.bind(this);
+        this.quitExam = this.quitExam.bind(this);
 	}
 
     // Summary: It will lock the screen 
     componentWillMount(){
+    }
+
+    // Summary: This function will call when user click on quit test.
+    quitExam(){
+        console.log("quitExam()");
+        this.props.navigation.navigate('Home');
     }
     
     // Summary: This function will decrease the index for the question object.
@@ -129,7 +136,9 @@ export default class OnlineExam extends Component{
         return(
             <View style={ styles.container }>
                 <View style={{flex:1}}>
-                    <HeaderOnlineExam />
+                    <HeaderOnlineExam 
+                        quitExamProps = { this.quitExam }
+                    />
                 </View>
                 <View style={{flex:5}}>
                     <View style = { styles.containerQuestion}>

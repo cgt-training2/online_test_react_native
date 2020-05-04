@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
-    Text, 
+    Text,
+    TouchableOpacity, 
     View
 } from 'react-native';
 
@@ -14,12 +15,19 @@ export default class HeaderOnlineExam extends Component{
         return(
             <View style={ styles.containerTop}>
                 <View style={ styles.TopLeft }>
-                    <Text style={texts.headerText}>  
-                        Quit
-                    </Text>
-                    <Text style={texts.headerText}>  
-                        Test
-                    </Text>
+                    <TouchableOpacity
+                        // style = {styles.buttonTopLeft}
+                        onPress = {
+                            this.props.quitExamProps
+                        }
+                    >
+                        <Text style={texts.headerText}>  
+                            Quit
+                        </Text>
+                        <Text style={texts.headerText}>  
+                            Test
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 <View style={ styles.TopMiddle }>
                     <Text style={texts.headerText}>  

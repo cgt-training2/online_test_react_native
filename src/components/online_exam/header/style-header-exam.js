@@ -40,7 +40,14 @@ const texts = StyleSheet.create({
     }
 });
 const buttons = StyleSheet.create({
-    
+    buttonTopLeft: {
+        backgroundColor: '#F98144',
+        flex:1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 100,
+        width: 100
+    }
 });
 
 
