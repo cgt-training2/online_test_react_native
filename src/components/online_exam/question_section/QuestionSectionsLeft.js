@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
     Image,
+    Keyboard,
     Text, 
     TouchableOpacity,
     ScrollView,
@@ -41,8 +42,25 @@ export default class QuestionSectionLeft extends Component{
         this.displayAnswerOption = this.displayAnswerOption.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
+        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
+        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     }
+  
+    componentWillUnmount() {
+        this.keyboardDidHideListener.remove();
+        this.keyboardDidShowListener.remove();
+    }
+  
+    keyboardDidShow = () => {
+        //Fix your view for when a keyboard shows
+        this.props.handleKeyboardShowEventProps();
+    };
+  
+    keyboardDidHide = () => {
+        //Fix your view for when a keyboard hides
+        this.props.handleKeyboardHideEventProps();
+    };
     
     // Summary: this function will handle the conditional rendering.
     displayImage(){

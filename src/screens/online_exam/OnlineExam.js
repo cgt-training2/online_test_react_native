@@ -35,6 +35,7 @@ export default class OnlineExam extends Component{
             question_obj: questions_array_object[0],
             disable_prev_button: true,
             disable_next_button: false,
+            disable_answer_button_view: true,
             questionsObj: questions_array_object,
             optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'] 
         };
@@ -46,6 +47,8 @@ export default class OnlineExam extends Component{
         this.quitExam = this.quitExam.bind(this);
         this.getFillInTheBlanksAnswer = this.getFillInTheBlanksAnswer.bind(this);
         this.getCheckBoxAnswer = this.getCheckBoxAnswer.bind(this); 
+        this.handleKeyboardShowEvent = this.handleKeyboardShowEvent.bind(this);
+        this.handleKeyboardHideEvent = this.handleKeyboardHideEvent.bind(this);
 	}
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
@@ -161,6 +164,22 @@ export default class OnlineExam extends Component{
         });
     }
 
+    // Summary: It will handle event when keyboard show.
+    handleKeyboardShowEvent(){
+        console.log("handleKeyboardShowEvent()");
+        this.setState({
+            disable_answer_button_view: false
+        });
+    }
+
+    // Summary: It will handle event when keyboard hide.
+    handleKeyboardHideEvent(){
+        console.log("handleKeyboardHideeeEvent()");
+        this.setState({
+            disable_answer_button_view: true
+        });
+    }
+
     // Summary: This function will clear the answer.
     clearResponseFunction(){
         this.setState(prevState => {
@@ -189,6 +208,8 @@ export default class OnlineExam extends Component{
                                 optionButtonColorProps = { this.optionButtonColorArr[this.state.index] }
                                 getFillInTheBlanksAnswerProps = { this.getFillInTheBlanksAnswer }
                                 getCheckBoxAnswerProps = { this.getCheckBoxAnswer }
+                                handleKeyboardShowEventProps = { this.handleKeyboardShowEvent }
+                                handleKeyboardHideEventProps = { this.handleKeyboardHideEvent }
                             />
                         </View> 
                         <View style={ styles.containerQuestionRight }>
@@ -198,14 +219,18 @@ export default class OnlineExam extends Component{
                         </View>     
                     </View>
                 </View>
-                <View style = {{flex: 1.5}}>
-                    <AnswerButtons 
-                        actionDecreaseIndexChange = { this.decreaseIndexChange }
-                        actionIncreaseIndexChange = { this.increaseIndexChange }
-                        actionClearResponseFunction = { this.clearResponseFunction }
-                        disablePrev = { this.state.disable_prev_button } 
-                        disableNext = { this.state.disable_next_button }  
-                    />
+                <View 
+                    style = {{flex: 1.5}}
+                >
+                    {
+                        this.state.disable_answer_button_view && <AnswerButtons 
+                                                                    actionDecreaseIndexChange = { this.decreaseIndexChange }
+                                                                    actionIncreaseIndexChange = { this.increaseIndexChange }
+                                                                    actionClearResponseFunction = { this.clearResponseFunction }
+                                                                    disablePrev = { this.state.disable_prev_button } 
+                                                                    disableNext = { this.state.disable_next_button }  
+                                                                />
+                    }
                 </View>
             </View>
         );
