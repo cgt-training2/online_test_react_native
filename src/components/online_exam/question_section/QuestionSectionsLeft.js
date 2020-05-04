@@ -32,29 +32,9 @@ export default class QuestionSectionLeft extends Component{
 
     constructor(props){
         super(props);
-
+        
         this.state = {
-            products : 
-            [
-                {
-                    id: 1,
-                    option: "Bye Bye"
-                },
-                {
-                    id: 2,
-                    option: "See You"
-                },
-                {
-                    id: 3,
-                    option: "Tata"
-                },
-                {
-                    id: 4,
-                    option: "Good Day"
-                }
-            ],
-            checkSelected: [],
-            
+            checkSelected: [],           
         };
 
         this.displayImage = this.displayImage.bind(this);    
@@ -63,11 +43,9 @@ export default class QuestionSectionLeft extends Component{
 
     componentDidMount(){
     }
-
+    
     // Summary: this function will handle the conditional rendering.
     displayImage(){
-        // console.log("displayImage(){");
-        // console.log(this.props.questionObjProps);
         if(this.props.questionObjProps.image_url == ""){
             return <Text style = {{ marginTop: 25, marginBottom:25 }}> </Text>; 
         }else{
@@ -80,18 +58,47 @@ export default class QuestionSectionLeft extends Component{
     displayAnswerOption(){
 
         if(this.props.questionObjProps.descriptive_answer == true){
-            return <FillInTheBlankesAnswer />;
+            return <FillInTheBlankesAnswer 
+                getFillInTheBlanksAnswerProps = { this.props.getFillInTheBlanksAnswerProps }
+                questionObjProps = { this.props.questionObjProps }
+            />;
         }else if(this.props.questionObjProps.multiselect == true){
-            const checkboxs = this.state.products.map(({id, option}) =>
-                <CheckBox 
-                    style={{ marginTop: 25 }} 
-                    key={id} 
-                    value={option}
-                    clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
-                >
-                </CheckBox>
-            );
-            return checkboxs;
+            if(this.props.questionObjProps.answer_multiselect.length == 0){
+                const checkboxs = this.props.questionObjProps.options.map(({id, option}) =>
+                    <CheckBox 
+                        style={{ marginTop: 25 }} 
+                        key={id} 
+                        value={option}
+                        selected = { false }
+                        clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
+                    >
+                    </CheckBox>
+                );
+                return checkboxs;
+            }else{
+                const checkboxs = this.props.questionObjProps.options.map(({id, option}) =>
+                this.props.questionObjProps.answer_multiselect.indexOf(option) > -1 ?
+                        <CheckBox 
+                            style={{ marginTop: 25 }} 
+                            key={ id } 
+                            value={option}
+                            selected = { true }
+                            clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
+                        >
+                        </CheckBox>
+                        :
+                        <CheckBox 
+                            style={{ marginTop: 25 }} 
+                            key={ id } 
+                            value={ option }
+                            selected = { false }
+                            clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
+                        >
+                        </CheckBox>
+                );
+                return checkboxs;
+            }
+
         }else{
             return <OptionAnswer 
                 getOptionIdProps = { this.props.getOptionIdProps }
@@ -114,8 +121,8 @@ export default class QuestionSectionLeft extends Component{
         }
     
         this.setState({ checkSelected });
-    
-        console.log(this.state.checkSelected); // logging
+        // console.log(this.state.checkSelected); // logging
+        this.props.getCheckBoxAnswerProps(this.state.checkSelected);
     }
 
     render(){

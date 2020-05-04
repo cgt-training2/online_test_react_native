@@ -38,27 +38,30 @@ export default class OnlineExam extends Component{
             questionsObj: questions_array_object,
             optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'] 
         };
-        
+        this.optionButtonColorArr = [];
         this.clearResponseFunction = this.clearResponseFunction.bind(this);
         this.decreaseIndexChange = this.decreaseIndexChange.bind(this);
         this.getOptionId = this.getOptionId.bind(this);
         this.increaseIndexChange = this.increaseIndexChange.bind(this);
         this.quitExam = this.quitExam.bind(this);
+        this.getFillInTheBlanksAnswer = this.getFillInTheBlanksAnswer.bind(this);
+        this.getCheckBoxAnswer = this.getCheckBoxAnswer.bind(this); 
 	}
 
-    // Summary: It will lock the screen 
+    // Summary: It will prepare optionButtonColorArr. Throughout the test.
     componentWillMount(){
+        for(let i=0; i < questions_array_object.length; i++){
+            this.optionButtonColorArr.push(['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']);
+        }
     }
 
     // Summary: This function will call when user click on quit test.
     quitExam(){
-        console.log("quitExam()");
         this.props.navigation.navigate('Home');
     }
     
     // Summary: This function will decrease the index for the question object.
     decreaseIndexChange() {
-
         if(this.state.index == 1 ){
             this.setState(prevState => {
                 return { 
@@ -104,7 +107,7 @@ export default class OnlineExam extends Component{
     }
 
     // Summary: This function handles the color change of option selected by user.
-    getOptionId(buttonId){
+    getOptionId(buttonId, optionSelected){
         // Summary: arrInt is used to maintain the indexing. 
         let arrInt = [0, 1, 2, 3];
         // Summary: Index of clicked button removed.
@@ -115,9 +118,45 @@ export default class OnlineExam extends Component{
         }
         // Summary: Set different color on clicked button.
         arrColor[buttonId] = '#9ACD32';
+        this.optionButtonColorArr[this.state.index] = arrColor;
+        //Summary: Set state
         this.setState(prevState => {
+            let questionsObjVar = Object.assign(
+                {}, prevState.questionsObj
+            );  // creating copy of state variable questionsObj
+            questionsObjVar[this.state.index].selected_option = optionSelected; 
+            // update the selected_option property, assign a new value.                 
             return{
                 optionButtonColor: arrColor,
+                questionsObjVar
+            }
+        });
+    }
+
+    // Summary: This function will handle the answer of text input type questions.
+    getFillInTheBlanksAnswer(answer){
+        this.setState(prevState => {
+            let questionsObjVar = Object.assign(
+                {}, prevState.questionsObj
+            ); // creating copy of state variable questionsObj
+            questionsObjVar[this.state.index].descriptive_given_answer = answer; 
+            // update the descriptive_given_answer property, assign a new value.                 
+            return{
+               questionsObjVar
+            }
+        });
+    }
+
+    // Summary: This function will handle the answer given by checkbox input.
+    getCheckBoxAnswer(answerArr){
+        this.setState(prevState => {
+            let questionsObjVar = Object.assign(
+                {}, prevState.questionsObj
+            ); // creating copy of state variable questionsObj
+            questionsObjVar[this.state.index].answer_multiselect = answerArr; 
+            // update the answer_multiselect property, assign a new value.                 
+            return{
+               questionsObjVar
             }
         });
     }
@@ -132,7 +171,8 @@ export default class OnlineExam extends Component{
     }
 
     render() {
-
+        // console.log("OnlineExam extends Component");
+        // console.log(this.state.questionsObj);
         return(
             <View style={ styles.container }>
                 <View style={{flex:1}}>
@@ -146,7 +186,9 @@ export default class OnlineExam extends Component{
                             <QuestionSectionLeft 
                                 questionObjProps = { this.state.question_obj }
                                 getOptionIdProps = { this.getOptionId }
-                                optionButtonColorProps = { this.state.optionButtonColor } 
+                                optionButtonColorProps = { this.optionButtonColorArr[this.state.index] }
+                                getFillInTheBlanksAnswerProps = { this.getFillInTheBlanksAnswer }
+                                getCheckBoxAnswerProps = { this.getCheckBoxAnswer }
                             />
                         </View> 
                         <View style={ styles.containerQuestionRight }>

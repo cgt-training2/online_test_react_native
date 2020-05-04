@@ -20,8 +20,8 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { this.props.actionDecreaseIndexChange }
-                        disabled={ this.props.disablePrev }
-                    >
+                        disabled={ this.props.disablePrev 
+                    }>
                         <Text style= { texts.buttonText }>
                             Prev
                         </Text>
@@ -31,8 +31,9 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { this.props.actionIncreaseIndexChange }
-                        disabled={ this.props.disableNext }
-                    >
+                        disabled={ 
+                            this.props.disableNext 
+                    }>
                         <Text style= { texts.buttonText }>
                             Save
                         </Text>
@@ -48,8 +49,9 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { this.props.actionIncreaseIndexChange }
-                        disabled={ this.props.disableNext }
-                    >
+                        disabled={ 
+                            this.props.disableNext 
+                    }>
                         <Text style= { texts.buttonText }>
                             Save
                         </Text>
@@ -68,8 +70,9 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { this.props.actionIncreaseIndexChange }
-                        disabled={ this.props.disableNext }
-                    >
+                        disabled={ 
+                            this.props.disableNext 
+                    }>
                         <Text style= { texts.buttonText }>
                             Mark
                         </Text>
@@ -87,8 +90,9 @@ export default class AnswerButtons extends Component{
                 <View style = { styles.containerAnswerChild }>
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
-                        onPress = { this.props.actionClearResponseFunction }
-                    >
+                        onPress = { 
+                            this.props.actionClearResponseFunction 
+                    }>
                         <Text style= { texts.buttonText }>
                             Clear
                         </Text>
@@ -114,8 +118,9 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { this.props.actionIncreaseIndexChange }
-                        disabled={ this.props.disableNext }
-                    >
+                        disabled={ 
+                            this.props.disableNext 
+                    }>
                         <Text style= { texts.buttonText }>
                             Next
                         </Text>

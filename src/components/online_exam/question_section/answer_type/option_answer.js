@@ -19,7 +19,9 @@ export default class OptionAnswer extends Component{
             <View style={ styles.containerQuestionLeftBottom }>
                 <TouchableOpacity 
                     id={ 0 }
-                    onPress= { () => this.props.getOptionIdProps(0)}
+                    onPress= { 
+                        () => this.props.getOptionIdProps(0, "a")
+                    }
                     style = {{ 
                         backgroundColor: this.props.optionButtonColorProps[0],
                         marginTop: 2,
@@ -42,7 +44,9 @@ export default class OptionAnswer extends Component{
                 </TouchableOpacity>
                 <TouchableOpacity 
                     id={ 1 }
-                    onPress= { () => this.props.getOptionIdProps(1) }
+                    onPress= { 
+                        () => this.props.getOptionIdProps(1, "b") 
+                    }
                     style = {{ 
                         backgroundColor: this.props.optionButtonColorProps[1],
                         marginTop: 2,
@@ -65,7 +69,9 @@ export default class OptionAnswer extends Component{
                 </TouchableOpacity>
                 <TouchableOpacity 
                     id={ 2 }
-                    onPress= { () => this.props.getOptionIdProps(2)}
+                    onPress= { 
+                        () => this.props.getOptionIdProps(2, "c")
+                    }
                     style = {{ 
                         backgroundColor: this.props.optionButtonColorProps[2],
                         marginTop: 2,
@@ -88,7 +94,9 @@ export default class OptionAnswer extends Component{
                 </TouchableOpacity>
                 <TouchableOpacity 
                     id={ 3 }
-                    onPress= { () => this.props.getOptionIdProps(3)}
+                    onPress= { 
+                        () => this.props.getOptionIdProps(3, "d")
+                    }
                     style = {{ 
                         backgroundColor: this.props.optionButtonColorProps[3],
                         marginTop: 2,
