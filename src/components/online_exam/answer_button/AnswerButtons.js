@@ -30,7 +30,7 @@ export default class AnswerButtons extends Component{
                 <View style = { styles.containerAnswerChild }>
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
-                        onPress = { this.props.actionIncreaseIndexChange }
+                        onPress = { () => this.props.actionIncreaseIndexChange(0) }
                         disabled={ 
                             this.props.disableNext 
                     }>
@@ -48,7 +48,7 @@ export default class AnswerButtons extends Component{
                 <View style = { styles.containerAnswerChild }>
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
-                        onPress = { this.props.actionIncreaseIndexChange }
+                        onPress = { () => this.props.actionIncreaseIndexChange(1) }
                         disabled={ 
                             this.props.disableNext 
                     }>
@@ -69,7 +69,7 @@ export default class AnswerButtons extends Component{
                 <View style = { styles.containerAnswerChild }>
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
-                        onPress = { this.props.actionIncreaseIndexChange }
+                        onPress = { () => this.props.actionIncreaseIndexChange(2) }
                         disabled={ 
                             this.props.disableNext 
                     }>
@@ -117,7 +117,7 @@ export default class AnswerButtons extends Component{
                 <View style = { styles.containerAnswerChild }>
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
-                        onPress = { this.props.actionIncreaseIndexChange }
+                        onPress = { () => this.props.actionIncreaseIndexChange(3) }
                         disabled={ 
                             this.props.disableNext 
                     }>

@@ -37,7 +37,6 @@ export default class OnlineExam extends Component{
             disable_next_button: false,
             disable_answer_button_view: true,
             questionsObj: questions_array_object,
-            optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'] 
         };
         this.optionButtonColorArr = [];
         this.clearResponseFunction = this.clearResponseFunction.bind(this);
@@ -49,6 +48,8 @@ export default class OnlineExam extends Component{
         this.getCheckBoxAnswer = this.getCheckBoxAnswer.bind(this); 
         this.handleKeyboardShowEvent = this.handleKeyboardShowEvent.bind(this);
         this.handleKeyboardHideEvent = this.handleKeyboardHideEvent.bind(this);
+        this.changeColorCodeQuestionPallete = this.changeColorCodeQuestionPallete.bind(this);
+        this.changeColorCodeQuestionPalleteSaveAndMarkReview = this.changeColorCodeQuestionPalleteSaveAndMarkReview.bind(this);
 	}
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
@@ -71,7 +72,6 @@ export default class OnlineExam extends Component{
                     index: prevState.index - 1,
                     question_obj: questions_array_object[prevState.index - 1],
                     disable_prev_button: true,
-                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'] 
                 }
             });
         }else{
@@ -80,30 +80,106 @@ export default class OnlineExam extends Component{
                     index: prevState.index - 1,
                     question_obj: questions_array_object[prevState.index - 1],
                     disable_prev_button: false,
-                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
                 }
             });
         }
     }
 
     // Summary: This function will increase the index for the question object.
-    increaseIndexChange() {
+    increaseIndexChange(buttonId) {
+        console.log("increaseIndexChange()");
+        let answerGiven = questions_array_object[this.state.index].answered;
         let indexLength = questions_array_object.length;
+        if(answerGiven == true){
+            // #2DBC01 save & Next, #441988 Mark review, #441988 (Save & Mark review with small green circle)
+            // #E44502 not answered,
+            if(buttonId == 0) {
+                this.changeColorCodeQuestionPallete(indexLength, '#2DBC01');
+            }else if(buttonId == 1) {
+                this.changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, '#441988');
+            }else if(buttonId == 2) {
+                this.changeColorCodeQuestionPallete(indexLength, '#441988');
+            }else if(buttonId == 3) {
+                this.changeColorCodeQuestionPallete(indexLength, '#E44502');
+            }
+        }else{
+            if(this.state.index == indexLength - 1 ){
+                this.setState(prevState => {
+                    return { 
+                        disable_prev_button: false,
+                    }
+                });
+            }else{
+                this.setState(prevState => {
+                    return { 
+                        index: prevState.index + 1,
+                        question_obj: questions_array_object[prevState.index + 1],
+                        disable_prev_button: false,
+                        disable_next_button: false,
+                    }
+                });
+            }
+        }
+    }
+
+    // Summary: This function handles the color code change of question pallete.
+    changeColorCodeQuestionPallete(indexLength, colorCode) {
+        // question_pallete_color, answered
         if(this.state.index == indexLength - 1 ){
             this.setState(prevState => {
+                let questionsObjVar = Object.assign(
+                    {}, prevState.questionsObj
+                );  // creating copy of state variable questionsObj
+                questionsObjVar[this.state.index].question_pallete_color = colorCode;
                 return { 
                     disable_prev_button: false,
-                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
+                    questionsObjVar
                 }
             });
         }else{
             this.setState(prevState => {
+                let questionsObjVar = Object.assign(
+                    {}, prevState.questionsObj
+                );  // creating copy of state variable questionsObj
+                questionsObjVar[this.state.index].question_pallete_color = colorCode;
                 return { 
                     index: prevState.index + 1,
                     question_obj: questions_array_object[prevState.index + 1],
                     disable_prev_button: false,
                     disable_next_button: false,
-                    optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
+                    questionsObjVar
+                }
+            });
+        }
+    }
+
+    // Summary: This function handles the color code change of question pallete when Save And Mark Review.
+    changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, colorCode) {
+        if(this.state.index == indexLength - 1 ){
+            this.setState(prevState => {
+                let questionsObjVar = Object.assign(
+                    {}, prevState.questionsObj
+                );  // creating copy of state variable questionsObj
+                questionsObjVar[this.state.index].question_pallete_color = colorCode;
+                questionsObjVar[this.state.index].save_mark_review = true;
+                return { 
+                    disable_prev_button: false,
+                    questionsObjVar
+                }
+            });
+        }else{
+            this.setState(prevState => {
+                let questionsObjVar = Object.assign(
+                    {}, prevState.questionsObj
+                );  // creating copy of state variable questionsObj
+                questionsObjVar[this.state.index].question_pallete_color = colorCode;
+                questionsObjVar[this.state.index].save_mark_review = true;
+                return { 
+                    index: prevState.index + 1,
+                    question_obj: questions_array_object[prevState.index + 1],
+                    disable_prev_button: false,
+                    disable_next_button: false,
+                    questionsObjVar
                 }
             });
         }
@@ -127,10 +203,10 @@ export default class OnlineExam extends Component{
             let questionsObjVar = Object.assign(
                 {}, prevState.questionsObj
             );  // creating copy of state variable questionsObj
-            questionsObjVar[this.state.index].selected_option = optionSelected; 
+            questionsObjVar[this.state.index].selected_option = optionSelected;
+            questionsObjVar[this.state.index].answered = true; 
             // update the selected_option property, assign a new value.                 
             return{
-                optionButtonColor: arrColor,
                 questionsObjVar
             }
         });
@@ -143,6 +219,7 @@ export default class OnlineExam extends Component{
                 {}, prevState.questionsObj
             ); // creating copy of state variable questionsObj
             questionsObjVar[this.state.index].descriptive_given_answer = answer; 
+            questionsObjVar[this.state.index].answered = true;
             // update the descriptive_given_answer property, assign a new value.                 
             return{
                questionsObjVar
@@ -157,6 +234,7 @@ export default class OnlineExam extends Component{
                 {}, prevState.questionsObj
             ); // creating copy of state variable questionsObj
             questionsObjVar[this.state.index].answer_multiselect = answerArr; 
+            questionsObjVar[this.state.index].answered = true;
             // update the answer_multiselect property, assign a new value.                 
             return{
                questionsObjVar
@@ -166,7 +244,6 @@ export default class OnlineExam extends Component{
 
     // Summary: It will handle event when keyboard show.
     handleKeyboardShowEvent(){
-        console.log("handleKeyboardShowEvent()");
         this.setState({
             disable_answer_button_view: false
         });
@@ -174,17 +251,15 @@ export default class OnlineExam extends Component{
 
     // Summary: It will handle event when keyboard hide.
     handleKeyboardHideEvent(){
-        console.log("handleKeyboardHideeeEvent()");
         this.setState({
             disable_answer_button_view: true
         });
     }
 
     // Summary: This function will clear the answer.
-    clearResponseFunction(){
+    clearResponseFunction() {
         this.setState(prevState => {
             return { 
-                optionButtonColor: ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']
             }
         });
     }

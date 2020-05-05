@@ -13,7 +13,7 @@ import {
 import { buttons, texts, styles } from './style-question-section-right';
 
 // Summary: This section will contain the functionality for questions pallete.
-export default class QuestionSectionRight extends Component{
+export default class QuestionSectionRight extends Component {
 
     // {
     //     "answer_multiselect": [], "descriptive_answer": false, "descriptive_given_answer": "", 
@@ -21,7 +21,7 @@ export default class QuestionSectionRight extends Component{
     //     "options": {"a": "Wednesday", "b": "Monday", "c": "Thursday", "d": "Friday"}, 
     //     "question_no": 1, "question_text": "What was the day of week on 17th June 1998?", 
     //     "right_answer": "b", "right_answer_multiselect": [], "save": false, 
-    //     "save_mark_review": false, "selected_option": "a"
+    //     "save_mark_review": false, "selected_option": "a", answered: false
     // }
     
     constructor(props){
@@ -29,16 +29,42 @@ export default class QuestionSectionRight extends Component{
     }
 
     render(){
+
+        // console.log("QuestionSectionRight extends Component");
+        // console.log(this.props.questionsObjProp);
         
         // Summary: Map will generate the for loop on array of object and by the 
         //          help of that we dynamically create buttons.
 
         let buttonsListArr = this.props.questionsObjProp.map(buttonInfo => (
-            <TouchableOpacity key={buttonInfo.question_no} style = { buttons.buttonsQuestionPalleteQuestions }>
-                <Text>  
-                    {buttonInfo.question_no}
-                </Text>
-            </TouchableOpacity>
+            <View>
+                <TouchableOpacity key={buttonInfo.question_no} style = { [ buttons.buttonsQuestionPalleteQuestions, { backgroundColor: buttonInfo.question_pallete_color } ] }>
+                    <Text style={{
+                        color: buttonInfo.answered == true ? '#FFFFFF' : '#000000'
+                    }}>  
+                        {buttonInfo.question_no}
+                    </Text>
+                </TouchableOpacity>
+                { 
+                    buttonInfo.save_mark_review 
+                        && 
+                    <View style={{ 
+                        height: 10, 
+                        width: 30,
+                        alignItems: 'flex-end',
+                        marginTop: -10
+                    }}>
+                        <View
+                            style={{
+                                backgroundColor: '#2DBC01', 
+                                borderRadius: 5, 
+                                height: 10, 
+                                width: 10,
+                        }}>
+                        </View>
+                    </View>     
+                }
+            </View>
         ));
         return(
             <View>
