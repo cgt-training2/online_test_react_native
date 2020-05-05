@@ -79,9 +79,12 @@ export default class QuestionSectionLeft extends Component{
             return <FillInTheBlankesAnswer 
                 getFillInTheBlanksAnswerProps = { this.props.getFillInTheBlanksAnswerProps }
                 questionObjProps = { this.props.questionObjProps }
+                descriptiveAnswerProps = { this.props.descriptiveAnswerProps }
+                getFillInTheBlanksChangeTextEventProps = { this.props.getFillInTheBlanksChangeTextEventProps }
             />;
         }else if(this.props.questionObjProps.multiselect == true){
             if(this.props.questionObjProps.answer_multiselect.length == 0){
+                console.log("this.props.questionObjProps.answer_multiselect.length == 0");
                 const checkboxs = this.props.questionObjProps.options.map(({id, option}) =>
                     <CheckBox 
                         style={{ marginTop: 25 }} 

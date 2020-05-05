@@ -11,9 +11,6 @@ import HeaderOnlineExam from '../../components/online_exam/header/HeaderOnlineEx
 import QuestionSectionLeft from '../../components/online_exam/question_section/QuestionSectionsLeft';
 import QuestionSectionRight from '../../components/online_exam/question_section/QuestionSectionsRight';
 
-// Dependency
-import Orientation from 'react-native-orientation';
-
 // Enum
 import { questions_array_object } from '../../enums/question_answers_set1';
 
@@ -36,7 +33,7 @@ export default class OnlineExam extends Component{
             disable_prev_button: true,
             disable_next_button: false,
             disable_answer_button_view: true,
-            questionsObj: questions_array_object,
+            questionsObj: questions_array_object
         };
         this.optionButtonColorArr = [];
         this.clearResponseFunction = this.clearResponseFunction.bind(this);
@@ -50,6 +47,7 @@ export default class OnlineExam extends Component{
         this.handleKeyboardHideEvent = this.handleKeyboardHideEvent.bind(this);
         this.changeColorCodeQuestionPallete = this.changeColorCodeQuestionPallete.bind(this);
         this.changeColorCodeQuestionPalleteSaveAndMarkReview = this.changeColorCodeQuestionPalleteSaveAndMarkReview.bind(this);
+        this.getFillInTheBlanksChangeTextEvent = this.getFillInTheBlanksChangeTextEvent.bind(this);
 	}
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
@@ -212,6 +210,19 @@ export default class OnlineExam extends Component{
         });
     }
 
+    // Summary: This function handles onChangeText event of text input.
+    getFillInTheBlanksChangeTextEvent(value){
+        this.setState(prevState => {
+            let questionsObjVar = Object.assign(
+                {}, prevState.questionsObj
+            ); // creating copy of state variable questionsObj
+            questionsObjVar[this.state.index].descriptive_given_answer = value; 
+            // update the descriptive_given_answer property, assign a new value.                 
+            return{
+               questionsObjVar
+            }
+        });
+    }
     // Summary: This function will handle the answer of text input type questions.
     getFillInTheBlanksAnswer(answer){
         this.setState(prevState => {
@@ -258,8 +269,19 @@ export default class OnlineExam extends Component{
 
     // Summary: This function will clear the answer.
     clearResponseFunction() {
+        this.optionButtonColorArr[this.state.index] = ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'];
         this.setState(prevState => {
-            return { 
+            let questionsObjVar = Object.assign(
+                {}, prevState.questionsObj
+            ); // creating copy of state variable questionsObj
+            questionsObjVar[this.state.index].answer_multiselect = [];
+            questionsObjVar[this.state.index].descriptive_given_answer = ""; 
+            questionsObjVar[this.state.index].selected_option = "";
+            questionsObjVar[this.state.index].answered = false;
+            questionsObjVar[this.state.index].question_pallete_color = '#C9D7DD';
+            // update the answer_multiselect property, assign a new value.                 
+            return{
+               questionsObjVar
             }
         });
     }
@@ -285,6 +307,8 @@ export default class OnlineExam extends Component{
                                 getCheckBoxAnswerProps = { this.getCheckBoxAnswer }
                                 handleKeyboardShowEventProps = { this.handleKeyboardShowEvent }
                                 handleKeyboardHideEventProps = { this.handleKeyboardHideEvent }
+                                descriptiveAnswerProps = { this.state.questionsObj[this.state.index].descriptive_given_answer }
+                                getFillInTheBlanksChangeTextEventProps = { this.getFillInTheBlanksChangeTextEvent }
                             />
                         </View> 
                         <View style={ styles.containerQuestionRight }>
@@ -294,17 +318,17 @@ export default class OnlineExam extends Component{
                         </View>     
                     </View>
                 </View>
-                <View 
-                    style = {{flex: 1.5}}
-                >
+                <View style = {{flex: 1.5}}>
                     {
-                        this.state.disable_answer_button_view && <AnswerButtons 
-                                                                    actionDecreaseIndexChange = { this.decreaseIndexChange }
-                                                                    actionIncreaseIndexChange = { this.increaseIndexChange }
-                                                                    actionClearResponseFunction = { this.clearResponseFunction }
-                                                                    disablePrev = { this.state.disable_prev_button } 
-                                                                    disableNext = { this.state.disable_next_button }  
-                                                                />
+                        this.state.disable_answer_button_view 
+                            && 
+                        <AnswerButtons 
+                            actionDecreaseIndexChange = { this.decreaseIndexChange }
+                            actionIncreaseIndexChange = { this.increaseIndexChange }
+                            actionClearResponseFunction = { this.clearResponseFunction }
+                            disablePrev = { this.state.disable_prev_button } 
+                            disableNext = { this.state.disable_next_button }  
+                        />
                     }
                 </View>
             </View>

@@ -20,7 +20,7 @@ export default class FillInTheBlankesAnswer extends Component{
         };
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({
             answer: this.props.questionObjProps.descriptive_given_answer
         });
@@ -39,14 +39,12 @@ export default class FillInTheBlankesAnswer extends Component{
                         borderWidth: 1 
                     }}
                     onChangeText={ 
-                        (value) => this.setState({
-                            answer: value
-                        }) 
+                        (value) => this.props.getFillInTheBlanksChangeTextEventProps(value)
                     }
                     onSubmitEditing = {(value)=>{
-                        this.props.getFillInTheBlanksAnswerProps(this.state.answer)
+                        this.props.getFillInTheBlanksAnswerProps(this.props.descriptiveAnswerProps)
                     }}
-                    value={this.state.answer}
+                    value={this.props.descriptiveAnswerProps}
                 >
                 </TextInput>
             </View>
