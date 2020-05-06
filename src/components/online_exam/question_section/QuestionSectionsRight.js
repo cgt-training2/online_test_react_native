@@ -38,7 +38,14 @@ export default class QuestionSectionRight extends Component {
 
         let buttonsListArr = this.props.questionsObjProp.map(buttonInfo => (
             <View>
-                <TouchableOpacity key={buttonInfo.question_no} style = { [ buttons.buttonsQuestionPalleteQuestions, { backgroundColor: buttonInfo.question_pallete_color } ] }>
+                <TouchableOpacity 
+                    key={ buttonInfo.question_no } 
+                    style = { 
+                        [ buttons.buttonsQuestionPalleteQuestions, { backgroundColor: buttonInfo.question_pallete_color } 
+                    ]}
+                    onPress = {
+                        () => this.props.navigationOfQuestionProps(buttonInfo.question_no)        
+                }>
                     <Text style={{
                         color: buttonInfo.answered == true ? '#FFFFFF' : '#000000'
                     }}>  

@@ -48,6 +48,7 @@ export default class OnlineExam extends Component{
         this.changeColorCodeQuestionPallete = this.changeColorCodeQuestionPallete.bind(this);
         this.changeColorCodeQuestionPalleteSaveAndMarkReview = this.changeColorCodeQuestionPalleteSaveAndMarkReview.bind(this);
         this.getFillInTheBlanksChangeTextEvent = this.getFillInTheBlanksChangeTextEvent.bind(this);
+        this.navigationOfQuestion = this.navigationOfQuestion.bind(this);
 	}
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
@@ -267,6 +268,18 @@ export default class OnlineExam extends Component{
         });
     }
 
+    // Summary: This function handles the navigation to particular question when clicked 
+    // on question pallete question no.
+    navigationOfQuestion(questionNo){
+        console.log("navigationOfQuestion(questionNo)");
+        console.log(questionNo);
+        let indexClicked = questionNo -1;
+        this.setState({
+            index: indexClicked,
+            question_obj: questions_array_object[indexClicked],
+        });
+    }
+
     // Summary: This function will clear the answer.
     clearResponseFunction() {
         this.optionButtonColorArr[this.state.index] = ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'];
@@ -314,6 +327,7 @@ export default class OnlineExam extends Component{
                         <View style={ styles.containerQuestionRight }>
                             <QuestionSectionRight 
                                 questionsObjProp = { this.state.questionsObj }
+                                navigationOfQuestionProps = { this.navigationOfQuestion }
                             />
                         </View>     
                     </View>
