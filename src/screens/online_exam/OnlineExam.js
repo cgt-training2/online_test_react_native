@@ -33,7 +33,8 @@ export default class OnlineExam extends Component{
             disable_prev_button: true,
             disable_next_button: false,
             disable_answer_button_view: true,
-            questionsObj: questions_array_object
+            questionsObj: questions_array_object,
+            questionLegendModalVisible: false
         };
         this.optionButtonColorArr = [];
         this.clearResponseFunction = this.clearResponseFunction.bind(this);
@@ -49,6 +50,7 @@ export default class OnlineExam extends Component{
         this.changeColorCodeQuestionPalleteSaveAndMarkReview = this.changeColorCodeQuestionPalleteSaveAndMarkReview.bind(this);
         this.getFillInTheBlanksChangeTextEvent = this.getFillInTheBlanksChangeTextEvent.bind(this);
         this.navigationOfQuestion = this.navigationOfQuestion.bind(this);
+        this.openQuestionLegend = this.openQuestionLegend.bind(this);
 	}
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
@@ -268,6 +270,16 @@ export default class OnlineExam extends Component{
         });
     }
 
+    // Summary: This function will handle the opening of question pallete legend.
+    openQuestionLegend(){
+        console.log("openQuestionLegend()");
+        this.setState(prevstate =>{
+            return{
+                questionLegendModalVisible: !prevstate.questionLegendModalVisible
+            }
+        });
+    }
+
     // Summary: This function handles the navigation to particular question when clicked 
     // on question pallete question no.
     navigationOfQuestion(questionNo){
@@ -328,6 +340,8 @@ export default class OnlineExam extends Component{
                             <QuestionSectionRight 
                                 questionsObjProp = { this.state.questionsObj }
                                 navigationOfQuestionProps = { this.navigationOfQuestion }
+                                openQuestionLegendProps = { this.openQuestionLegend }
+                                questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
                             />
                         </View>     
                     </View>

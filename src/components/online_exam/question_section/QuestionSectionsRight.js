@@ -6,8 +6,8 @@ import {
     View
 } from 'react-native';
 
-// Dependency
-// import { ScrollView } from 'react-native-gesture-handler';
+// Component
+import QuestionPalleteLegend from '../../common_components/question_pallete_legend';
 
 // StyleSheet
 import { buttons, texts, styles } from './style-question-section-right';
@@ -34,7 +34,7 @@ export default class QuestionSectionRight extends Component {
         // console.log(this.props.questionsObjProp);
         
         // Summary: Map will generate the for loop on array of object and by the 
-        //          help of that we dynamically create buttons.
+        // help of that we dynamically create buttons.
 
         let buttonsListArr = this.props.questionsObjProp.map(buttonInfo => (
             <View>
@@ -76,17 +76,28 @@ export default class QuestionSectionRight extends Component {
         return(
             <View>
                 <ScrollView contentContainerStyle={{flexGrow:1}} style = {{ marginTop: 5 }}>
-                    <View>
-                        <Text style={texts.questionPaletteText}>
-                            Question
-                        </Text>       
-                        <Text style={texts.questionPaletteText}>
-                            Palette
-                        </Text>
-                        <Text style={texts.questionPaletteText}>
-                            Info
-                        </Text>
-                    </View>
+                    <TouchableOpacity
+                        onPress = { 
+                            () => this.props.openQuestionLegendProps()
+                    }>
+                        <View>
+                            <Text style={texts.questionPaletteText}>
+                                Open
+                            </Text>       
+                            <Text style={texts.questionPaletteText}>
+                                Question
+                            </Text>
+                            <Text style={texts.questionPaletteText}>
+                                Summary
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    
+                    <QuestionPalleteLegend 
+                        modalVisibleProp = { this.props.questionLegendModalVisibleProps }
+                        openQuestionLegendProps = { this.props.openQuestionLegendProps }
+                    /> 
+                   
                     <View style = { styles.containerQuestionPalleteQuestions }>
                         { buttonsListArr }
                     </View>    
