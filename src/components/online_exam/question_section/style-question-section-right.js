@@ -3,9 +3,11 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
 
     containerQuestionPalleteQuestions: {
-        flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        // flex:1,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+        // alignItems: 'center',
+        // justifyContent: 'center',
     }
 });
 
@@ -22,7 +24,7 @@ const buttons = StyleSheet.create({
     buttonsQuestionPalleteQuestions: {
         height: 30,
         width: 30,
-        marginTop: 5,
+        margin: 5,
         alignItems: 'center',
         justifyContent: 'center'
     }

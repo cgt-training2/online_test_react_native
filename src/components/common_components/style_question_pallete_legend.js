@@ -6,22 +6,25 @@ import {
 const styles = StyleSheet.create({
  
 	MainContainer :{
-
-		flex:1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginTop: (Platform.OS == 'ios') ? 20 : 0
+		marginTop: (Platform.OS == 'ios') ? 20 : 0,
 	},
 	Alert_Main_View:{
 
 		alignItems: 'center',
 		justifyContent: 'center',
 		backgroundColor : '#FFFFFF', 
-		height: 300 ,
+		height: 400 ,
 		width: '90%',
 		borderWidth: 1,
 		borderColor: '#000000',
 		borderRadius:7,
+	},
+	Alert_Title_View: {
+		flex:.5,
+		backgroundColor : '#009688',
+		width: '100%'
 	},
 	Alert_Title:{
 
@@ -32,6 +35,13 @@ const styles = StyleSheet.create({
 		backgroundColor : '#009688',
 		width: '100%',
 		// height: '28%'
+	},
+	Main_content_view:{
+		flex: 3,
+		width: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: 10,
 	},
 	Alert_Message:{
 

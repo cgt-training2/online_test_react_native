@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import {
     Text, 
     TouchableOpacity,
-    View
+    View,
+    Image
 } from 'react-native';
 
 // Component
 import AnswerButtons from '../../components/online_exam/answer_button/AnswerButtons';
 import HeaderOnlineExam from '../../components/online_exam/header/HeaderOnlineExam';
 import QuestionSectionLeft from '../../components/online_exam/question_section/QuestionSectionsLeft';
-import QuestionSectionRight from '../../components/online_exam/question_section/QuestionSectionsRight';
+import QuestionPalleteLegend from '../../components/common_components/question_pallete_legend';
 
 // Enum
 import { questions_array_object } from '../../enums/question_answers_set1';
@@ -88,7 +89,6 @@ export default class OnlineExam extends Component{
 
     // Summary: This function will increase the index for the question object.
     increaseIndexChange(buttonId) {
-        console.log("increaseIndexChange()");
         let answerGiven = questions_array_object[this.state.index].answered;
         let indexLength = questions_array_object.length;
         if(answerGiven == true){
@@ -283,8 +283,6 @@ export default class OnlineExam extends Component{
     // Summary: This function handles the navigation to particular question when clicked 
     // on question pallete question no.
     navigationOfQuestion(questionNo){
-        console.log("navigationOfQuestion(questionNo)");
-        console.log(questionNo);
         let indexClicked = questionNo -1;
         this.setState({
             index: indexClicked,
@@ -316,12 +314,14 @@ export default class OnlineExam extends Component{
         // console.log(this.state.questionsObj);
         return(
             <View style={ styles.container }>
-                <View style={{flex:1}}>
+                <View style={{flex:.5}}>
                     <HeaderOnlineExam 
                         quitExamProps = { this.quitExam }
+                        openQuestionLegendProps = { this.openQuestionLegend }
+                        questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
                     />
                 </View>
-                <View style={{flex:5}}>
+                <View style={{flex:5.5}}>
                     <View style = { styles.containerQuestion}>
                         <View style={ styles.containerQuestionLeft }>
                             <QuestionSectionLeft 
@@ -335,15 +335,13 @@ export default class OnlineExam extends Component{
                                 descriptiveAnswerProps = { this.state.questionsObj[this.state.index].descriptive_given_answer }
                                 getFillInTheBlanksChangeTextEventProps = { this.getFillInTheBlanksChangeTextEvent }
                             />
-                        </View> 
-                        <View style={ styles.containerQuestionRight }>
-                            <QuestionSectionRight 
-                                questionsObjProp = { this.state.questionsObj }
-                                navigationOfQuestionProps = { this.navigationOfQuestion }
-                                openQuestionLegendProps = { this.openQuestionLegend }
-                                questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
-                            />
-                        </View>     
+                        </View>  
+                        <QuestionPalleteLegend 
+                            questionsObjProp = { this.state.questionsObj }
+                            navigationOfQuestionProps = { this.navigationOfQuestion }
+                            openQuestionLegendProps = { this.openQuestionLegend }
+                            questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
+                        />
                     </View>
                 </View>
                 <View style = {{flex: 1.5}}>

@@ -4,7 +4,8 @@ const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        padding: 5
+        padding: 5,
+        paddingTop: 0
     },
     containerTop: {
         flex: 1,
@@ -30,11 +31,11 @@ const styles = StyleSheet.create({
     },
     containerQuestion: {
         flex: 5,
-        flexDirection: 'row',
+        // flexDirection: 'row',
         borderColor: '#C9D7DD'
     },
     containerQuestionLeft: {
-        flex: 4
+        flex: 1
     },
     containerQuestionLeftTop: {
         flexDirection: 'row',

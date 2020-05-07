@@ -15,24 +15,12 @@ import { buttons, texts, styles } from './style-question-section-right';
 // Summary: This section will contain the functionality for questions pallete.
 export default class QuestionSectionRight extends Component {
 
-    // {
-    //     "answer_multiselect": [], "descriptive_answer": false, "descriptive_given_answer": "", 
-    //     "descriptive_rigth_answer": "", "mark_review": false, "multiselect": false, 
-    //     "options": {"a": "Wednesday", "b": "Monday", "c": "Thursday", "d": "Friday"}, 
-    //     "question_no": 1, "question_text": "What was the day of week on 17th June 1998?", 
-    //     "right_answer": "b", "right_answer_multiselect": [], "save": false, 
-    //     "save_mark_review": false, "selected_option": "a", answered: false
-    // }
-    
     constructor(props){
         super(props);
     }
 
     render(){
 
-        // console.log("QuestionSectionRight extends Component");
-        // console.log(this.props.questionsObjProp);
-        
         // Summary: Map will generate the for loop on array of object and by the 
         // help of that we dynamically create buttons.
 
@@ -74,35 +62,9 @@ export default class QuestionSectionRight extends Component {
             </View>
         ));
         return(
-            <View>
-                <ScrollView contentContainerStyle={{flexGrow:1}} style = {{ marginTop: 5 }}>
-                    <TouchableOpacity
-                        onPress = { 
-                            () => this.props.openQuestionLegendProps()
-                    }>
-                        <View>
-                            <Text style={texts.questionPaletteText}>
-                                Open
-                            </Text>       
-                            <Text style={texts.questionPaletteText}>
-                                Question
-                            </Text>
-                            <Text style={texts.questionPaletteText}>
-                                Summary
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    
-                    <QuestionPalleteLegend 
-                        modalVisibleProp = { this.props.questionLegendModalVisibleProps }
-                        openQuestionLegendProps = { this.props.openQuestionLegendProps }
-                    /> 
-                   
-                    <View style = { styles.containerQuestionPalleteQuestions }>
-                        { buttonsListArr }
-                    </View>    
-                </ScrollView>
-            </View>
+            <View style = { styles.containerQuestionPalleteQuestions }>
+                { buttonsListArr }
+            </View>    
         );
     }
 }

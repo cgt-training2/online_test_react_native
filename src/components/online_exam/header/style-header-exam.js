@@ -7,19 +7,19 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     TopLeft: {
-        flex: 1,
+        flex: .7,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F98144'
     },
     TopMiddle: {
-        flex: 3,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#29B493'
     },
     TopRight: {
-        flex: 1,
+        flex: 1.3,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F98144'

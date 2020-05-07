@@ -5,6 +5,9 @@ import {
     View
 } from 'react-native';
 
+// Components
+import QuestionPalleteLegend from '../../common_components/question_pallete_legend';
+
 // Stylesheet
 import { buttons, texts, styles } from './style-header-exam';
 
@@ -19,31 +22,27 @@ export default class HeaderOnlineExam extends Component{
                         // style = {styles.buttonTopLeft}
                         onPress = {
                             this.props.quitExamProps
-                        }
-                    >
+                    }>
                         <Text style={texts.headerText}>  
-                            Quit
-                        </Text>
-                        <Text style={texts.headerText}>  
-                            Test
+                            Quit Test
                         </Text>
                     </TouchableOpacity>
                 </View>
                 <View style={ styles.TopMiddle }>
                     <Text style={texts.headerText}>  
-                        IFAS
-                    </Text>
-                    <Text style={texts.headerSubText}>  
-                        ( Institute For Advanced Studies ) 
+                        Timer 1:59:40
                     </Text>
                 </View>
                 <View style={ styles.TopRight }>
-                    <Text style={texts.headerText}>  
-                        Timer
-                    </Text>
-                    <Text style={texts.headerText}>  
-                        1:59:01
-                    </Text>
+                    <TouchableOpacity
+                        // style = {styles.buttonTopLeft}
+                        onPress = {()=>
+                            this.props.openQuestionLegendProps()
+                    }>
+                        <Text style={texts.headerText}>  
+                            Question Pallete
+                        </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );

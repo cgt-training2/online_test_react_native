@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+    Dimensions,
     Image,
     Keyboard,
     Text, 
@@ -12,24 +13,13 @@ import {
 import CheckBox from '../../common_components/check_box';
 import FillInTheBlankesAnswer from './answer_type/fill_in_the_blankes_answer';
 import OptionAnswer from './answer_type/option_answer';
-
-// Dependency
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import ScaledImage from '../../../utils/image/image_size';
 
 // Stylesheet
-import { buttons, texts, styles } from './style-question-section-left';
+import { texts, styles } from './style-question-section-left';
 
 // Summary: This section will contain the functionality for questions.
 export default class QuestionSectionLeft extends Component{
-
-    // {
-    //     "answer_multiselect": [], "descriptive_answer": false, "descriptive_given_answer": "", 
-    //     "descriptive_rigth_answer": "", "mark_review": false, "multiselect": false, 
-    //     "options": {"a": "Wednesday", "b": "Monday", "c": "Thursday", "d": "Friday"}, 
-    //     "question_no": 1, "question_text": "What was the day of week on 17th June 1998?", 
-    //     "right_answer": "b", "right_answer_multiselect": [], "save": false, 
-    //     "save_mark_review": false, "selected_option": "a", image_url: ""
-    // }
 
     constructor(props){
         super(props);
@@ -40,6 +30,10 @@ export default class QuestionSectionLeft extends Component{
 
         this.displayImage = this.displayImage.bind(this);    
         this.displayAnswerOption = this.displayAnswerOption.bind(this);
+    }
+
+    componentWillMount() {
+        console.log("componentWillMount()");
     }
 
     componentDidMount() {
@@ -65,10 +59,14 @@ export default class QuestionSectionLeft extends Component{
     // Summary: this function will handle the conditional rendering.
     displayImage(){
         if(this.props.questionObjProps.image_url == ""){
-            return <Text style = {{ marginTop: 25, marginBottom:25 }}> </Text>; 
+            return <Text style = {{ marginTop: '50%' }}> </Text>; 
         }else{
-            
-           return <Image source={{ uri: this.props.questionObjProps.image_url }} style = {{ height: 200, resizeMode : 'stretch', margin: 5 }} />;
+            let widthParam = Dimensions.get('window').width;
+            let heightParam = Dimensions.get('window').height;
+            heightParam = (widthParam / 2) + ( heightParam / 8 );
+            return <Image source={{ uri: this.props.questionObjProps.image_url }} style = {{ width: widthParam, height: heightParam, resizeMode : 'contain', margin: 5 }} />;
+        //    <ScaledImage style= {{ marginTop: 5 }} uri={ this.props.questionObjProps.image_url } width={ Dimensions.get('window').width}/> 
+        
         }
     }
 
@@ -151,7 +149,9 @@ export default class QuestionSectionLeft extends Component{
         return(
             <View>
                 {/* <KeyboardAwareScrollView enableAutomaticScroll={(Platform.OS === 'ios')} enableOnAndroid={true}> */}
-                <ScrollView>
+                <ScrollView contentContainerStyle= {{ 
+                    flexGrow: 1
+                }}>
                     <View>
                         <View style={ styles.containerQuestionLeftTop }>
                             <View style={styles.containerQuestionLeftTopCircle}>
@@ -167,15 +167,18 @@ export default class QuestionSectionLeft extends Component{
                                 </Text>
                             </View>
                         </View>
-                        <View style={ styles.containerQuestionLeftMiddle }>
+                        <View>
                             {
                                 this.displayImage()
                             }
                         </View>
                         {/* Answer option Will display here based on the condition handled in displayAnswerOption() */}
-                        {
-                            this.displayAnswerOption()
-                        }
+                        <View style={{  
+                        }}>
+                            {
+                                this.displayAnswerOption()
+                            }
+                        </View>
                     </View>
                 </ScrollView>
                 {/* </KeyboardAwareScrollView> */}

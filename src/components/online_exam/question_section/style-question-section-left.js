@@ -30,11 +30,11 @@ const styles = StyleSheet.create({
     },
     containerQuestionLeftTopQuestion: {
         flex: 7,
-        marginLeft: 5
+        // marginLeft: 5,
+        // marginRight: 5
     },
     containerQuestionLeftBottom: {
-        flex: 1,
-        flexDirection: 'column'
+        justifyContent: 'flex-end'
     },
 });
 
@@ -60,7 +60,6 @@ const buttons = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        // backgroundColor: '#C9D7DD',
         marginTop: 2,
         marginBottom: 2,
     },
