@@ -9,7 +9,7 @@ import {
 import QuestionPalleteLegend from '../../common_components/question_pallete_legend';
 
 // Stylesheet
-import { buttons, texts, styles } from './style-header-exam';
+import { texts, styles } from './style-header-exam';
 
 // Summary: Component for upper section of exam.
 export default class HeaderOnlineExam extends Component{
@@ -19,7 +19,6 @@ export default class HeaderOnlineExam extends Component{
             <View style={ styles.containerTop}>
                 <View style={ styles.TopLeft }>
                     <TouchableOpacity
-                        // style = {styles.buttonTopLeft}
                         onPress = {
                             this.props.quitExamProps
                     }>
@@ -35,7 +34,6 @@ export default class HeaderOnlineExam extends Component{
                 </View>
                 <View style={ styles.TopRight }>
                     <TouchableOpacity
-                        // style = {styles.buttonTopLeft}
                         onPress = {()=>
                             this.props.openQuestionLegendProps()
                     }>

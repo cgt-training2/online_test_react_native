@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
 
+// Enum
+import { answer_button_section } from '../../../enums/global_colors';
+
 const styles = StyleSheet.create({
 
     containerAnswer: {
@@ -7,7 +10,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center', 
         flexDirection: 'row',
-        borderColor: '#C9D7DD',
+        borderColor: answer_button_section.containerBorderColor,
         borderWidth: 2
     },
     containerAnswerChild: {
@@ -22,13 +25,13 @@ const texts = StyleSheet.create({
     buttonText: {
         fontSize: 11,
         textAlign:'center',
-        color:'#FF6347',    
+        color: answer_button_section.buttonTextColor,    
     },
 });
 const buttons = StyleSheet.create({
 
     buttonContainer: {
-        backgroundColor: '#C9D7DD',
+        backgroundColor: answer_button_section.buttonBackgroundColor,
         borderRadius: 5,
         alignItems: 'center',
         justifyContent: 'center',

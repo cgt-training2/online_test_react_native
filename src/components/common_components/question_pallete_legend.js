@@ -10,7 +10,8 @@ import {
 
 // Component
 import QuestionSectionRight from '../online_exam/question_section/QuestionSectionsRight'
- 
+import QuestionLegendCount from './question_legend_count';
+
 // Stylesheet
 import { styles } from './style_question_pallete_legend';
 
@@ -31,16 +32,12 @@ export default class QuestionPalleteLegend extends Component {
                 }>
                     <View style={{ flex:1, alignItems: 'center', justifyContent: 'center' }}>
                         <View style={styles.Alert_Main_View}>
-                            <View style = {
-                                styles.Alert_Title_View
-                            }>
+                            <View style = { styles.Alert_Title_View }>
                                 <Text style={styles.Alert_Title}>
                                     Questions Summary
                                 </Text>
                             </View>
-                            <View style = {
-                                styles.Main_content_view
-                            }>
+                            <View style = { styles.Main_content_view }>
                                 <ScrollView contentContainerStyle={{
                                     flexGrow: 1, 
                                     justifyContent : 'center'
@@ -53,9 +50,7 @@ export default class QuestionPalleteLegend extends Component {
                                     />                                
                                     <View style={{ width: '100%', height: 1, backgroundColor: '#000000'}}>
                                     </View>
-                                    <Text style={styles.Alert_Message}> 
-                                        Question Legend Info 
-                                    </Text>
+                                    <QuestionLegendCount />
                                 </ScrollView>
                             </View>        
                             <View style={{ flex: .5, flexDirection: 'row'}}>

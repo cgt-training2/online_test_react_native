@@ -6,8 +6,8 @@ import {
     View
 } from 'react-native';
 
-// Component
-import QuestionPalleteLegend from '../../common_components/question_pallete_legend';
+// Enum
+import { question_pallete_text } from '../../../enums/global_colors';
 
 // StyleSheet
 import { buttons, texts, styles } from './style-question-section-right';
@@ -23,7 +23,6 @@ export default class QuestionSectionRight extends Component {
 
         // Summary: Map will generate the for loop on array of object and by the 
         // help of that we dynamically create buttons.
-
         let buttonsListArr = this.props.questionsObjProp.map(buttonInfo => (
             <View>
                 <TouchableOpacity 
@@ -35,7 +34,7 @@ export default class QuestionSectionRight extends Component {
                         () => this.props.navigationOfQuestionProps(buttonInfo.question_no)        
                 }>
                     <Text style={{
-                        color: buttonInfo.answered == true ? '#FFFFFF' : '#000000'
+                        color: buttonInfo.answered == true ? question_pallete_text.button_answered_text : question_pallete_text.button_text
                     }}>  
                         {buttonInfo.question_no}
                     </Text>

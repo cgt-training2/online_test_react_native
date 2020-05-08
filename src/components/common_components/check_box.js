@@ -5,6 +5,9 @@ import {
     View
 } from 'react-native';
 
+// Enum
+import { checkBoxStyleColor } from '../../enums/global_colors';
+
 // Summary: This class will provide the functionality for checkbox.
 export default class CheckBox extends Component {
     constructor(props) {
@@ -33,14 +36,14 @@ export default class CheckBox extends Component {
                     height: 24,
                     width: 24,
                     borderWidth: 2,
-                    borderColor: '#000',
+                    borderColor: checkBoxStyleColor.borderColour,
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}>
                     <View style={{
                         height: 12,
                         width: 12,
-                        backgroundColor: this.state.isCheck ? '#000' : '#FFF',
+                        backgroundColor: this.state.isCheck ? checkBoxStyleColor.backgroudColourSelected : checkBoxStyleColor.backgroudColourNotSelected,
                     }} />
                 </View>
             </TouchableOpacity>

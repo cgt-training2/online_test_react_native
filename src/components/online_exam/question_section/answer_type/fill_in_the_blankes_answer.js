@@ -5,10 +5,11 @@ import {
     View 
 } from "react-native";
 
+// enums
+import { fillInTheBlanksTextInput } from '../../../../enums/global_colors';
+
 //StyleSheet
-import { 
-    buttons, texts, styles 
-} from '../style-question-section-left'; 
+import { buttons, texts, styles } from '../style-question-section-left'; 
 
 // Summary: This class will contain fill in the blankes like feature.
 export default class FillInTheBlankesAnswer extends Component{
@@ -35,7 +36,7 @@ export default class FillInTheBlankesAnswer extends Component{
                 <TextInput 
                     style={{ 
                         height: 50, 
-                        borderColor: 'gray', 
+                        borderColor: fillInTheBlanksTextInput.borderStyleColor, 
                         borderWidth: 1 
                     }}
                     onChangeText={ 

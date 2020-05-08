@@ -4,7 +4,6 @@ import {
     Image,
     Keyboard,
     Text, 
-    TouchableOpacity,
     ScrollView,
     View
 } from 'react-native';
@@ -64,9 +63,7 @@ export default class QuestionSectionLeft extends Component{
             let widthParam = Dimensions.get('window').width;
             let heightParam = Dimensions.get('window').height;
             heightParam = (widthParam / 2) + ( heightParam / 8 );
-            return <Image source={{ uri: this.props.questionObjProps.image_url }} style = {{ width: widthParam, height: heightParam, resizeMode : 'contain', margin: 5 }} />;
-        //    <ScaledImage style= {{ marginTop: 5 }} uri={ this.props.questionObjProps.image_url } width={ Dimensions.get('window').width}/> 
-        
+            return <Image source={{ uri: this.props.questionObjProps.image_url }} style = {{ width: widthParam, height: heightParam, resizeMode : 'contain', margin: 5 }} />;        
         }
     }
 

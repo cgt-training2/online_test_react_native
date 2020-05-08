@@ -14,6 +14,7 @@ import QuestionPalleteLegend from '../../components/common_components/question_p
 
 // Enum
 import { questions_array_object } from '../../enums/question_answers_set1';
+import { answer_option, color_code_answer_button } from '../../enums/global_colors';
 
 // Style sheet
 import { styles } from './style-online-exam';
@@ -35,7 +36,11 @@ export default class OnlineExam extends Component{
             disable_next_button: false,
             disable_answer_button_view: true,
             questionsObj: questions_array_object,
-            questionLegendModalVisible: false
+            questionLegendModalVisible: false,
+            save_count: 0,
+            save_and_mark_review_count: 0,
+            mark_review_count: 0,
+            not_answered_count: 0
         };
         this.optionButtonColorArr = [];
         this.clearResponseFunction = this.clearResponseFunction.bind(this);
@@ -52,12 +57,13 @@ export default class OnlineExam extends Component{
         this.getFillInTheBlanksChangeTextEvent = this.getFillInTheBlanksChangeTextEvent.bind(this);
         this.navigationOfQuestion = this.navigationOfQuestion.bind(this);
         this.openQuestionLegend = this.openQuestionLegend.bind(this);
-	}
+        this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton = this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton.bind(this);
+    }
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
     componentWillMount(){
         for(let i=0; i < questions_array_object.length; i++){
-            this.optionButtonColorArr.push(['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD']);
+            this.optionButtonColorArr.push([answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered]);
         }
     }
 
@@ -95,36 +101,75 @@ export default class OnlineExam extends Component{
             // #2DBC01 save & Next, #441988 Mark review, #441988 (Save & Mark review with small green circle)
             // #E44502 not answered,
             if(buttonId == 0) {
-                this.changeColorCodeQuestionPallete(indexLength, '#2DBC01');
+                this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndNext, 0);
             }else if(buttonId == 1) {
-                this.changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, '#441988');
+                this.changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, color_code_answer_button.saveAndMarkReview);
             }else if(buttonId == 2) {
-                this.changeColorCodeQuestionPallete(indexLength, '#441988');
+                this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndMarkReview, 2);
             }else if(buttonId == 3) {
-                this.changeColorCodeQuestionPallete(indexLength, '#E44502');
+                this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, color_code_answer_button.next, true);
             }
         }else{
-            if(this.state.index == indexLength - 1 ){
+            this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, color_code_answer_button.next, false);
+        }
+    }
+
+    // Summary: This function will handle the working of next button or not answered by clicking on any button.
+    changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, colorCode, answered){
+        console.log(this.state.questionsObj[this.state.index].save);
+        let saveTrue = this.state.questionsObj[this.state.index].save;
+        let saveMarkReviewTrue = this.state.questionsObj[this.state.index].save_mark_review;
+        let markReviewTrue = this.state.questionsObj[this.state.index].mark_review;
+        if(saveTrue == true || saveMarkReviewTrue == true || markReviewTrue == true){
+            if(this.state.index == indexLength - 1 ) {
                 this.setState(prevState => {
                     return { 
-                        disable_prev_button: false,
+                        disable_prev_button: false
                     }
                 });
-            }else{
+            }else {
                 this.setState(prevState => {
                     return { 
                         index: prevState.index + 1,
                         question_obj: questions_array_object[prevState.index + 1],
                         disable_prev_button: false,
+                        disable_next_button: false
+                    }
+                });
+            }
+        }else{
+            if(this.state.index == indexLength - 1 ) {
+                this.setState(prevState => {
+                    let questionsObjVar = Object.assign(
+                        {}, prevState.questionsObj
+                    );  // creating copy of state variable questionsObj
+                    questionsObjVar[this.state.index].question_pallete_color = colorCode;
+                    return { 
+                        disable_prev_button: false,
+                        questionsObjVar
+                    }
+                });
+            }else {
+                this.setState(prevState => {
+                    let questionsObjVar = Object.assign(
+                        {}, prevState.questionsObj
+                    );  // creating copy of state variable questionsObj
+                    questionsObjVar[this.state.index].question_pallete_color = colorCode;
+                    return { 
+                        index: prevState.index + 1,
+                        question_obj: questions_array_object[prevState.index + 1],
+                        disable_prev_button: false,
                         disable_next_button: false,
+                        questionsObjVar
                     }
                 });
             }
         }
     }
 
+    // mark_review, save_mark_review, save
     // Summary: This function handles the color code change of question pallete.
-    changeColorCodeQuestionPallete(indexLength, colorCode) {
+    changeColorCodeQuestionPallete(indexLength, colorCode, buttonCode) {
         // question_pallete_color, answered
         if(this.state.index == indexLength - 1 ){
             this.setState(prevState => {
@@ -132,6 +177,8 @@ export default class OnlineExam extends Component{
                     {}, prevState.questionsObj
                 );  // creating copy of state variable questionsObj
                 questionsObjVar[this.state.index].question_pallete_color = colorCode;
+                questionsObjVar[this.state.index].save = buttonCode == 0 ? true : false;
+                questionsObjVar[this.state.index].mark_review = buttonCode == 2 ? true : false;
                 return { 
                     disable_prev_button: false,
                     questionsObjVar
@@ -143,6 +190,8 @@ export default class OnlineExam extends Component{
                     {}, prevState.questionsObj
                 );  // creating copy of state variable questionsObj
                 questionsObjVar[this.state.index].question_pallete_color = colorCode;
+                questionsObjVar[this.state.index].save = buttonCode == 0 ? true : false;
+                questionsObjVar[this.state.index].mark_review = buttonCode == 2 ? true : false;
                 return { 
                     index: prevState.index + 1,
                     question_obj: questions_array_object[prevState.index + 1],
@@ -187,17 +236,17 @@ export default class OnlineExam extends Component{
     }
 
     // Summary: This function handles the color change of option selected by user.
-    getOptionId(buttonId, optionSelected){
+    getOptionId(buttonId, optionSelected) {
         // Summary: arrInt is used to maintain the indexing. 
         let arrInt = [0, 1, 2, 3];
         // Summary: Index of clicked button removed.
         arrInt.splice(buttonId, 1);
         let arrColor = [];
         for(let i in arrInt){
-            arrColor[arrInt[i]] = '#C9D7DD';
+            arrColor[arrInt[i]] = answer_option.option_button_not_answered;
         }
         // Summary: Set different color on clicked button.
-        arrColor[buttonId] = '#9ACD32';
+        arrColor[buttonId] = answer_option.option_button_answered;
         this.optionButtonColorArr[this.state.index] = arrColor;
         //Summary: Set state
         this.setState(prevState => {

@@ -10,9 +10,9 @@ import { buttons, texts, styles } from './style-answer-buttons';
 
 // Summary: AnswerButton class contains the functionality of answer button s.
 export default class AnswerButtons extends Component{
+    
     componentDidMount(){
     }
-
     render(){
         return(
             <View style = { styles.containerAnswer }>

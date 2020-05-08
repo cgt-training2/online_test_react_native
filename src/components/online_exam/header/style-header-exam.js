@@ -1,5 +1,8 @@
 import {StyleSheet} from 'react-native';
 
+// Enum
+import { header_backgrounds, header_text_color } from '../../../enums/global_colors';
+
 const styles = StyleSheet.create({
 
     containerTop: {
@@ -10,19 +13,19 @@ const styles = StyleSheet.create({
         flex: .7,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F98144'
+        backgroundColor: header_backgrounds.left
     },
     TopMiddle: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#29B493'
+        backgroundColor: header_backgrounds.middle
     },
     TopRight: {
         flex: 1.3,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F98144'
+        backgroundColor: header_backgrounds.left
     }
 });
 
@@ -31,23 +34,15 @@ const texts = StyleSheet.create({
     headerText: {
         fontSize: 16,
         textAlign:'center',
-        color:'#FDF7FF',    
+        color: header_text_color.textCommonColor,    
     },
     headerSubText: {
         fontSize: 14,
         textAlign:'center',
-        color:'#FDF7FF',    
+        color: header_text_color.textCommonColor    
     }
 });
 const buttons = StyleSheet.create({
-    buttonTopLeft: {
-        backgroundColor: '#F98144',
-        flex:1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 100,
-        width: 100
-    }
 });
 
 

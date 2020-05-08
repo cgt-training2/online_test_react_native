@@ -1,12 +1,9 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
+
+// Enum
+import { answer_option, question_main_view } from '../../../enums/global_colors';
 
 const styles = StyleSheet.create({
-
-    containerQuestion: {
-        flex: 5,
-        flexDirection: 'row',
-        borderColor: '#C9D7DD'
-    },
     containerQuestionLeft: {
         flex: 4
     },
@@ -23,15 +20,13 @@ const styles = StyleSheet.create({
     containerQuestionLeftTopCircleInner: {
         height: 25,
         width: 25,
-        backgroundColor: '#000000',
+        backgroundColor: question_main_view.circleColor,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center'
     },
     containerQuestionLeftTopQuestion: {
         flex: 7,
-        // marginLeft: 5,
-        // marginRight: 5
     },
     containerQuestionLeftBottom: {
         justifyContent: 'flex-end'
@@ -50,8 +45,8 @@ const texts = StyleSheet.create({
     },
     optionButtonTopCircleInnerText: {
         fontSize: 14,
-        textAlign:'center',
-        color:'#FDF7FF'
+        textAlign: 'center',
+        color: answer_option.option_circle_text
     }
 });
 const buttons = StyleSheet.create({
@@ -71,7 +66,7 @@ const buttons = StyleSheet.create({
     optionButtonTopCircleInner: {
         height: 25,
         width: 25,
-        backgroundColor: '#35C8C8',
+        backgroundColor: answer_option.option_circle_view,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center'
