@@ -50,7 +50,10 @@ export default class QuestionPalleteLegend extends Component {
                                     />                                
                                     <View style={{ width: '100%', height: 1, backgroundColor: '#000000'}}>
                                     </View>
-                                    <QuestionLegendCount />
+                                    <QuestionLegendCount 
+                                        saveCountProps = { this.props.saveCountProps }
+                                        markReviewCountProps = { this.props.markReviewCountProps }
+                                    />
                                 </ScrollView>
                             </View>        
                             <View style={{ flex: .5, flexDirection: 'row'}}>

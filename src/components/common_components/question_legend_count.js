@@ -33,7 +33,7 @@ export default class QuestionLegendCount extends Component{
                         marginRight: 10    
                     }}>
                         <Text style={styles.Alert_Message}> 
-                            22
+                            { this.props.saveCountProps }
                         </Text>
                     </View>
                     <View style ={{
@@ -55,7 +55,7 @@ export default class QuestionLegendCount extends Component{
                         marginRight: 10
                     }}>
                         <Text style={styles.Alert_Message}> 
-                            10
+                            { this.props.markReviewCountProps }
                         </Text>
                     </View>
                 </View>

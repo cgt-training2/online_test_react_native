@@ -167,7 +167,6 @@ export default class OnlineExam extends Component{
         }
     }
 
-    // mark_review, save_mark_review, save
     // Summary: This function handles the color code change of question pallete.
     changeColorCodeQuestionPallete(indexLength, colorCode, buttonCode) {
         // question_pallete_color, answered
@@ -177,10 +176,19 @@ export default class OnlineExam extends Component{
                     {}, prevState.questionsObj
                 );  // creating copy of state variable questionsObj
                 questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                questionsObjVar[this.state.index].save = buttonCode == 0 ? true : false;
-                questionsObjVar[this.state.index].mark_review = buttonCode == 2 ? true : false;
+                let saveCount = prevState.save_count;
+                let markReviewCount = prevState.mark_review_count;
+                if(questionsObjVar[this.state.index].save == false && buttonCode == 0){
+                    questionsObjVar[this.state.index].save = true;
+                    saveCount += 1;    
+                }else if(questionsObjVar[this.state.index].mark_review == false && buttonCode == 2){
+                    questionsObjVar[this.state.index].mark_review = true;
+                    markReviewCount += 1;
+                }
                 return { 
                     disable_prev_button: false,
+                    save_count: saveCount,
+                    mark_review_count: markReviewCount,
                     questionsObjVar
                 }
             });
@@ -190,13 +198,22 @@ export default class OnlineExam extends Component{
                     {}, prevState.questionsObj
                 );  // creating copy of state variable questionsObj
                 questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                questionsObjVar[this.state.index].save = buttonCode == 0 ? true : false;
-                questionsObjVar[this.state.index].mark_review = buttonCode == 2 ? true : false;
+                let saveCount = prevState.save_count;
+                let markReviewCount = prevState.mark_review_count;
+                if(questionsObjVar[this.state.index].save == false && buttonCode == 0){
+                    questionsObjVar[this.state.index].save = true;
+                    saveCount += 1;    
+                }else if(questionsObjVar[this.state.index].mark_review == false && buttonCode == 2){
+                    questionsObjVar[this.state.index].mark_review = true;
+                    markReviewCount += 1;
+                }
                 return { 
                     index: prevState.index + 1,
                     question_obj: questions_array_object[prevState.index + 1],
                     disable_prev_button: false,
                     disable_next_button: false,
+                    save_count: saveCount,
+                    mark_review_count: markReviewCount,
                     questionsObjVar
                 }
             });
@@ -390,6 +407,8 @@ export default class OnlineExam extends Component{
                             navigationOfQuestionProps = { this.navigationOfQuestion }
                             openQuestionLegendProps = { this.openQuestionLegend }
                             questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
+                            saveCountProps = { this.state.save_count }
+                            markReviewCountProps = { this.state.mark_review_count }
                         />
                     </View>
                 </View>
