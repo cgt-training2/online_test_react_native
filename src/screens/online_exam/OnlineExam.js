@@ -115,8 +115,7 @@ export default class OnlineExam extends Component{
     }
 
     // Summary: This function will handle the working of next button or not answered by clicking on any button.
-    changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, colorCode, answered){
-        console.log(this.state.questionsObj[this.state.index].save);
+    changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, colorCode, answered) {
         let saveTrue = this.state.questionsObj[this.state.index].save;
         let saveMarkReviewTrue = this.state.questionsObj[this.state.index].save_mark_review;
         let markReviewTrue = this.state.questionsObj[this.state.index].mark_review;
@@ -143,9 +142,11 @@ export default class OnlineExam extends Component{
                     let questionsObjVar = Object.assign(
                         {}, prevState.questionsObj
                     );  // creating copy of state variable questionsObj
+                    let notAnsweredCount = prevState.not_answered_count + 1;
                     questionsObjVar[this.state.index].question_pallete_color = colorCode;
                     return { 
                         disable_prev_button: false,
+                        not_answered_count: notAnsweredCount,
                         questionsObjVar
                     }
                 });
@@ -154,12 +155,14 @@ export default class OnlineExam extends Component{
                     let questionsObjVar = Object.assign(
                         {}, prevState.questionsObj
                     );  // creating copy of state variable questionsObj
+                    let notAnsweredCount = prevState.not_answered_count + 1;
                     questionsObjVar[this.state.index].question_pallete_color = colorCode;
                     return { 
                         index: prevState.index + 1,
                         question_obj: questions_array_object[prevState.index + 1],
                         disable_prev_button: false,
                         disable_next_button: false,
+                        not_answered_count: notAnsweredCount,
                         questionsObjVar
                     }
                 });
@@ -227,10 +230,12 @@ export default class OnlineExam extends Component{
                 let questionsObjVar = Object.assign(
                     {}, prevState.questionsObj
                 );  // creating copy of state variable questionsObj
+                let saveAndMarkReviewCount = prevState.save_and_mark_review_count + 1;        
                 questionsObjVar[this.state.index].question_pallete_color = colorCode;
                 questionsObjVar[this.state.index].save_mark_review = true;
                 return { 
                     disable_prev_button: false,
+                    save_and_mark_review_count: saveAndMarkReviewCount,
                     questionsObjVar
                 }
             });
@@ -239,6 +244,7 @@ export default class OnlineExam extends Component{
                 let questionsObjVar = Object.assign(
                     {}, prevState.questionsObj
                 );  // creating copy of state variable questionsObj
+                let saveAndMarkReviewCount = prevState.save_and_mark_review_count + 1;
                 questionsObjVar[this.state.index].question_pallete_color = colorCode;
                 questionsObjVar[this.state.index].save_mark_review = true;
                 return { 
@@ -246,6 +252,7 @@ export default class OnlineExam extends Component{
                     question_obj: questions_array_object[prevState.index + 1],
                     disable_prev_button: false,
                     disable_next_button: false,
+                    save_and_mark_review_count: saveAndMarkReviewCount,
                     questionsObjVar
                 }
             });
@@ -285,8 +292,8 @@ export default class OnlineExam extends Component{
             let questionsObjVar = Object.assign(
                 {}, prevState.questionsObj
             ); // creating copy of state variable questionsObj
-            questionsObjVar[this.state.index].descriptive_given_answer = value; 
-            // update the descriptive_given_answer property, assign a new value.                 
+            questionsObjVar[this.state.index].descriptive_given_answer = value;                  
+            // update the descriptive_given_answer property, assign a new value.
             return{
                questionsObjVar
             }
@@ -301,7 +308,7 @@ export default class OnlineExam extends Component{
             questionsObjVar[this.state.index].descriptive_given_answer = answer; 
             questionsObjVar[this.state.index].answered = true;
             // update the descriptive_given_answer property, assign a new value.                 
-            return{
+            return {
                questionsObjVar
             }
         });
@@ -338,7 +345,6 @@ export default class OnlineExam extends Component{
 
     // Summary: This function will handle the opening of question pallete legend.
     openQuestionLegend(){
-        console.log("openQuestionLegend()");
         this.setState(prevstate =>{
             return{
                 questionLegendModalVisible: !prevstate.questionLegendModalVisible
@@ -353,6 +359,7 @@ export default class OnlineExam extends Component{
         this.setState({
             index: indexClicked,
             question_obj: questions_array_object[indexClicked],
+            questionLegendModalVisible: false
         });
     }
 
@@ -409,6 +416,8 @@ export default class OnlineExam extends Component{
                             questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
                             saveCountProps = { this.state.save_count }
                             markReviewCountProps = { this.state.mark_review_count }
+                            notAnsweredCountProps = { this.state.not_answered_count }
+                            saveAndMarkReviewCountProps = { this.state.save_and_mark_review_count } 
                         />
                     </View>
                 </View>

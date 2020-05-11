@@ -53,6 +53,8 @@ export default class QuestionPalleteLegend extends Component {
                                     <QuestionLegendCount 
                                         saveCountProps = { this.props.saveCountProps }
                                         markReviewCountProps = { this.props.markReviewCountProps }
+                                        notAnsweredCountProps = { this.props.notAnsweredCountProps }
+                                        saveAndMarkReviewCountProps = { this.props.saveAndMarkReviewCountProps }
                                     />
                                 </ScrollView>
                             </View>        

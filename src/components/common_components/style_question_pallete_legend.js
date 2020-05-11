@@ -3,6 +3,9 @@ import {
   StyleSheet
 } from 'react-native';
 
+// Enum
+import { color_code_answer_button } from '../../enums/global_colors';
+
 const styles = StyleSheet.create({
  
 	MainContainer :{
@@ -46,9 +49,18 @@ const styles = StyleSheet.create({
 	Alert_Message:{
 
 		fontSize: 22, 
+		color: '#FFFFFF',
+		textAlign: 'center',
+		padding: 10,
+		// height: '42%'
+	},
+	Alert_Message_Text:{
+
+		fontSize: 16, 
 		color: '#000000',
 		textAlign: 'center',
 		padding: 10,
+		lineHeight: 12
 		// height: '42%'
 	},
 	buttonStyle: {
