@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {
-    Text, 
-    TouchableOpacity,
     View,
-    Image
 } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+// Actions
+import * as examActions from '../../actions/online-exam-actions';
 
 // Component
 import AnswerButtons from '../../components/online_exam/answer_button/AnswerButtons';
@@ -20,7 +22,7 @@ import { answer_option, color_code_answer_button } from '../../enums/global_colo
 import { styles } from './style-online-exam';
 
 // Summary: This class will contain all the functionality of the online test.
-export default class OnlineExam extends Component{
+class OnlineExam extends Component{
 
     // Summary: No header Will be shown for this component
     static navigationOptions = {
@@ -32,7 +34,7 @@ export default class OnlineExam extends Component{
         this.state = {
             index: 0,
             question_obj: questions_array_object[0],
-            disable_prev_button: true,
+            disable_prev_button: false,
             disable_next_button: false,
             disable_answer_button_view: true,
             questionsObj: questions_array_object,
@@ -74,6 +76,7 @@ export default class OnlineExam extends Component{
     
     // Summary: This function will decrease the index for the question object.
     decreaseIndexChange() {
+        this.props.actions.decreaseIndex(this.props.index, this.props.questionsObjectArray, this.props.examDetail.not_answer_count);        
         if(this.state.index == 1 ){
             this.setState(prevState => {
                 return { 
@@ -95,17 +98,29 @@ export default class OnlineExam extends Component{
 
     // Summary: This function will increase the index for the question object.
     increaseIndexChange(buttonId) {
-        let answerGiven = questions_array_object[this.state.index].answered;
-        let indexLength = questions_array_object.length;
+        let answerGiven = this.props.questionsObjectArray[this.props.index].answered;
+        let indexLength = this.props.questionsObjectArray[this.props.index].length;
         if(answerGiven == true){
             // #2DBC01 save & Next, #441988 Mark review, #441988 (Save & Mark review with small green circle)
             // #E44502 not answered,
             if(buttonId == 0) {
-                this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndNext, 0);
+                // this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndNext, 0);
+                this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
+                    color_code_answer_button.saveAndNext, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
+                    this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
+                    indexLength, buttonId);
             }else if(buttonId == 1) {
-                this.changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, color_code_answer_button.saveAndMarkReview);
+                // this.changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, color_code_answer_button.saveAndMarkReview);
+                this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
+                    color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
+                    this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
+                    indexLength, buttonId);
             }else if(buttonId == 2) {
-                this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndMarkReview, 2);
+                // this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndMarkReview, 2);
+                this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
+                    color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
+                    this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
+                    indexLength, buttonId);
             }else if(buttonId == 3) {
                 this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, color_code_answer_button.next, true);
             }
@@ -116,63 +131,27 @@ export default class OnlineExam extends Component{
 
     // Summary: This function will handle the working of next button or not answered by clicking on any button.
     changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, colorCode, answered) {
-        let saveTrue = this.state.questionsObj[this.state.index].save;
-        let saveMarkReviewTrue = this.state.questionsObj[this.state.index].save_mark_review;
-        let markReviewTrue = this.state.questionsObj[this.state.index].mark_review;
+        let saveTrue = this.props.questionsObjectArray[this.props.index].save;
+        let saveMarkReviewTrue = this.props.questionsObjectArray[this.props.index].save_mark_review;
+        let markReviewTrue = this.props.questionsObjectArray[this.props.index].mark_review;
+
         if(saveTrue == true || saveMarkReviewTrue == true || markReviewTrue == true){
-            if(this.state.index == indexLength - 1 ) {
-                this.setState(prevState => {
-                    return { 
-                        disable_prev_button: false
-                    }
-                });
-            }else {
-                this.setState(prevState => {
-                    return { 
-                        index: prevState.index + 1,
-                        question_obj: questions_array_object[prevState.index + 1],
-                        disable_prev_button: false,
-                        disable_next_button: false
-                    }
-                });
-            }
+            this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
+                colorCode, true, this.props.examDetail.not_answer_count);
         }else{
-            if(this.state.index == indexLength - 1 ) {
-                this.setState(prevState => {
-                    let questionsObjVar = Object.assign(
-                        {}, prevState.questionsObj
-                    );  // creating copy of state variable questionsObj
-                    let notAnsweredCount = prevState.not_answered_count + 1;
-                    questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                    return { 
-                        disable_prev_button: false,
-                        not_answered_count: notAnsweredCount,
-                        questionsObjVar
-                    }
-                });
-            }else {
-                this.setState(prevState => {
-                    let questionsObjVar = Object.assign(
-                        {}, prevState.questionsObj
-                    );  // creating copy of state variable questionsObj
-                    let notAnsweredCount = prevState.not_answered_count + 1;
-                    questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                    return { 
-                        index: prevState.index + 1,
-                        question_obj: questions_array_object[prevState.index + 1],
-                        disable_prev_button: false,
-                        disable_next_button: false,
-                        not_answered_count: notAnsweredCount,
-                        questionsObjVar
-                    }
-                });
-            }
+            this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
+                colorCode, false, this.props.examDetail.not_answer_count);
         }
     }
-
+    // this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count, 
+    // this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count
     // Summary: This function handles the color code change of question pallete.
     changeColorCodeQuestionPallete(indexLength, colorCode, buttonCode) {
         // question_pallete_color, answered
+        this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
+            colorCode, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
+            this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
+            indexLength, buttonId);
         if(this.state.index == indexLength - 1 ){
             this.setState(prevState => {
                 let questionsObjVar = Object.assign(
@@ -271,19 +250,11 @@ export default class OnlineExam extends Component{
         }
         // Summary: Set different color on clicked button.
         arrColor[buttonId] = answer_option.option_button_answered;
-        this.optionButtonColorArr[this.state.index] = arrColor;
-        //Summary: Set state
-        this.setState(prevState => {
-            let questionsObjVar = Object.assign(
-                {}, prevState.questionsObj
-            );  // creating copy of state variable questionsObj
-            questionsObjVar[this.state.index].selected_option = optionSelected;
-            questionsObjVar[this.state.index].answered = true; 
-            // update the selected_option property, assign a new value.                 
-            return{
-                questionsObjVar
-            }
-        });
+        this.optionButtonColorArr[this.props.index] = arrColor;
+        console.log("this.optionButtonColorArr[this.props.index]");
+        console.log(this.optionButtonColorArr[this.props.index]);
+        // Summary: Fire action from here.
+        this.props.actions.handleOptionColor( this.props.index, this.props.questionsObjectArray, optionSelected, this.props.renderState);
     }
 
     // Summary: This function handles onChangeText event of text input.
@@ -383,8 +354,14 @@ export default class OnlineExam extends Component{
     }
 
     render() {
-        // console.log("OnlineExam extends Component");
-        // console.log(this.state.questionsObj);
+        console.log("OnlineExam extends Component");
+        console.log(this.props.index);
+        // console.log(this.props.questionsObjectArray[this.props.index]);
+        console.log(this.props.examDetail.not_answer_count);
+        console.log(this.props.examDetail.mark_review_count);
+        console.log(this.props.examDetail.save_count);
+        console.log(this.props.examDetail.save_and_mark_review_count);
+        // console.log(this.props.renderState);
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
@@ -398,26 +375,29 @@ export default class OnlineExam extends Component{
                     <View style = { styles.containerQuestion}>
                         <View style={ styles.containerQuestionLeft }>
                             <QuestionSectionLeft 
-                                questionObjProps = { this.state.question_obj }
+                                questionObjProps = { this.props.questionsObject }
+                                // { this.state.question_obj }
                                 getOptionIdProps = { this.getOptionId }
-                                optionButtonColorProps = { this.optionButtonColorArr[this.state.index] }
+                                optionButtonColorProps = { this.optionButtonColorArr[this.props.index] }
                                 getFillInTheBlanksAnswerProps = { this.getFillInTheBlanksAnswer }
                                 getCheckBoxAnswerProps = { this.getCheckBoxAnswer }
                                 handleKeyboardShowEventProps = { this.handleKeyboardShowEvent }
                                 handleKeyboardHideEventProps = { this.handleKeyboardHideEvent }
-                                descriptiveAnswerProps = { this.state.questionsObj[this.state.index].descriptive_given_answer }
+                                descriptiveAnswerProps = { this.props.questionsObjectArray[this.props.index].descriptive_given_answer }
                                 getFillInTheBlanksChangeTextEventProps = { this.getFillInTheBlanksChangeTextEvent }
                             />
                         </View>  
                         <QuestionPalleteLegend 
-                            questionsObjProp = { this.state.questionsObj }
+                            questionsObjProp = { this.props.questionsObjectArray }
+                            // { this.state.questionsObj }
                             navigationOfQuestionProps = { this.navigationOfQuestion }
                             openQuestionLegendProps = { this.openQuestionLegend }
                             questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
-                            saveCountProps = { this.state.save_count }
-                            markReviewCountProps = { this.state.mark_review_count }
-                            notAnsweredCountProps = { this.state.not_answered_count }
-                            saveAndMarkReviewCountProps = { this.state.save_and_mark_review_count } 
+                            saveCountProps = { this.props.examDetail.save_count }
+                            markReviewCountProps = { this.props.examDetail.mark_review_count }
+                            notAnsweredCountProps = { this.props.examDetail.not_answer_count }
+                            // { this.state.not_answered_count }
+                            saveAndMarkReviewCountProps = { this.props.examDetail.save_and_mark_review_count } 
                         />
                     </View>
                 </View>
@@ -438,3 +418,28 @@ export default class OnlineExam extends Component{
         );
     }
 }
+
+// this will dispatch the control to.
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(examActions, dispatch)
+    };
+}
+
+//mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
+const mapStateToProps = ( state ) => {
+    // console.log()
+    return { 
+        index: state.OnlineExamReducers.examDetail.index,
+        examDetail: state.OnlineExamReducers.examDetail, 
+        questionsObject: state.OnlineExamReducers.questionsObj,
+        questionsObjectArray: state.OnlineExamReducers.questionsObjArray,
+        renderState: state.OnlineExamReducers.renderVal
+    };
+}
+
+/*
+As the first argument passed in to connect, mapStateToProps is used for selecting the part of the data from the store that the connected component needs. 
+It’s frequently referred to as just mapState for short.
+*/
+export default connect(mapStateToProps, mapDispatchToProps)(OnlineExam);

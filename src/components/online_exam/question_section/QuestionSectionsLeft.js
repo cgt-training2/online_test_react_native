@@ -36,6 +36,8 @@ export default class QuestionSectionLeft extends Component{
     }
 
     componentDidMount() {
+        console.log("componentDidMount");
+        console.log(this.props.optionButtonColorProps);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     }

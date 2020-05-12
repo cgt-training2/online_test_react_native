@@ -1,5 +1,19 @@
 // Summary: We keep ALL actions used throughout the frontend app in this file.
 // Created: 11/11/2019 12:00 pM - VS (IN)
+/*
+====================================================================================
+                           *****  Index Change Actions  *****
+====================================================================================
+*/
+export const INDEX_INCREASE = 'INDEX_INCREASE';
+export const INDEX_DECREASE = 'INDEX_DECREASE';
+export const INDEX_INCREASE_SAVE = 'INDEX_INCREASE_SAVE';
+/*
+====================================================================================
+                           *****  Answer Change Actions  *****
+====================================================================================
+*/
+export const OPTION_CHANGE = 'OPTION_CHANGE';
 
 /*
 ====================================================================================
