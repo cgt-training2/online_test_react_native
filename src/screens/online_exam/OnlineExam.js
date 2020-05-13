@@ -54,8 +54,6 @@ class OnlineExam extends Component{
         this.getCheckBoxAnswer = this.getCheckBoxAnswer.bind(this); 
         this.handleKeyboardShowEvent = this.handleKeyboardShowEvent.bind(this);
         this.handleKeyboardHideEvent = this.handleKeyboardHideEvent.bind(this);
-        this.changeColorCodeQuestionPallete = this.changeColorCodeQuestionPallete.bind(this);
-        this.changeColorCodeQuestionPalleteSaveAndMarkReview = this.changeColorCodeQuestionPalleteSaveAndMarkReview.bind(this);
         this.getFillInTheBlanksChangeTextEvent = this.getFillInTheBlanksChangeTextEvent.bind(this);
         this.navigationOfQuestion = this.navigationOfQuestion.bind(this);
         this.openQuestionLegend = this.openQuestionLegend.bind(this);
@@ -76,47 +74,28 @@ class OnlineExam extends Component{
     
     // Summary: This function will decrease the index for the question object.
     decreaseIndexChange() {
-        this.props.actions.decreaseIndex(this.props.index, this.props.questionsObjectArray, this.props.examDetail.not_answer_count);        
-        if(this.state.index == 1 ){
-            this.setState(prevState => {
-                return { 
-                    index: prevState.index - 1,
-                    question_obj: questions_array_object[prevState.index - 1],
-                    disable_prev_button: true,
-                }
-            });
-        }else{
-            this.setState(prevState => {
-                return { 
-                    index: prevState.index - 1,
-                    question_obj: questions_array_object[prevState.index - 1],
-                    disable_prev_button: false,
-                }
-            });
-        }
+        this.props.actions.decreaseIndex(this.props.index, this.props.questionsObjectArray, 
+            this.props.examDetail.not_answer_count, this.props.examDetail);        
     }
 
     // Summary: This function will increase the index for the question object.
     increaseIndexChange(buttonId) {
         let answerGiven = this.props.questionsObjectArray[this.props.index].answered;
-        let indexLength = this.props.questionsObjectArray[this.props.index].length;
+        let indexLength = this.props.questionsObjectArray.length;
         if(answerGiven == true){
             // #2DBC01 save & Next, #441988 Mark review, #441988 (Save & Mark review with small green circle)
             // #E44502 not answered,
             if(buttonId == 0) {
-                // this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndNext, 0);
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndNext, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
                     indexLength, buttonId);
             }else if(buttonId == 1) {
-                // this.changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, color_code_answer_button.saveAndMarkReview);
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
                     indexLength, buttonId);
             }else if(buttonId == 2) {
-                // this.changeColorCodeQuestionPallete(indexLength, color_code_answer_button.saveAndMarkReview, 2);
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
@@ -137,104 +116,14 @@ class OnlineExam extends Component{
 
         if(saveTrue == true || saveMarkReviewTrue == true || markReviewTrue == true){
             this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
-                colorCode, true, this.props.examDetail.not_answer_count);
+                colorCode, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
+                this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
+                indexLength);
         }else{
             this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
-                colorCode, false, this.props.examDetail.not_answer_count);
-        }
-    }
-    // this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count, 
-    // this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count
-    // Summary: This function handles the color code change of question pallete.
-    changeColorCodeQuestionPallete(indexLength, colorCode, buttonCode) {
-        // question_pallete_color, answered
-        this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
-            colorCode, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
-            this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-            indexLength, buttonId);
-        if(this.state.index == indexLength - 1 ){
-            this.setState(prevState => {
-                let questionsObjVar = Object.assign(
-                    {}, prevState.questionsObj
-                );  // creating copy of state variable questionsObj
-                questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                let saveCount = prevState.save_count;
-                let markReviewCount = prevState.mark_review_count;
-                if(questionsObjVar[this.state.index].save == false && buttonCode == 0){
-                    questionsObjVar[this.state.index].save = true;
-                    saveCount += 1;    
-                }else if(questionsObjVar[this.state.index].mark_review == false && buttonCode == 2){
-                    questionsObjVar[this.state.index].mark_review = true;
-                    markReviewCount += 1;
-                }
-                return { 
-                    disable_prev_button: false,
-                    save_count: saveCount,
-                    mark_review_count: markReviewCount,
-                    questionsObjVar
-                }
-            });
-        }else{
-            this.setState(prevState => {
-                let questionsObjVar = Object.assign(
-                    {}, prevState.questionsObj
-                );  // creating copy of state variable questionsObj
-                questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                let saveCount = prevState.save_count;
-                let markReviewCount = prevState.mark_review_count;
-                if(questionsObjVar[this.state.index].save == false && buttonCode == 0){
-                    questionsObjVar[this.state.index].save = true;
-                    saveCount += 1;    
-                }else if(questionsObjVar[this.state.index].mark_review == false && buttonCode == 2){
-                    questionsObjVar[this.state.index].mark_review = true;
-                    markReviewCount += 1;
-                }
-                return { 
-                    index: prevState.index + 1,
-                    question_obj: questions_array_object[prevState.index + 1],
-                    disable_prev_button: false,
-                    disable_next_button: false,
-                    save_count: saveCount,
-                    mark_review_count: markReviewCount,
-                    questionsObjVar
-                }
-            });
-        }
-    }
-
-    // Summary: This function handles the color code change of question pallete when Save And Mark Review.
-    changeColorCodeQuestionPalleteSaveAndMarkReview(indexLength, colorCode) {
-        if(this.state.index == indexLength - 1 ){
-            this.setState(prevState => {
-                let questionsObjVar = Object.assign(
-                    {}, prevState.questionsObj
-                );  // creating copy of state variable questionsObj
-                let saveAndMarkReviewCount = prevState.save_and_mark_review_count + 1;        
-                questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                questionsObjVar[this.state.index].save_mark_review = true;
-                return { 
-                    disable_prev_button: false,
-                    save_and_mark_review_count: saveAndMarkReviewCount,
-                    questionsObjVar
-                }
-            });
-        }else{
-            this.setState(prevState => {
-                let questionsObjVar = Object.assign(
-                    {}, prevState.questionsObj
-                );  // creating copy of state variable questionsObj
-                let saveAndMarkReviewCount = prevState.save_and_mark_review_count + 1;
-                questionsObjVar[this.state.index].question_pallete_color = colorCode;
-                questionsObjVar[this.state.index].save_mark_review = true;
-                return { 
-                    index: prevState.index + 1,
-                    question_obj: questions_array_object[prevState.index + 1],
-                    disable_prev_button: false,
-                    disable_next_button: false,
-                    save_and_mark_review_count: saveAndMarkReviewCount,
-                    questionsObjVar
-                }
-            });
+                colorCode, false, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
+                this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
+                indexLength);
         }
     }
 
@@ -251,53 +140,27 @@ class OnlineExam extends Component{
         // Summary: Set different color on clicked button.
         arrColor[buttonId] = answer_option.option_button_answered;
         this.optionButtonColorArr[this.props.index] = arrColor;
-        console.log("this.optionButtonColorArr[this.props.index]");
-        console.log(this.optionButtonColorArr[this.props.index]);
         // Summary: Fire action from here.
         this.props.actions.handleOptionColor( this.props.index, this.props.questionsObjectArray, optionSelected, this.props.renderState);
     }
 
     // Summary: This function handles onChangeText event of text input.
     getFillInTheBlanksChangeTextEvent(value){
-        this.setState(prevState => {
-            let questionsObjVar = Object.assign(
-                {}, prevState.questionsObj
-            ); // creating copy of state variable questionsObj
-            questionsObjVar[this.state.index].descriptive_given_answer = value;                  
-            // update the descriptive_given_answer property, assign a new value.
-            return{
-               questionsObjVar
-            }
-        });
+        this.props.actions.handleFillInTheBlanks(this.props.index, this.props.questionsObjectArray,
+            value, this.props.renderState, false);
     }
     // Summary: This function will handle the answer of text input type questions.
     getFillInTheBlanksAnswer(answer){
-        this.setState(prevState => {
-            let questionsObjVar = Object.assign(
-                {}, prevState.questionsObj
-            ); // creating copy of state variable questionsObj
-            questionsObjVar[this.state.index].descriptive_given_answer = answer; 
-            questionsObjVar[this.state.index].answered = true;
-            // update the descriptive_given_answer property, assign a new value.                 
-            return {
-               questionsObjVar
-            }
-        });
+        this.props.actions.handleFillInTheBlanks(this.props.index, this.props.questionsObjectArray,
+            answer, this.props.renderState, true);
     }
 
     // Summary: This function will handle the answer given by checkbox input.
     getCheckBoxAnswer(answerArr){
-        this.setState(prevState => {
-            let questionsObjVar = Object.assign(
-                {}, prevState.questionsObj
-            ); // creating copy of state variable questionsObj
-            questionsObjVar[this.state.index].answer_multiselect = answerArr; 
-            questionsObjVar[this.state.index].answered = true;
-            // update the answer_multiselect property, assign a new value.                 
-            return{
-               questionsObjVar
-            }
-        });
+        console.log("getCheckBoxAnswer(answerArr)");
+        console.log(answerArr);
+         this.props.actions.handleCheckBox(this.props.index, this.props.questionsObjectArray,
+            answerArr, this.props.renderState);
     }
 
     // Summary: It will handle event when keyboard show.
@@ -316,22 +179,18 @@ class OnlineExam extends Component{
 
     // Summary: This function will handle the opening of question pallete legend.
     openQuestionLegend(){
-        this.setState(prevstate =>{
-            return{
-                questionLegendModalVisible: !prevstate.questionLegendModalVisible
-            }
-        });
+        //Summary: Action Fired
+        this.props.actions.handleQuestionPallete(this.props.index, this.props.questionsObjectArray,
+            this.props.questionLegendModalVisible, this.props.examDetail);
     }
 
     // Summary: This function handles the navigation to particular question when clicked 
     // on question pallete question no.
     navigationOfQuestion(questionNo){
         let indexClicked = questionNo -1;
-        this.setState({
-            index: indexClicked,
-            question_obj: questions_array_object[indexClicked],
-            questionLegendModalVisible: false
-        });
+        //Summary: Action Fired
+        this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
+            this.props.questionLegendModalVisible, this.props.examDetail);
     }
 
     // Summary: This function will clear the answer.
@@ -354,21 +213,22 @@ class OnlineExam extends Component{
     }
 
     render() {
-        console.log("OnlineExam extends Component");
-        console.log(this.props.index);
-        // console.log(this.props.questionsObjectArray[this.props.index]);
-        console.log(this.props.examDetail.not_answer_count);
-        console.log(this.props.examDetail.mark_review_count);
-        console.log(this.props.examDetail.save_count);
-        console.log(this.props.examDetail.save_and_mark_review_count);
-        // console.log(this.props.renderState);
+        // console.log("OnlineExam extends Component");
+        // console.log(this.props.index);
+        // // console.log(this.props.questionsObjectArray[this.props.index]);
+        // console.log(this.props.examDetail);
+        // // console.log(this.props.examDetail.mark_review_count);
+        // // console.log(this.props.examDetail.save_count);
+        // // console.log(this.props.examDetail.save_and_mark_review_count);
+        // console.log(this.props.questionLegendModalVisible);
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
                     <HeaderOnlineExam 
                         quitExamProps = { this.quitExam }
                         openQuestionLegendProps = { this.openQuestionLegend }
-                        questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
+                        questionLegendModalVisibleProps = { this.props.questionLegendModalVisible }
+                        examDetailProps = { this.props.examDetail }
                     />
                 </View>
                 <View style={{flex:5.5}}>
@@ -389,14 +249,12 @@ class OnlineExam extends Component{
                         </View>  
                         <QuestionPalleteLegend 
                             questionsObjProp = { this.props.questionsObjectArray }
-                            // { this.state.questionsObj }
                             navigationOfQuestionProps = { this.navigationOfQuestion }
                             openQuestionLegendProps = { this.openQuestionLegend }
-                            questionLegendModalVisibleProps = { this.state.questionLegendModalVisible }
+                            questionLegendModalVisibleProps = { this.props.questionLegendModalVisible }
                             saveCountProps = { this.props.examDetail.save_count }
                             markReviewCountProps = { this.props.examDetail.mark_review_count }
                             notAnsweredCountProps = { this.props.examDetail.not_answer_count }
-                            // { this.state.not_answered_count }
                             saveAndMarkReviewCountProps = { this.props.examDetail.save_and_mark_review_count } 
                         />
                     </View>
@@ -409,8 +267,8 @@ class OnlineExam extends Component{
                             actionDecreaseIndexChange = { this.decreaseIndexChange }
                             actionIncreaseIndexChange = { this.increaseIndexChange }
                             actionClearResponseFunction = { this.clearResponseFunction }
-                            disablePrev = { this.state.disable_prev_button } 
-                            disableNext = { this.state.disable_next_button }  
+                            disablePrev = { this.props.examDetail.disable_prev_button } 
+                            disableNext = { this.props.examDetail.disable_next_button }  
                         />
                     }
                 </View>
@@ -428,13 +286,13 @@ function mapDispatchToProps(dispatch) {
 
 //mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = ( state ) => {
-    // console.log()
     return { 
         index: state.OnlineExamReducers.examDetail.index,
         examDetail: state.OnlineExamReducers.examDetail, 
         questionsObject: state.OnlineExamReducers.questionsObj,
         questionsObjectArray: state.OnlineExamReducers.questionsObjArray,
-        renderState: state.OnlineExamReducers.renderVal
+        renderState: state.OnlineExamReducers.renderVal,
+        questionLegendModalVisible: state.OnlineExamReducers.questionLegendModalVisible
     };
 }
 

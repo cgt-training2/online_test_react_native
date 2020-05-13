@@ -8,12 +8,15 @@
 export const INDEX_INCREASE = 'INDEX_INCREASE';
 export const INDEX_DECREASE = 'INDEX_DECREASE';
 export const INDEX_INCREASE_SAVE = 'INDEX_INCREASE_SAVE';
+export const HANDLE_QUESTION_PALLETE = 'HANDLE_QUESTION_PALLETE';
 /*
 ====================================================================================
                            *****  Answer Change Actions  *****
 ====================================================================================
 */
 export const OPTION_CHANGE = 'OPTION_CHANGE';
+export const HANDLE_FILL_BLANKS = 'HANDLE_FILL_BLANKS';
+export const HANDLE_CHECK_BOX = 'HANDLE_CHECK_BOX';
 
 /*
 ====================================================================================

@@ -5,20 +5,24 @@ import * as types from '../../action-types';
 import { answer_option, color_code_answer_button } from '../../../enums/global_colors';
 
 // Summary: increaseIndex will increase the index by one.
-export function increaseIndex(index, questionArray, colorCode, answered, notAnsweredCountParam) {
-    
-    let lengthOfData = questionArray.length;
-    let newIndex = index == 14 ? 14: index+1;
-    // let questionArray = Object.assign({}, questionArray);
-    // not_answered_count
+export function increaseIndex(index, questionArray, colorCode, answered, notAnsweredCountParam, markReviewCountParam, 
+    saveCountParam, saveAndMarkReviewCountParam, lengthOfData) {
+    console.log("function increaseIndex");
+    console.log(lengthOfData);
+    // let lengthOfData = questionArray.length;
+    let newIndex = index == (lengthOfData - 1) ? index : index+1;
     questionArray[index].question_pallete_color = answered == true ? questionArray[index].question_pallete_color : colorCode;
+    questionArray[index].visited_not_answer = true;
     let payloadObject = {
         index: newIndex,
-        questionsObj: index == 14 ? questionArray[index] : questionArray[index +1],
+        questionsObj: index == (lengthOfData - 1) ? questionArray[index] : questionArray[index +1],
         questionsArr: questionArray,
         disable_prev_button: index == 1 ? true : false,
-        disable_next_button: index == 13 ? true : false,
-        not_answered_count: notAnsweredCountParam + 1
+        disable_next_button: index == (lengthOfData - 2) ? true : false,
+        not_answered_count: notAnsweredCountParam + 1,
+        save_count: saveCountParam,
+        save_and_mark_review_count: saveAndMarkReviewCountParam,
+        mark_review_count: markReviewCountParam
     };
     return {
         type: types.INDEX_INCREASE,
@@ -28,7 +32,7 @@ export function increaseIndex(index, questionArray, colorCode, answered, notAnsw
 
 
 // Summary: decreaseIndex will increase the index by one.
-export function decreaseIndex(index, questionArray, notAnswerCount) {
+export function decreaseIndex(index, questionArray, notAnswerCount, examDetails) {
 
     let newIndex = index == 0 ? 0 : index - 1;
 
@@ -37,7 +41,10 @@ export function decreaseIndex(index, questionArray, notAnswerCount) {
         questionsArr: questionArray,
         questionsObj: questionArray[newIndex],
         disable_prev_button: index == 1 ? true : false,
-        not_answered_count: notAnswerCount
+        not_answered_count: notAnswerCount,
+        save_count: examDetails.save_count,
+        save_and_mark_review_count: examDetails.save_and_mark_review_count,
+        mark_review_count: examDetails.mark_review_count
     };
     return {
         type: types.INDEX_DECREASE,
@@ -45,56 +52,48 @@ export function decreaseIndex(index, questionArray, notAnswerCount) {
     }
 }
 
-// index: prevState.index + 1,
-// question_obj: questions_array_object[prevState.index + 1],
-// disable_prev_button: false,
-// disable_next_button: false,
-// save_count: saveCount,
-// mark_review_count: markReviewCount
-// index: prevState.index + 1,
-// question_obj: questions_array_object[prevState.index + 1],
-// disable_prev_button: false,
-// disable_next_button: false,
-// save_and_mark_review_count: saveAndMarkReviewCount,
-
-// questionsObjVar[this.state.index].question_pallete_color = colorCode;
-// questionsObjVar[this.state.index].save = true;
-// questionsObjVar[this.state.index].mark_review = true;
-// questionsObjVar[this.state.index].save_mark_review = true;
-// Summary: increaseIndex will increase the index by one.
 export function increaseIndexSave(index, questionArray, colorCode, answered, 
     notAnsweredCountParam, markReviewCountParam, saveCountParam, saveAndMarkReviewCountParam,
     lengthOfData, buttonId) {
     
     let saveStatus = questionArray[index].save;
     let saveMarkReviewStatus = questionArray[index].save_mark_review;
-    let markReviewStatus = questionArray[index].mark_review;        
+    let markReviewStatus = questionArray[index].mark_review; 
+    let conditionStatus = (saveStatus == false && saveMarkReviewStatus == false && markReviewStatus == false);       
     let newIndex = index == (lengthOfData - 1) ? index: index+1;
-    let save_count_param = (buttonId == 0 && saveStatus == false) ? 
+    let save_count_param = (buttonId == 0 && conditionStatus) ? 
         saveCountParam + 1 : saveCountParam;
-    let save_and_mark_review_count_param = (buttonId == 1 && saveMarkReviewStatus == false) ? 
+    let save_and_mark_review_count_param = (buttonId == 1 && conditionStatus) ? 
         saveAndMarkReviewCountParam + 1 : saveAndMarkReviewCountParam;
-    let mark_review_count_param = (buttonId == 2 && markReviewStatus == false) ? 
+    let mark_review_count_param = (buttonId == 2 && conditionStatus) ? 
         markReviewCountParam + 1 : markReviewCountParam;
     
-    questionArray[index].question_pallete_color = colorCode;
-    questionArray[index].save = buttonId == 0 ? true: false;
-    questionArray[index].save_mark_review = buttonId == 1 ? true: false;
-    questionArray[index].mark_review = buttonId == 2 ? true: false;
+    let not_answered_count_param = notAnsweredCountParam;
+    
+    if(questionArray[index].visited_not_answer == true){
+        questionArray[index].visited_not_answer = false;
+        not_answered_count_param = ((buttonId == 0 && saveStatus == false) || 
+            (buttonId == 1 && saveMarkReviewStatus == false) || 
+            (buttonId == 2 && markReviewStatus == false)) ? not_answered_count_param - 1 : not_answered_count_param;
+    }
+    questionArray[index].question_pallete_color = conditionStatus ? colorCode : questionArray[index].question_pallete_color;
+    questionArray[index].save = ( buttonId == 0 && conditionStatus ) ? true: questionArray[index].save;
+    questionArray[index].save_mark_review = ( buttonId == 1 && conditionStatus ) ? true: questionArray[index].save_mark_review;
+    questionArray[index].mark_review = ( buttonId == 2 && conditionStatus ) ? true: questionArray[index].mark_review;
 
     let payloadObject = {
         index: newIndex,
         questionsObj: questionArray[newIndex],
         questionsArr: questionArray,
         disable_prev_button: index == 1 ? true : false,
-        disable_next_button: index == 13 ? true : false,
-        not_answered_count: notAnsweredCountParam,
+        disable_next_button: index == (lengthOfData - 2) ? true : false,
+        not_answered_count: not_answered_count_param,
         save_count: save_count_param,
         save_and_mark_review_count: save_and_mark_review_count_param,
         mark_review_count: mark_review_count_param
     };
     return {
-        type: types.INDEX_INCREASE,
+        type: types.INDEX_INCREASE_SAVE,
         payload: payloadObject
     }
 }
