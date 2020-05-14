@@ -7,16 +7,17 @@ const styles = StyleSheet.create({
 
     containerAnswer: {
         flex: 1,
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'center', 
         flexDirection: 'row',
-        borderColor: answer_button_section.containerBorderColor,
-        borderWidth: 2
+        borderColor: '#900',
+        // answer_button_section.containerBorderColor,
+        borderWidth: 1
     },
     containerAnswerChild: {
         flex:1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
     }
 });
 
@@ -31,12 +32,13 @@ const texts = StyleSheet.create({
 const buttons = StyleSheet.create({
 
     buttonContainer: {
-        backgroundColor: answer_button_section.buttonBackgroundColor,
+        backgroundColor: 'transparent',
+        // answer_button_section.buttonBackgroundColor,
         borderRadius: 5,
         alignItems: 'center',
-        justifyContent: 'center',
-        width:40,
-        height: 80
+        justifyContent: 'flex-end',
+        width:45,
+        height: 50
     }
 });
 

@@ -60,7 +60,7 @@ export default class QuestionSectionLeft extends Component{
     // Summary: this function will handle the conditional rendering.
     displayImage(){
         if(this.props.questionObjProps.image_url == ""){
-            return <Text style = {{ marginTop: '50%' }}> </Text>; 
+            return <Text style = {{ marginTop: '40%' }}> </Text>; 
         }else{
             let widthParam = Dimensions.get('window').width;
             let heightParam = Dimensions.get('window').height;
@@ -84,7 +84,7 @@ export default class QuestionSectionLeft extends Component{
                 console.log("this.props.questionObjProps.answer_multiselect.length == 0");
                 const checkboxs = this.props.questionObjProps.options.map(({id, option}) =>
                     <CheckBox 
-                        style={{ marginTop: 25 }} 
+                        style={{ marginTop: 25  }} 
                         key={id} 
                         value={option}
                         selected = { false }
@@ -151,7 +151,7 @@ export default class QuestionSectionLeft extends Component{
                 <ScrollView contentContainerStyle= {{ 
                     flexGrow: 1
                 }}>
-                    <View>
+                    <View style = {{ marginRight: 2 }}>
                         <View style={ styles.containerQuestionLeftTop }>
                             <View style={styles.containerQuestionLeftTopCircle}>
                                 <View style={styles.containerQuestionLeftTopCircleInner}>

@@ -5,8 +5,9 @@ import {
     View
 } from 'react-native';
 
-// Components
-import QuestionPalleteLegend from '../../common_components/question_pallete_legend';
+// Dependencies
+import Icon from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 // Stylesheet
 import { texts, styles } from './style-header-exam';
@@ -28,8 +29,9 @@ export default class HeaderOnlineExam extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style={ styles.TopMiddle }>
+                    <FontAwesome5 name={'clock'} size={35} color="#900" solid />
                     <Text style={texts.headerText}>  
-                        Timer 1:59:40
+                        1:59:40
                     </Text>
                 </View>
                 <View style={ styles.TopRight }>
@@ -37,9 +39,10 @@ export default class HeaderOnlineExam extends Component{
                         onPress = {()=>
                             this.props.openQuestionLegendProps()
                     }>
-                        <Text style={texts.headerText}>  
+                        <FontAwesome5 name={'bars'} size={35} color="#900" solid />
+                        {/* <Text style={texts.headerText}>  
                             Question Pallete
-                        </Text>
+                        </Text> */}
                     </TouchableOpacity>
                 </View>
             </View>

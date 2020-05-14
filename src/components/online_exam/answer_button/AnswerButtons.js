@@ -5,6 +5,10 @@ import {
     View
 } from 'react-native';
 
+// Dependencies
+import Icon from 'react-native-vector-icons/FontAwesome';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+
 // StyleSheet
 import { buttons, texts, styles } from './style-answer-buttons';
 
@@ -22,9 +26,7 @@ export default class AnswerButtons extends Component{
                         onPress = { this.props.actionDecreaseIndexChange }
                         disabled={ this.props.disablePrev 
                     }>
-                        <Text style= { texts.buttonText }>
-                            Prev
-                        </Text>
+                        <FontAwesome5 name={'angle-double-left'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
@@ -34,15 +36,7 @@ export default class AnswerButtons extends Component{
                         disabled={ 
                             this.props.disableNext 
                     }>
-                        <Text style= { texts.buttonText }>
-                            Save
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            &
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            Next
-                        </Text>
+                        <Icon name="save" size={45} color="#900" />
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
@@ -52,18 +46,7 @@ export default class AnswerButtons extends Component{
                         disabled={ 
                             this.props.disableNext 
                     }>
-                        <Text style= { texts.buttonText }>
-                            Save
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            &
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            Mark
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            Review
-                        </Text>
+                        <FontAwesome5 name={'bookmark'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
@@ -73,18 +56,7 @@ export default class AnswerButtons extends Component{
                         disabled={ 
                             this.props.disableNext 
                     }>
-                        <Text style= { texts.buttonText }>
-                            Mark
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            Review
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            &
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            Next
-                        </Text>
+                        <FontAwesome5 name={'flag'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
@@ -93,25 +65,12 @@ export default class AnswerButtons extends Component{
                         onPress = { 
                             this.props.actionClearResponseFunction 
                     }>
-                        <Text style= { texts.buttonText }>
-                            Clear
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            Response
-                        </Text>
+                        <FontAwesome5 name={'ban'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
                     <TouchableOpacity style= { buttons.buttonContainer }>
-                        <Text style= { texts.buttonText }>
-                            Review
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            &
-                        </Text>
-                        <Text style= { texts.buttonText }>
-                            Submit
-                        </Text>
+                    <FontAwesome5 name={'external-link-square-alt'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
@@ -121,9 +80,7 @@ export default class AnswerButtons extends Component{
                         disabled={ 
                             this.props.disableNext 
                     }>
-                        <Text style= { texts.buttonText }>
-                            Next
-                        </Text>
+                        <FontAwesome5 name={'angle-double-right'} size={45} color="#900" solid />    
                     </TouchableOpacity>
                 </View>
             </View>

@@ -213,14 +213,6 @@ class OnlineExam extends Component{
     }
 
     render() {
-        // console.log("OnlineExam extends Component");
-        // console.log(this.props.index);
-        // // console.log(this.props.questionsObjectArray[this.props.index]);
-        // console.log(this.props.examDetail);
-        // // console.log(this.props.examDetail.mark_review_count);
-        // // console.log(this.props.examDetail.save_count);
-        // // console.log(this.props.examDetail.save_and_mark_review_count);
-        // console.log(this.props.questionLegendModalVisible);
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
@@ -231,7 +223,7 @@ class OnlineExam extends Component{
                         examDetailProps = { this.props.examDetail }
                     />
                 </View>
-                <View style={{flex:5.5}}>
+                <View style={{flex: 6.3}}>
                     <View style = { styles.containerQuestion}>
                         <View style={ styles.containerQuestionLeft }>
                             <QuestionSectionLeft 
@@ -259,7 +251,7 @@ class OnlineExam extends Component{
                         />
                     </View>
                 </View>
-                <View style = {{flex: 1.5}}>
+                <View style = {{flex: .7}}>
                     {
                         this.state.disable_answer_button_view 
                             && 

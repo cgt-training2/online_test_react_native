@@ -66,7 +66,7 @@ export default class QuestionPalleteLegend extends Component {
                                     }} 
                                     activeOpacity={ 0.7 
                                 }>
-                                    <Text style={styles.TextStyle}> CANCEL </Text>
+                                    <Text style={styles.TextStyle}> CLOSE </Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

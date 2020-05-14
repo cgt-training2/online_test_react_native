@@ -47,9 +47,11 @@ export default class CheckBox extends Component {
                     }} />
                 </View>
             </TouchableOpacity>
-            <Text style = {{ marginTop: 25, marginLeft: 5 }}>
-                { this.props.value }
-            </Text>
+            <View style = {{ marginTop: 25, marginLeft: 5, flex: 1  }}>
+                <Text>
+                    { this.props.value }
+                </Text>
+            </View>
         </View>
       )
     }

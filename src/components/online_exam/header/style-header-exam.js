@@ -16,16 +16,18 @@ const styles = StyleSheet.create({
         backgroundColor: header_backgrounds.left
     },
     TopMiddle: {
-        flex: 1,
+        flex: 1.3,
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: header_backgrounds.middle
     },
     TopRight: {
-        flex: 1.3,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: header_backgrounds.left
+        backgroundColor: header_backgrounds.left 
+        // 'transparent'
     }
 });
 
@@ -34,6 +36,7 @@ const texts = StyleSheet.create({
     headerText: {
         fontSize: 16,
         textAlign:'center',
+        marginLeft: 5,
         color: header_text_color.textCommonColor,    
     },
     headerSubText: {

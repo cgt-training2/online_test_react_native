@@ -11,6 +11,12 @@ export function increaseIndex(index, questionArray, colorCode, answered, notAnsw
     console.log(lengthOfData);
     // let lengthOfData = questionArray.length;
     let newIndex = index == (lengthOfData - 1) ? index : index+1;
+    let saveStatus = questionArray[index].save;
+    let saveMarkReviewStatus = questionArray[index].save_mark_review;
+    let markReviewStatus = questionArray[index].mark_review; 
+    let alreadyVisited = questionArray[index].visited_not_answer;
+    let conditionStatus = ( alreadyVisited == false && saveStatus == false && saveMarkReviewStatus == false && markReviewStatus == false);
+    
     questionArray[index].question_pallete_color = answered == true ? questionArray[index].question_pallete_color : colorCode;
     questionArray[index].visited_not_answer = true;
     let payloadObject = {
@@ -19,7 +25,7 @@ export function increaseIndex(index, questionArray, colorCode, answered, notAnsw
         questionsArr: questionArray,
         disable_prev_button: index == 1 ? true : false,
         disable_next_button: index == (lengthOfData - 2) ? true : false,
-        not_answered_count: notAnsweredCountParam + 1,
+        not_answered_count: conditionStatus ? notAnsweredCountParam + 1 : notAnsweredCountParam,
         save_count: saveCountParam,
         save_and_mark_review_count: saveAndMarkReviewCountParam,
         mark_review_count: markReviewCountParam
