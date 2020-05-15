@@ -114,7 +114,7 @@ export const questions_array_object = [
             },
             {
                 id: "c",
-                option: "Test 3"
+                option: "The below figure shows the two equal forces at right angles acting at a point. The value of force R acting along their bisector and in opposite direction is. the two equal forces at right angles acting at a point. From another point"
             },
             {
                 id: "d",

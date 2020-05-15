@@ -6,9 +6,11 @@ import { questions_array_object } from '../enums/question_answers_set1';
 
 // Utils
 import { getOnlineExamDetails } from '../utils/online_exam/online-exam-utils';
+import { timerUtil } from '../utils/online_exam/timer-exam-utils';
 
 const INITIAL_STATE = { 
     examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0))),
+    timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
     questionsObj: questions_array_object[0],
     questionsObjArray: questions_array_object,
     questionLegendModalVisible: false,
@@ -58,6 +60,21 @@ export default (state = INITIAL_STATE , action) => {
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, action.payload.disable_next_button, action.payload.not_answered_count, action.payload.mark_review_count, action.payload.save_count, action.payload.save_and_mark_review_count))),
                 questionsObj: action.payload.question_obj,
                 questionLegendModalVisible: action.payload.questionLegendModalVisible
+            });
+        case types.TIMER_START:
+            return Object.assign({}, state,{
+                timerDetail: JSON.parse(JSON.stringify(
+                    timerUtil(action.payload.totalSeconds, action.payload.hours, action.payload.minutes, action.payload.seconds)
+                ))
+            });
+        case types.CLEAR_TIMER:
+            return Object.assign({}, state, {
+                examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0))),
+                timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
+                questionsObj: questions_array_object[0],
+                questionsObjArray: questions_array_object,
+                questionLegendModalVisible: false,
+                renderVal: false
             });
         default:
             return state;

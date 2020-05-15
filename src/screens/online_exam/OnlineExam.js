@@ -13,6 +13,7 @@ import AnswerButtons from '../../components/online_exam/answer_button/AnswerButt
 import HeaderOnlineExam from '../../components/online_exam/header/HeaderOnlineExam';
 import QuestionSectionLeft from '../../components/online_exam/question_section/QuestionSectionsLeft';
 import QuestionPalleteLegend from '../../components/common_components/question_pallete_legend';
+import Loader from '../../components/loader/Loader';
 
 // Enum
 import { questions_array_object } from '../../enums/question_answers_set1';
@@ -45,6 +46,7 @@ class OnlineExam extends Component{
             not_answered_count: 0
         };
         this.optionButtonColorArr = [];
+        this.runTimer = null;
         this.clearResponseFunction = this.clearResponseFunction.bind(this);
         this.decreaseIndexChange = this.decreaseIndexChange.bind(this);
         this.getOptionId = this.getOptionId.bind(this);
@@ -58,13 +60,28 @@ class OnlineExam extends Component{
         this.navigationOfQuestion = this.navigationOfQuestion.bind(this);
         this.openQuestionLegend = this.openQuestionLegend.bind(this);
         this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton = this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton.bind(this);
+        this.endExam = this.endExam.bind(this);
     }
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
     componentWillMount(){
+        console.log("******* From componentWillMount() ********");
         for(let i=0; i < questions_array_object.length; i++){
             this.optionButtonColorArr.push([answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered]);
         }
+    }
+
+    // Summary: It will run timer and call startTimer action repetively in one second.
+    componentDidMount(){
+        console.log("******* From componentDidMount() ********");
+        this.runTimer = setInterval(() => {
+            this.props.actions.startTimer(this.props.timerDetail.totalSeconds);
+        }, 1000);
+    }
+
+    // Summary: It will clear timer.
+    componentWillUnmount(){
+        clearInterval(this.runTimer);
     }
 
     // Summary: This function will call when user click on quit test.
@@ -157,9 +174,7 @@ class OnlineExam extends Component{
 
     // Summary: This function will handle the answer given by checkbox input.
     getCheckBoxAnswer(answerArr){
-        console.log("getCheckBoxAnswer(answerArr)");
-        console.log(answerArr);
-         this.props.actions.handleCheckBox(this.props.index, this.props.questionsObjectArray,
+        this.props.actions.handleCheckBox(this.props.index, this.props.questionsObjectArray,
             answerArr, this.props.renderState);
     }
 
@@ -193,6 +208,13 @@ class OnlineExam extends Component{
             this.props.questionLegendModalVisible, this.props.examDetail);
     }
 
+    // Summary: This function will when time ends or user submit the paper.
+    endExam(){
+        // clearInterval(this.runTimer);
+        this.props.actions.stopTimer();
+        this.props.navigation.navigate('Home');
+    }
+
     // Summary: This function will clear the answer.
     clearResponseFunction() {
         this.optionButtonColorArr[this.state.index] = ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'];
@@ -213,6 +235,9 @@ class OnlineExam extends Component{
     }
 
     render() {
+        console.log("render()");
+        console.log(this.props.questionsObject);
+        // console.log(this.props.questionsObjectArray);
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
@@ -221,6 +246,8 @@ class OnlineExam extends Component{
                         openQuestionLegendProps = { this.openQuestionLegend }
                         questionLegendModalVisibleProps = { this.props.questionLegendModalVisible }
                         examDetailProps = { this.props.examDetail }
+                        timerDetailProps = { this.props.timerDetail }
+                        endExamProps = { this.endExam }
                     />
                 </View>
                 <View style={{flex: 6.3}}>
@@ -281,6 +308,7 @@ const mapStateToProps = ( state ) => {
     return { 
         index: state.OnlineExamReducers.examDetail.index,
         examDetail: state.OnlineExamReducers.examDetail, 
+        timerDetail: state.OnlineExamReducers.timerDetail,
         questionsObject: state.OnlineExamReducers.questionsObj,
         questionsObjectArray: state.OnlineExamReducers.questionsObjArray,
         renderState: state.OnlineExamReducers.renderVal,
