@@ -13,7 +13,6 @@ import AnswerButtons from '../../components/online_exam/answer_button/AnswerButt
 import HeaderOnlineExam from '../../components/online_exam/header/HeaderOnlineExam';
 import QuestionSectionLeft from '../../components/online_exam/question_section/QuestionSectionsLeft';
 import QuestionPalleteLegend from '../../components/common_components/question_pallete_legend';
-import Loader from '../../components/loader/Loader';
 
 // Enum
 import { questions_array_object } from '../../enums/question_answers_set1';
@@ -34,18 +33,8 @@ class OnlineExam extends Component{
         super(props);
         this.state = {
             index: 0,
-            question_obj: questions_array_object[0],
-            disable_prev_button: false,
-            disable_next_button: false,
             disable_answer_button_view: true,
-            questionsObj: questions_array_object,
-            questionLegendModalVisible: false,
-            save_count: 0,
-            save_and_mark_review_count: 0,
-            mark_review_count: 0,
-            not_answered_count: 0
         };
-        this.optionButtonColorArr = [];
         this.runTimer = null;
         this.clearResponseFunction = this.clearResponseFunction.bind(this);
         this.decreaseIndexChange = this.decreaseIndexChange.bind(this);
@@ -65,10 +54,6 @@ class OnlineExam extends Component{
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
     componentWillMount(){
-        console.log("******* From componentWillMount() ********");
-        for(let i=0; i < questions_array_object.length; i++){
-            this.optionButtonColorArr.push([answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered]);
-        }
     }
 
     // Summary: It will run timer and call startTimer action repetively in one second.
@@ -92,7 +77,7 @@ class OnlineExam extends Component{
     // Summary: This function will decrease the index for the question object.
     decreaseIndexChange() {
         this.props.actions.decreaseIndex(this.props.index, this.props.questionsObjectArray, 
-            this.props.examDetail.not_answer_count, this.props.examDetail);        
+            this.props.examDetail.not_answer_count, this.props.examDetail, this.props.timerDetail.totalSeconds);        
     }
 
     // Summary: This function will increase the index for the question object.
@@ -106,17 +91,17 @@ class OnlineExam extends Component{
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndNext, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                    indexLength, buttonId);
+                    indexLength, buttonId, this.props.timerDetail.totalSeconds);
             }else if(buttonId == 1) {
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                    indexLength, buttonId);
+                    indexLength, buttonId, this.props.timerDetail.totalSeconds);
             }else if(buttonId == 2) {
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                    indexLength, buttonId);
+                    indexLength, buttonId, this.props.timerDetail.totalSeconds);
             }else if(buttonId == 3) {
                 this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, color_code_answer_button.next, true);
             }
@@ -135,30 +120,23 @@ class OnlineExam extends Component{
             this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
                 colorCode, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                 this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                indexLength);
+                indexLength, this.props.timerDetail.totalSeconds);
         }else{
             this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
                 colorCode, false, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                 this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                indexLength);
+                indexLength, this.props.timerDetail.totalSeconds);
         }
     }
 
     // Summary: This function handles the color change of option selected by user.
     getOptionId(buttonId, optionSelected) {
         // Summary: arrInt is used to maintain the indexing. 
-        let arrInt = [0, 1, 2, 3];
-        // Summary: Index of clicked button removed.
-        arrInt.splice(buttonId, 1);
-        let arrColor = [];
-        for(let i in arrInt){
-            arrColor[arrInt[i]] = answer_option.option_button_not_answered;
-        }
+        let arrColor = [answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered, answer_option.option_button_not_answered];
         // Summary: Set different color on clicked button.
         arrColor[buttonId] = answer_option.option_button_answered;
-        this.optionButtonColorArr[this.props.index] = arrColor;
         // Summary: Fire action from here.
-        this.props.actions.handleOptionColor( this.props.index, this.props.questionsObjectArray, optionSelected, this.props.renderState);
+        this.props.actions.handleOptionColor( this.props.index, this.props.questionsObjectArray, optionSelected, this.props.renderState, arrColor);
     }
 
     // Summary: This function handles onChangeText event of text input.
@@ -196,16 +174,19 @@ class OnlineExam extends Component{
     openQuestionLegend(){
         //Summary: Action Fired
         this.props.actions.handleQuestionPallete(this.props.index, this.props.questionsObjectArray,
-            this.props.questionLegendModalVisible, this.props.examDetail);
+            this.props.questionLegendModalVisible, this.props.examDetail, this.props.index, this.props.timerDetail.totalSeconds);
     }
 
     // Summary: This function handles the navigation to particular question when clicked 
     // on question pallete question no.
     navigationOfQuestion(questionNo){
         let indexClicked = questionNo -1;
+        let currentIndex = this.props.index;
         //Summary: Action Fired
+        // this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
+        //     this.props.questionLegendModalVisible, this.props.examDetail);
         this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
-            this.props.questionLegendModalVisible, this.props.examDetail);
+            this.props.questionLegendModalVisible, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds);
     }
 
     // Summary: This function will when time ends or user submit the paper.
@@ -217,7 +198,6 @@ class OnlineExam extends Component{
 
     // Summary: This function will clear the answer.
     clearResponseFunction() {
-        this.optionButtonColorArr[this.state.index] = ['#C9D7DD', '#C9D7DD', '#C9D7DD', '#C9D7DD'];
         this.setState(prevState => {
             let questionsObjVar = Object.assign(
                 {}, prevState.questionsObj
@@ -235,9 +215,8 @@ class OnlineExam extends Component{
     }
 
     render() {
-        console.log("render()");
-        console.log(this.props.questionsObject);
-        // console.log(this.props.questionsObjectArray);
+        // console.log("render()");
+        // console.log(this.props.timerDetail.totalSeconds);
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
@@ -255,9 +234,8 @@ class OnlineExam extends Component{
                         <View style={ styles.containerQuestionLeft }>
                             <QuestionSectionLeft 
                                 questionObjProps = { this.props.questionsObject }
-                                // { this.state.question_obj }
                                 getOptionIdProps = { this.getOptionId }
-                                optionButtonColorProps = { this.optionButtonColorArr[this.props.index] }
+                                optionButtonColorProps = { this.props.questionsObjectArray[this.props.index].optionButtonColorArr }
                                 getFillInTheBlanksAnswerProps = { this.getFillInTheBlanksAnswer }
                                 getCheckBoxAnswerProps = { this.getCheckBoxAnswer }
                                 handleKeyboardShowEventProps = { this.handleKeyboardShowEvent }
@@ -290,7 +268,7 @@ class OnlineExam extends Component{
                             disableNext = { this.props.examDetail.disable_next_button }  
                         />
                     }
-                </View>
+                </View> 
             </View>
         );
     }

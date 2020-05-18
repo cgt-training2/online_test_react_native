@@ -32,12 +32,9 @@ export default class QuestionSectionLeft extends Component{
     }
 
     componentWillMount() {
-        console.log("componentWillMount()");
     }
 
     componentDidMount() {
-        console.log("componentDidMount");
-        console.log(this.props.optionButtonColorProps);
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardDidHide);
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardDidShow);
     }
@@ -81,7 +78,6 @@ export default class QuestionSectionLeft extends Component{
             />;
         }else if(this.props.questionObjProps.multiselect == true){
             if(this.props.questionObjProps.answer_multiselect.length == 0){
-                console.log("this.props.questionObjProps.answer_multiselect.length == 0");
                 const checkboxs = this.props.questionObjProps.options.map(({id, option}) =>
                     <CheckBox 
                         style={{ marginTop: 25  }} 
@@ -139,7 +135,6 @@ export default class QuestionSectionLeft extends Component{
         }
     
         this.setState({ checkSelected });
-        // console.log(this.state.checkSelected); // logging
         this.props.getCheckBoxAnswerProps(this.state.checkSelected);
     }
 

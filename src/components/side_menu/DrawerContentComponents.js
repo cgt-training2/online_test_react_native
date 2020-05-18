@@ -77,7 +77,7 @@ export default class DrawerContentComponents extends Component {
                         </Text>
                     </View>
                     <View style={styles.itemView}>
-                        <Text style={styles.menuItemText} onPress={this.navigateToScreen('Test')}>
+                        <Text style={styles.menuItemText} onPress={this.navigateToScreen('TestGuide')}>
                             Online_test
                         </Text>
                     </View>

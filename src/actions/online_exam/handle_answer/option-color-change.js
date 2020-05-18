@@ -1,9 +1,10 @@
 import * as types from '../../action-types';
 
 // Summary: This action will handle the color of selected option.
-export const handleOptionColor = (index, questionArray, selectedOption, renderState) => {
+export const handleOptionColor = (index, questionArray, selectedOption, renderState, optionColorArr) => {
     
     questionArray[index].selected_option = selectedOption;
+    questionArray[index].optionButtonColorArr = optionColorArr;
     questionArray[index].answered = true;
 
     let payloadObject = {

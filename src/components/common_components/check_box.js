@@ -12,8 +12,8 @@ import { checkBoxStyleColor } from '../../enums/global_colors';
 export default class CheckBox extends Component {
     constructor(props) {
         super(props);
-        console.log("export default class CheckBox extends Component");
-        console.log(this.props.selected);
+        // console.log("export default class CheckBox extends Component");
+        // console.log(this.props.selected);
         this.state = {
             isCheck: this.props.selected
         };

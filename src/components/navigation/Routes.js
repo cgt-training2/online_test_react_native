@@ -14,6 +14,7 @@ import Login from '../../screens/authentication/login/LoginUI';
 import OnlineExam from '../../screens/online_exam/OnlineExam';
 import Signup from '../../screens/authentication/signup/SignUpUI';
 import UserInfo from '../../screens/user_info/UserInfo';
+import ExamGuide from '../../screens/online_exam/examGuide';
 
 // react-navigation
 import { createAppContainer,createSwitchNavigator } from 'react-navigation';
@@ -79,12 +80,21 @@ export const UserStackNavigator = createStackNavigator({
 });
 
 export const TestStackNavigator = createStackNavigator({
-    OnlineTest: {
-        screen: OnlineExam,
-        navigationOptions: ({navigation}) => ({
-            header: null 
-        })
-    }
+        TestGuide: {
+            screen: ExamGuide,
+            navigationOptions: ({navigation}) => ({
+                header: null 
+            })
+        },    
+        OnlineTest: {
+            screen: OnlineExam,
+            navigationOptions: ({navigation}) => ({
+                header: null 
+            })
+        }
+    },
+    {
+        initialRouteName: 'TestGuide',
 });
 
 // DrawerNavigator should be kept under a Stack Navigator for smooth working.
