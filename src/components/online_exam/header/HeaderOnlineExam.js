@@ -15,7 +15,7 @@ import { texts, styles } from './style-header-exam';
 // Summary: Component for upper section of exam.
 export default class HeaderOnlineExam extends Component{
 
-    componentWillReceiveProps(nextProps){
+    UNSAFE_componentWillReceiveProps(nextProps){
         if(this.props.timerDetailProps.totalSeconds == -1) {
             this.props.endExamProps();
         }
@@ -24,16 +24,6 @@ export default class HeaderOnlineExam extends Component{
     render(){
         return(
             <View style={ styles.containerTop}>
-                <View style={ styles.TopLeft }>
-                    <TouchableOpacity
-                        onPress = {
-                            this.props.quitExamProps
-                    }>
-                        <Text style={texts.headerText}>  
-                            Quit Test
-                        </Text>
-                    </TouchableOpacity>
-                </View>
                 <View style={ styles.TopMiddle }>
                     <FontAwesome5 name={'clock'} size={35} color="#900" solid />
                     <Text style={texts.headerText}>  

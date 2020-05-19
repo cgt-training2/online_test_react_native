@@ -21,7 +21,7 @@ export default class FillInTheBlankesAnswer extends Component{
         };
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         this.setState({
             answer: this.props.questionObjProps.descriptive_given_answer
         });

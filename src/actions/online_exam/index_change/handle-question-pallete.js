@@ -8,9 +8,8 @@ export function handleQuestionPallete(index, questionArray, modalVisible, examDe
         let displayTime =  questionArray[currentIndex].display_time_of_question;
         let alreadyTakenTime = questionArray[currentIndex].time_taken_by_question;
         let timerValueTaken = timeTakenByEachQuestion(displayTime, timerValue, alreadyTakenTime);
-        console.log("timerValueTaken handleQuestionPallete");
-        console.log(timerValueTaken);
-
+        // console.log("timerValueTaken handleQuestionPallete");
+        // console.log(timerValueTaken);
         questionArray[currentIndex].time_taken_by_question = timerValueTaken;
         questionArray[index].display_time_of_question = timerValue;
     }

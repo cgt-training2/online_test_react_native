@@ -29,7 +29,6 @@ export function fetchLoginAccessToken(email, password) {
                 return res;
             })
             .catch(err => {
-                // console.log(err)
                 Alert.alert("There may be internet connection problem")
             })
         }

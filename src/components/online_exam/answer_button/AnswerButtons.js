@@ -69,8 +69,12 @@ export default class AnswerButtons extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>
-                    <TouchableOpacity style= { buttons.buttonContainer }>
-                    <FontAwesome5 name={'external-link-square-alt'} size={45} color="#900" solid />
+                    <TouchableOpacity 
+                        style = { buttons.buttonContainer }
+                        onPress = { ()=>{
+                            this.props.examSummaryProps();
+                    }}>
+                        <FontAwesome5 name={'external-link-square-alt'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>
                 <View style = { styles.containerAnswerChild }>

@@ -8,6 +8,9 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+// Actions
+import * as examActions from '../../actions/online-exam-actions';
+
 // Component
 import QuestionLegendCount from '../../components/common_components/question_legend_count';
 
@@ -20,6 +23,9 @@ import { buttons, texts, styles } from './style-exam-guide';
 
 // Summary: This class is used as a guide for the examination.
 class ExamGuide extends Component{
+
+    componentDidMount(){
+    }
 
     render(){
         return(
@@ -60,6 +66,7 @@ class ExamGuide extends Component{
                                 <TouchableOpacity 
                                     style = { buttons.proceedButton }
                                     onPress = { () => {
+                                        this.props.actions.fetchExamFromAPI(this.props.renderValue);
                                         this.props.navigation.navigate('OnlineTest');
                                 }}>
                                     <Text style = { texts.examProceedText }>
@@ -140,13 +147,16 @@ class ExamGuide extends Component{
 // this will dispatch the control to.
 function mapDispatchToProps(dispatch) {
     return {
-        // actions: bindActionCreators(examActions, dispatch)
+        actions: bindActionCreators(examActions, dispatch)
     };
 }
 
 //mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = ( state ) => {
+    // console.log(" from Exam Guide page state.OnlineExamReducers");
+    // console.log(state.OnlineExamReducers.renderVal);
     return { 
+        renderValue: state.OnlineExamReducers.renderVal
     };
 }
 

@@ -15,6 +15,8 @@ import OnlineExam from '../../screens/online_exam/OnlineExam';
 import Signup from '../../screens/authentication/signup/SignUpUI';
 import UserInfo from '../../screens/user_info/UserInfo';
 import ExamGuide from '../../screens/online_exam/examGuide';
+import ExamSummary from '../../screens/online_exam/examSummary';
+import ExamResult from '../../screens/online_exam/examResult';
 
 // react-navigation
 import { createAppContainer,createSwitchNavigator } from 'react-navigation';
@@ -90,6 +92,18 @@ export const TestStackNavigator = createStackNavigator({
             screen: OnlineExam,
             navigationOptions: ({navigation}) => ({
                 header: null 
+            })
+        },
+        TestSummary: {
+            screen: ExamSummary,
+            navigationOptions: ({ navigation }) => ({
+                header: null
+            })
+        },
+        TestResult: {
+            screen: ExamResult,
+            navigationOptions: ({ navigation }) => ({
+                header: null
             })
         }
     },

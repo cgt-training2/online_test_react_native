@@ -11,7 +11,7 @@ import HomeJSXText from '../../components/dashboard/Home';
 
 class Dashboard extends Component {
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     //Fetching data from fetchNews action defined in news-action
     // Created: 11/08/2019 12:00 pM - VS (IN)
   }
@@ -32,7 +32,7 @@ function mapDispatchToProps(dispatch) {
 
 //mapStateToProps is used for selecting the part of the data from the store that the connected component needs.
 const mapStateToProps = ( state ) => {
-  
+
   return { 
     userInfo: state.UserInfoReducer.data, 
   };

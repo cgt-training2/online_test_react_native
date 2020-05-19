@@ -8,7 +8,6 @@ import {
 import { color_code_answer_button } from '../../enums/global_colors';
 
 // StyleSheet
-import { styles } from './style_question_pallete_legend';
 import { stylesQuestion } from './style_question_legend_count';
 
 // Summary: This class will handle the count of different types of questions attempted.
@@ -20,7 +19,7 @@ export default class QuestionLegendCount extends Component{
                     this.props.saveCountProps >=0 
                     &&
                     <View>
-                        <Text style={[ stylesQuestion.Alert_Message, { color: '#000000' } ]}> 
+                        <Text style={[ stylesQuestion.Alert_Message_Main, { color: '#000000' } ]}> 
                             Legend:
                         </Text>
                     </View>
@@ -94,11 +93,26 @@ export default class QuestionLegendCount extends Component{
                             <Text style={stylesQuestion.Alert_Message}> 
                                 { this.props.saveAndMarkReviewCountProps >= 0 ? this.props.saveAndMarkReviewCountProps : null }
                             </Text>
+                            <View style={{ 
+                                height: 10, 
+                                width: 45,
+                                alignItems: 'flex-end',
+                                marginTop: -15
+                            }}>
+                                <View
+                                    style={{
+                                        backgroundColor: '#2DBC01', 
+                                        borderRadius: 10, 
+                                        height: 12, 
+                                        width: 12,
+                                }}>
+                                </View>
+                            </View>
                         </View>
                         <View>
                             <Text style={stylesQuestion.Alert_Message_Text}> 
                                 Marked & Answered
-                            </Text>
+                            </Text> 
                         </View>
                     </View>
                 </View>

@@ -3,8 +3,9 @@ import * as types from '../../action-types';
 
 // Enum
 import { answer_option, color_code_answer_button } from '../../../enums/global_colors';
+import { questions_array_object } from '../../../enums/question_answers_set1';
 
-// Summary: increaseIndex will increase the index by one.
+
 export function increaseIndex(index, questionArray, colorCode, answered, notAnsweredCountParam, markReviewCountParam, 
     saveCountParam, saveAndMarkReviewCountParam, lengthOfData, timerValue) {
     // let lengthOfData = questionArray.length;
@@ -19,8 +20,8 @@ export function increaseIndex(index, questionArray, colorCode, answered, notAnsw
     let displayTime =  questionArray[index].display_time_of_question;
     let alreadyTakenTime = questionArray[index].time_taken_by_question;
     let timerValueTaken = timeTakenByEachQuestion(displayTime, timerValue, alreadyTakenTime);
-    console.log("timerValueTaken");
-    console.log(timerValueTaken);
+    // console.log("timerValueTaken");
+    // console.log(timerValueTaken);
     questionArray[index].question_pallete_color = answered == true ? questionArray[index].question_pallete_color : colorCode;
     questionArray[index].time_taken_by_question = timerValueTaken;
     questionArray[index].visited_not_answer = true;
@@ -56,9 +57,8 @@ export function decreaseIndex(index, questionArray, notAnswerCount, examDetails,
     let displayTime =  questionArray[index].display_time_of_question;
     let alreadyTakenTime = questionArray[index].time_taken_by_question;
     let timerValueTaken = timeTakenByEachQuestion(displayTime, timerValue, alreadyTakenTime);
-    console.log("timerValueTaken");
-    console.log(timerValueTaken);
-
+    // console.log("timerValueTaken");
+    // console.log(timerValueTaken);
     questionArray[index].time_taken_by_question = timerValueTaken;
     questionArray[newIndex].display_time_of_question = timerValue;
 
@@ -106,9 +106,8 @@ export function increaseIndexSave(index, questionArray, colorCode, answered,
     let displayTime =  questionArray[index].display_time_of_question;
     let alreadyTakenTime = questionArray[index].time_taken_by_question;
     let timerValueTaken = timeTakenByEachQuestion(displayTime, timerValue, alreadyTakenTime);
-    console.log("timerValueTaken");
-    console.log(timerValueTaken);
-
+    // console.log("timerValueTaken");
+    // console.log(timerValueTaken);
     questionArray[index].question_pallete_color = conditionStatus ? colorCode : questionArray[index].question_pallete_color;
     questionArray[index].save = ( buttonId == 0 && conditionStatus ) ? true: questionArray[index].save;
     questionArray[index].save_mark_review = ( buttonId == 1 && conditionStatus ) ? true: questionArray[index].save_mark_review;
@@ -133,3 +132,23 @@ export function increaseIndexSave(index, questionArray, colorCode, answered,
         payload: payloadObject
     }
 }
+
+
+// Summary: This function will provide the initial state for exam.
+export function initialStateExam(response, renderBool){
+    let questions_array_object_state = response;
+    
+    let questionObj = {
+        questionObject: questions_array_object_state[0],
+        questionArr: questions_array_object_state,
+        renderval: !(renderBool)
+    };
+
+    return {
+        type: types.INITIAL_STATE_EXAM,
+        payload: questionObj
+    }
+}
+
+// Summary: increaseIndex will increase the index by one.
+

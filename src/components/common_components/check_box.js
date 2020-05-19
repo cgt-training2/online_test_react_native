@@ -10,6 +10,7 @@ import { checkBoxStyleColor } from '../../enums/global_colors';
 
 // Summary: This class will provide the functionality for checkbox.
 export default class CheckBox extends Component {
+    
     constructor(props) {
         super(props);
         // console.log("export default class CheckBox extends Component");

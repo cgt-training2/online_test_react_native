@@ -35,7 +35,7 @@ export default class DrawerContentComponents extends Component {
         
     }
 
-    componentWillMount(){
+    UNSAFE_componentWillMount(){
         
         // Retrieve name of user from Async Storage.
         _retrieveData().then((res) =>{

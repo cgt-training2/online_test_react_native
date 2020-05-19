@@ -15,7 +15,6 @@ import QuestionSectionLeft from '../../components/online_exam/question_section/Q
 import QuestionPalleteLegend from '../../components/common_components/question_pallete_legend';
 
 // Enum
-import { questions_array_object } from '../../enums/question_answers_set1';
 import { answer_option, color_code_answer_button } from '../../enums/global_colors';
 
 // Style sheet
@@ -40,7 +39,6 @@ class OnlineExam extends Component{
         this.decreaseIndexChange = this.decreaseIndexChange.bind(this);
         this.getOptionId = this.getOptionId.bind(this);
         this.increaseIndexChange = this.increaseIndexChange.bind(this);
-        this.quitExam = this.quitExam.bind(this);
         this.getFillInTheBlanksAnswer = this.getFillInTheBlanksAnswer.bind(this);
         this.getCheckBoxAnswer = this.getCheckBoxAnswer.bind(this); 
         this.handleKeyboardShowEvent = this.handleKeyboardShowEvent.bind(this);
@@ -50,15 +48,15 @@ class OnlineExam extends Component{
         this.openQuestionLegend = this.openQuestionLegend.bind(this);
         this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton = this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton.bind(this);
         this.endExam = this.endExam.bind(this);
+        this.examSummary = this.examSummary.bind(this);
     }
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
-    componentWillMount(){
+    UNSAFE_componentWillMount(){
     }
 
     // Summary: It will run timer and call startTimer action repetively in one second.
     componentDidMount(){
-        console.log("******* From componentDidMount() ********");
         this.runTimer = setInterval(() => {
             this.props.actions.startTimer(this.props.timerDetail.totalSeconds);
         }, 1000);
@@ -68,12 +66,7 @@ class OnlineExam extends Component{
     componentWillUnmount(){
         clearInterval(this.runTimer);
     }
-
-    // Summary: This function will call when user click on quit test.
-    quitExam(){
-        this.props.navigation.navigate('Home');
-    }
-    
+   
     // Summary: This function will decrease the index for the question object.
     decreaseIndexChange() {
         this.props.actions.decreaseIndex(this.props.index, this.props.questionsObjectArray, 
@@ -183,17 +176,21 @@ class OnlineExam extends Component{
         let indexClicked = questionNo -1;
         let currentIndex = this.props.index;
         //Summary: Action Fired
-        // this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
-        //     this.props.questionLegendModalVisible, this.props.examDetail);
         this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
             this.props.questionLegendModalVisible, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds);
     }
 
     // Summary: This function will when time ends or user submit the paper.
     endExam(){
-        // clearInterval(this.runTimer);
-        this.props.actions.stopTimer();
-        this.props.navigation.navigate('Home');
+        clearInterval(this.runTimer);
+        // this.props.actions.stopTimer();
+        this.props.navigation.navigate('TestResult');
+    }
+
+    // Summary: This function will user review and submit paper.
+    examSummary(){
+        clearInterval(this.runTimer);
+        this.props.navigation.navigate('TestSummary');
     }
 
     // Summary: This function will clear the answer.
@@ -221,7 +218,6 @@ class OnlineExam extends Component{
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
                     <HeaderOnlineExam 
-                        quitExamProps = { this.quitExam }
                         openQuestionLegendProps = { this.openQuestionLegend }
                         questionLegendModalVisibleProps = { this.props.questionLegendModalVisible }
                         examDetailProps = { this.props.examDetail }
@@ -265,7 +261,8 @@ class OnlineExam extends Component{
                             actionIncreaseIndexChange = { this.increaseIndexChange }
                             actionClearResponseFunction = { this.clearResponseFunction }
                             disablePrev = { this.props.examDetail.disable_prev_button } 
-                            disableNext = { this.props.examDetail.disable_next_button }  
+                            disableNext = { this.props.examDetail.disable_next_button }
+                            examSummaryProps = { this.examSummary }  
                         />
                     }
                 </View> 

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
     Text, 
     TouchableOpacity,
-    ScrollView,
     View
 } from 'react-native';
 
@@ -44,9 +43,9 @@ export default class QuestionSectionRight extends Component {
                         && 
                     <View style={{ 
                         height: 10, 
-                        width: 30,
+                        width: 34,
                         alignItems: 'flex-end',
-                        marginTop: -10
+                        marginTop: -15
                     }}>
                         <View
                             style={{

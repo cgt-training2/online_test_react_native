@@ -31,7 +31,7 @@ export default class QuestionSectionLeft extends Component{
         this.displayAnswerOption = this.displayAnswerOption.bind(this);
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
     }
 
     componentDidMount() {

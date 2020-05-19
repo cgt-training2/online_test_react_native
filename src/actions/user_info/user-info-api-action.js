@@ -13,7 +13,6 @@ export function getUserInfo(token) {
             return fetch(UserInfoApi,fetchOptionsGet(token))
             .then(res => parseJSON(res))
             .then(res => {
-                //console.log(res);
                 if(res.name){
                     dispatch(fetchUserInfoSuccess(res));
                     return res;
@@ -21,7 +20,6 @@ export function getUserInfo(token) {
                 return res;
             })
             .catch(err => {
-                console.log(err)
                 Alert.alert("There may be internet connection problem from UserInfo")
             })
         }                

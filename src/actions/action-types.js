@@ -5,6 +5,7 @@
                            *****  Index Change Actions  *****
 ====================================================================================
 */
+export const INITIAL_STATE_EXAM = 'INITIAL_STATE_EXAM';
 export const INDEX_INCREASE = 'INDEX_INCREASE';
 export const INDEX_DECREASE = 'INDEX_DECREASE';
 export const INDEX_INCREASE_SAVE = 'INDEX_INCREASE_SAVE';

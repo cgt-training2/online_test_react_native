@@ -27,13 +27,18 @@ const stylesQuestion = StyleSheet.create({
         borderRadius: 5,
     },
     Alert_Message:{
-
 		fontSize: 22, 
 		color: '#FFFFFF',
 		textAlign: 'center',
 		padding: 10,
 		// height: '42%'
-	},
+    },
+    Alert_Message_Main:{
+        fontSize: 22, 
+		color: '#FFFFFF',
+		textAlign: 'left',
+		padding: 10,
+    },
 	Alert_Message_Text:{
 
 		fontSize: 16, 

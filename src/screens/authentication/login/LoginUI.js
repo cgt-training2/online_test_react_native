@@ -49,7 +49,7 @@ class LoginUI extends Component{
 	}
 
 	// Summary componentWillMount will clear LoginToken and NewsData after a user hit login button.
-	componentWillMount(){
+	UNSAFE_componentWillMount(){
 		this.props.actions.clearLoginToken( "", 0, "", "", "" );
 	}
 

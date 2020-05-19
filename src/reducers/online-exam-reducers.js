@@ -3,6 +3,7 @@ import * as types from '../actions/action-types';
 
 // Enums
 import { questions_array_object } from '../enums/question_answers_set1';
+import { question_answer_dummy } from '../enums/question_answers_dummy';
 
 // Utils
 import { getOnlineExamDetails } from '../utils/online_exam/online-exam-utils';
@@ -11,8 +12,8 @@ import { timerUtil } from '../utils/online_exam/timer-exam-utils';
 const INITIAL_STATE = { 
     examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0))),
     timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
-    questionsObj: questions_array_object[0],
-    questionsObjArray: questions_array_object,
+    questionsObj: {}, 
+    questionsObjArray: [],
     questionLegendModalVisible: false,
     renderVal: false
 };
@@ -20,7 +21,14 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE , action) => {
 
     switch (action.type) {
-
+        case types.INITIAL_STATE_EXAM:
+            return Object.assign({}, state, {
+                examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0))),
+                timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
+                questionsObj: action.payload.questionObject,
+                questionsObjArray: action.payload.questionArr,
+                renderVal: action.payload.renderval
+            });
         // Summary: This case will increase the index by one.
         case types.INDEX_INCREASE:
             return Object.assign({}, state,{
@@ -71,10 +79,9 @@ export default (state = INITIAL_STATE , action) => {
             return Object.assign({}, state, {
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0))),
                 timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
-                questionsObj: questions_array_object[0],
-                questionsObjArray: questions_array_object,
+                questionsObj: {}, 
+                questionsObjArray: [],
                 questionLegendModalVisible: false,
-                renderVal: false
             });
         default:
             return state;

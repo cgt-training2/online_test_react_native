@@ -17,8 +17,8 @@ class UserInfo extends Component {
   constructor(props) {
     super(props);
   }
-  componentWillMount() {
-    
+
+  UNSAFE_componentWillMount() {  
   }
 
   render() {

@@ -32,7 +32,7 @@ export function performSignup(username, email, password, phone_number,given_name
                 return res;
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
                 Alert.alert("There may be internet connection problem")
             })
         }                
