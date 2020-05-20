@@ -2,7 +2,7 @@
 // Created: 11/10/2019 12:00 PM - VS (IN)
 
 import React, { Component } from 'react';
-import {NavigationActions} from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { 
     Text, 
     View,   
@@ -49,9 +49,10 @@ export default class DrawerContentComponents extends Component {
 
     // navigateToScreen function swicthes between different screens of the navigators
     // Created: 09/11/2019 12:00 pM - VS (IN)
-    navigateToScreen = ( route ) =>() => {
+    navigateToScreen = ( route, title ) =>() => {
         const navigateAction = NavigationActions.navigate({
-            routeName: route
+            routeName: route,
+            params: { item: title }
         });
         this.props.navigation.dispatch(DrawerActions.toggleDrawer())
         this.props.navigation.dispatch(navigateAction);
@@ -72,13 +73,18 @@ export default class DrawerContentComponents extends Component {
                 </TouchableOpacity>
                 <ScrollView contentContainerStyle={{ flexGrow: 1, padding:30 }}>
                     <View>
-                        <Text style={styles.menuItemText} onPress={this.navigateToScreen('Home')}>
+                        <Text style={styles.menuItemText} onPress={this.navigateToScreen('Home', '')}>
                             Home
                         </Text>
                     </View>
                     <View style={styles.itemView}>
-                        <Text style={styles.menuItemText} onPress={this.navigateToScreen('TestGuide')}>
+                        <Text style={styles.menuItemText} onPress={this.navigateToScreen('TestGuide', 'no')}>
                             Online_test
+                        </Text>
+                    </View>
+                    <View style={styles.itemView}>
+                        <Text style={styles.menuItemText} onPress={this.navigateToScreen('TestGuide', 'yes')}>
+                            Online_test_section
                         </Text>
                     </View>
                     <View style={styles.itemView}>

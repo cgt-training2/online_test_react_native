@@ -4,6 +4,7 @@ import {
     Image,
     Keyboard,
     Text, 
+    TouchableOpacity,
     ScrollView,
     View
 } from 'react-native';
@@ -29,6 +30,7 @@ export default class QuestionSectionLeft extends Component{
 
         this.displayImage = this.displayImage.bind(this);    
         this.displayAnswerOption = this.displayAnswerOption.bind(this);
+        this.getSectionsDetails = this.getSectionsDetails.bind(this);
     }
 
     UNSAFE_componentWillMount() {
@@ -138,6 +140,26 @@ export default class QuestionSectionLeft extends Component{
         this.props.getCheckBoxAnswerProps(this.state.checkSelected);
     }
 
+    // Summary: Use to create buttons with title for each section.
+    getSectionsDetails(){
+        let sectionInfoView = this.props.sectionNamesProps.map((sectionInfo, index) => (
+            <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity 
+                    style = {{ height: '100%', paddingLeft: 5, paddingRight: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: '#C9D7DD' }}
+                    onPress = { () => {
+                        this.props.navigationToSectionProps(index);
+                }}>
+                    <Text>
+                        { sectionInfo }
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        ));
+        return <View style = {{ width: '100%', height: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            { sectionInfoView }
+        </View>;
+    }
+
     render(){
        
         return(
@@ -147,6 +169,9 @@ export default class QuestionSectionLeft extends Component{
                     flexGrow: 1
                 }}>
                     <View style = {{ marginRight: 2 }}>
+                        {
+                            this.props.noOfSectionsProps > 0 ? this.getSectionsDetails(): null
+                        }
                         <View style={ styles.containerQuestionLeftTop }>
                             <View style={styles.containerQuestionLeftTopCircle}>
                                 <View style={styles.containerQuestionLeftTopCircleInner}>

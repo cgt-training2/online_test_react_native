@@ -34,6 +34,8 @@ class ExamSummary extends Component{
         this.openQuestionLegend = this.openQuestionLegend.bind(this);
         this.navigationOfQuestion = this.navigationOfQuestion.bind(this);
         this.toggleModal = this.toggleModal.bind(this);
+        this.getSectionsDetails = this.getSectionsDetails.bind(this);
+        this.navigationToSectionProps = this.navigationToSectionProps.bind(this);
     }
 
     componentDidMount(){
@@ -58,8 +60,22 @@ class ExamSummary extends Component{
         this.props.navigation.navigate('TestResult');
     }
 
-    navigationOfQuestion(){
-        console.log("navigationOfQuestion()");
+    navigationOfQuestion(questionNo){
+        let indexClicked = questionNo -1;
+        let currentIndex = this.props.index;
+        clearInterval(this.runTimer);
+        //Summary: Action Fired
+        this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
+            true, this.props.examDetail, currentIndex, 
+            this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+            this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+        // Navigate back To Test
+        this.props.navigation.navigate('OnlineTest');
+    }
+
+    navigationToSectionProps(index){
+        console.log("navigationToSectionProps(index)");
+        console.log(index);
     }
 
     // SUmmary: This function is used to toggle the modal
@@ -81,7 +97,28 @@ class ExamSummary extends Component{
         }
     }
 
+    // Summary: Use to create buttons with title for each section.
+    getSectionsDetails(){
+        let sectionInfoView = this.props.examDetail.section_names.map((sectionInfo, index) => (
+            <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity 
+                    style = {{ height: '100%', paddingLeft: 5, paddingRight: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: '#C9D7DD' }}
+                    onPress = { () => {
+                        this.navigationToSectionProps(index);
+                }}>
+                    <Text>
+                        { sectionInfo }
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        ));
+        return <View style = {{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            { sectionInfoView }
+        </View>;
+    }
+
     render(){
+        console.log("render() Summary");
         return(
             <View style = { styles.container }>
                 <EndExamAlert 
@@ -101,13 +138,20 @@ class ExamSummary extends Component{
                 </View>
                 <View style= { styles.containerMiddle }>
                     <ScrollView contentContainerStyle = {{ flexGrow: 1 }}>
+                        {
+                            this.props.examDetail.no_of_sections > 0 ? this.getSectionsDetails(): null
+                        }
+                        {
+                            this.props.examDetail.no_of_sections > 0 ? <View style={{ width: '100%', marginTop: 5, marginBottom:5, height: 1, backgroundColor: '#000000'}}/> : null
+                        }
+                        
                         <QuestionSectionRight 
                             questionsObjProp = { this.props.questionsObjectArray }
                             navigationOfQuestionProps = { this.navigationOfQuestion }
                             openQuestionLegendProps = { this.openQuestionLegend }
                             questionLegendModalVisibleProps = { false }
                         />                                
-                        <View style={{ width: '100%', height: 1, backgroundColor: '#000000'}}>
+                        <View style={{ width: '100%', marginTop: 5, height: 1, backgroundColor: '#000000'}}>
                         </View>
                         <View style = {{ padding: 5 }}>
                             <QuestionLegendCount
@@ -139,7 +183,7 @@ class ExamSummary extends Component{
                                 
                             </TouchableOpacity>
                         </View>
-                        <View style = { styles.containerBottomChildInner }>
+                        {/* <View style = { styles.containerBottomChildInner }>
                             <TouchableOpacity style = { buttons.buttonContainer}>
                                 <Text>
                                     Review
@@ -148,7 +192,7 @@ class ExamSummary extends Component{
                                     Marked
                                 </Text>
                             </TouchableOpacity>
-                        </View>
+                        </View> */}
                         <View style = { styles.containerBottomChildInner }>
                             <TouchableOpacity 
                                 style = { buttons.buttonContainer}
@@ -180,6 +224,7 @@ function mapStateToProps(state){
         timerDetail: state.OnlineExamReducers.timerDetail,
         questionsObject: state.OnlineExamReducers.questionsObj,
         questionsObjectArray: state.OnlineExamReducers.questionsObjArray,
+        questionLegendModalVisible: state.OnlineExamReducers.questionLegendModalVisible,
         renderState: state.OnlineExamReducers.renderVal
     };
 }

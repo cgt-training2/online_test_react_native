@@ -2,7 +2,8 @@ import * as types from '../../action-types';
 
 import { timeTakenByEachQuestion } from './index-change-actions';
 // Summary: This action will handle opening and closing of question pallete alert box.
-export function handleQuestionPallete(index, questionArray, modalVisible, examDetails, currentIndex, timerValue){
+export function handleQuestionPallete(index, questionArray, modalVisible, examDetails, currentIndex,
+    timerValue, no_of_sections, section_names, total_questions, start_index_of_sections_array){
     
     if(index != currentIndex){
         let displayTime =  questionArray[currentIndex].display_time_of_question;
@@ -22,7 +23,11 @@ export function handleQuestionPallete(index, questionArray, modalVisible, examDe
         not_answered_count: examDetails.not_answer_count,
         save_count: examDetails.save_count,
         save_and_mark_review_count: examDetails.save_and_mark_review_count,
-        mark_review_count: examDetails.mark_review_count
+        mark_review_count: examDetails.mark_review_count,
+        no_of_sections: no_of_sections,
+        section_names: section_names, 
+        total_questions: total_questions,
+        start_index_of_sections_array: start_index_of_sections_array
     };
 
     return {

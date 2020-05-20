@@ -26,6 +26,7 @@ export const HANDLE_CHECK_BOX = 'HANDLE_CHECK_BOX';
 */
 export const TIMER_START = 'TIMER_START';
 export const CLEAR_TIMER = 'CLEAR_TIMER'; 
+export const TIMER_START_DEMO = 'TIMER_START_DEMO';
 /*
 ====================================================================================
                            *****  Login Actions  *****

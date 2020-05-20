@@ -49,6 +49,7 @@ class OnlineExam extends Component{
         this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton = this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton.bind(this);
         this.endExam = this.endExam.bind(this);
         this.examSummary = this.examSummary.bind(this);
+        this.navigationToSection = this.navigationToSection.bind(this);
     }
 
     // Summary: It will prepare optionButtonColorArr. Throughout the test.
@@ -57,20 +58,31 @@ class OnlineExam extends Component{
 
     // Summary: It will run timer and call startTimer action repetively in one second.
     componentDidMount(){
-        this.runTimer = setInterval(() => {
-            this.props.actions.startTimer(this.props.timerDetail.totalSeconds);
-        }, 1000);
+        this.focusListenerOnlineExam = this.props.navigation.addListener("didFocus", () => {            
+            this.runTimer = setInterval(() => {
+                this.props.actions.startTimer(this.props.timerDetail.totalSeconds);
+            }, 1000);
+        });
+        this.blurListenerOnlineExam = this.props.navigation.addListener("didBlur", () => {            
+            clearInterval(this.runTimer);
+            console.log("this.blurListenerOnlineExam");
+        });
     }
 
     // Summary: It will clear timer.
     componentWillUnmount(){
         clearInterval(this.runTimer);
+        this.focusListenerOnlineExam.remove();
+        this.blurListenerOnlineExam.remove();
     }
    
     // Summary: This function will decrease the index for the question object.
     decreaseIndexChange() {
         this.props.actions.decreaseIndex(this.props.index, this.props.questionsObjectArray, 
-            this.props.examDetail.not_answer_count, this.props.examDetail, this.props.timerDetail.totalSeconds);        
+            this.props.examDetail.not_answer_count, this.props.examDetail, 
+            this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+            this.props.examDetail.section_names, this.props.examDetail.total_questions,
+            this.props.examDetail.start_index_of_sections_array);        
     }
 
     // Summary: This function will increase the index for the question object.
@@ -84,17 +96,20 @@ class OnlineExam extends Component{
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndNext, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                    indexLength, buttonId, this.props.timerDetail.totalSeconds);
+                    indexLength, buttonId, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
             }else if(buttonId == 1) {
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                    indexLength, buttonId, this.props.timerDetail.totalSeconds);
+                    indexLength, buttonId, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
             }else if(buttonId == 2) {
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                    indexLength, buttonId, this.props.timerDetail.totalSeconds);
+                    indexLength, buttonId, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
             }else if(buttonId == 3) {
                 this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, color_code_answer_button.next, true);
             }
@@ -113,12 +128,14 @@ class OnlineExam extends Component{
             this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
                 colorCode, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                 this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                indexLength, this.props.timerDetail.totalSeconds);
+                indexLength, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+                this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
         }else{
             this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
                 colorCode, false, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                 this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
-                indexLength, this.props.timerDetail.totalSeconds);
+                indexLength, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+                this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
         }
     }
 
@@ -167,7 +184,9 @@ class OnlineExam extends Component{
     openQuestionLegend(){
         //Summary: Action Fired
         this.props.actions.handleQuestionPallete(this.props.index, this.props.questionsObjectArray,
-            this.props.questionLegendModalVisible, this.props.examDetail, this.props.index, this.props.timerDetail.totalSeconds);
+            this.props.questionLegendModalVisible, this.props.examDetail, this.props.index, 
+            this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+            this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
     }
 
     // Summary: This function handles the navigation to particular question when clicked 
@@ -177,7 +196,20 @@ class OnlineExam extends Component{
         let currentIndex = this.props.index;
         //Summary: Action Fired
         this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
-            this.props.questionLegendModalVisible, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds);
+            this.props.questionLegendModalVisible, this.props.examDetail, currentIndex, 
+            this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
+            this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+    }
+
+    // Summary: It'll navigate to the first question of the section.
+    navigationToSection(index) {
+        let indexClicked = this.props.examDetail.start_index_of_sections_array[index];
+        let currentIndex = this.props.index;
+        //Summary: Action Fired
+        this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
+            true, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds, 
+            this.props.examDetail.no_of_sections, this.props.examDetail.section_names, this.props.examDetail.total_questions, 
+            this.props.examDetail.start_index_of_sections_array);
     }
 
     // Summary: This function will when time ends or user submit the paper.
@@ -212,8 +244,7 @@ class OnlineExam extends Component{
     }
 
     render() {
-        // console.log("render()");
-        // console.log(this.props.timerDetail.totalSeconds);
+        console.log("render() exam");
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
@@ -238,6 +269,10 @@ class OnlineExam extends Component{
                                 handleKeyboardHideEventProps = { this.handleKeyboardHideEvent }
                                 descriptiveAnswerProps = { this.props.questionsObjectArray[this.props.index].descriptive_given_answer }
                                 getFillInTheBlanksChangeTextEventProps = { this.getFillInTheBlanksChangeTextEvent }
+                                noOfSectionsProps = { this.props.examDetail.no_of_sections }
+                                sectionNamesProps = { this.props.examDetail.section_names }
+                                totalQuestionsProps = { this.props.examDetail.total_questions }
+                                navigationToSectionProps = { this.navigationToSection }
                             />
                         </View>  
                         <QuestionPalleteLegend 

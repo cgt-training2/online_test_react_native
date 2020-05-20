@@ -25,6 +25,13 @@ import { buttons, texts, styles } from './style-exam-guide';
 class ExamGuide extends Component{
 
     componentDidMount(){
+        
+        let param = this.props.navigation.getParam('item');
+        if(param == 'yes'){
+            this.props.actions.fetchSectionExamFromAPI(this.props.renderValue);    
+        }else{
+            this.props.actions.fetchExamFromAPI(this.props.renderValue);
+        }
     }
 
     render(){
@@ -51,7 +58,7 @@ class ExamGuide extends Component{
                                     Total Questions: 
                                 </Text>
                                 <Text style = { texts.examTitleLowerInnerRight }>
-                                    20
+                                    { this.props.examDetail.total_questions }
                                 </Text>
                             </View>
                             <View style = { styles.containerTopLowerInner }>
@@ -66,7 +73,6 @@ class ExamGuide extends Component{
                                 <TouchableOpacity 
                                     style = { buttons.proceedButton }
                                     onPress = { () => {
-                                        this.props.actions.fetchExamFromAPI(this.props.renderValue);
                                         this.props.navigation.navigate('OnlineTest');
                                 }}>
                                     <Text style = { texts.examProceedText }>
@@ -156,6 +162,7 @@ const mapStateToProps = ( state ) => {
     // console.log(" from Exam Guide page state.OnlineExamReducers");
     // console.log(state.OnlineExamReducers.renderVal);
     return { 
+        examDetail: state.OnlineExamReducers.examDetail,
         renderValue: state.OnlineExamReducers.renderVal
     };
 }

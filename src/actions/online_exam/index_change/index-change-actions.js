@@ -7,7 +7,8 @@ import { questions_array_object } from '../../../enums/question_answers_set1';
 
 
 export function increaseIndex(index, questionArray, colorCode, answered, notAnsweredCountParam, markReviewCountParam, 
-    saveCountParam, saveAndMarkReviewCountParam, lengthOfData, timerValue) {
+    saveCountParam, saveAndMarkReviewCountParam, lengthOfData, timerValue, no_of_sections,
+    section_names, total_questions, start_index_of_sections_array) {
     // let lengthOfData = questionArray.length;
     let newIndex = index == (lengthOfData - 1) ? index : index+1;
     let saveStatus = questionArray[index].save;
@@ -35,7 +36,11 @@ export function increaseIndex(index, questionArray, colorCode, answered, notAnsw
         not_answered_count: conditionStatus ? notAnsweredCountParam + 1 : notAnsweredCountParam,
         save_count: saveCountParam,
         save_and_mark_review_count: saveAndMarkReviewCountParam,
-        mark_review_count: markReviewCountParam
+        mark_review_count: markReviewCountParam,
+        no_of_sections: no_of_sections,
+        section_names: section_names, 
+        total_questions: total_questions,
+        start_index_of_sections_array: start_index_of_sections_array
     };
     return {
         type: types.INDEX_INCREASE,
@@ -50,7 +55,8 @@ export function timeTakenByEachQuestion(displayTime, timerValue, alreadyTakenTim
 }
 
 // Summary: decreaseIndex will increase the index by one.
-export function decreaseIndex(index, questionArray, notAnswerCount, examDetails, timerValue) {
+export function decreaseIndex(index, questionArray, notAnswerCount, examDetails, timerValue, 
+    no_of_sections, section_names, total_questions, start_index_of_sections_array) {
 
     let newIndex = index == 0 ? 0 : index - 1;
 
@@ -70,7 +76,11 @@ export function decreaseIndex(index, questionArray, notAnswerCount, examDetails,
         not_answered_count: notAnswerCount,
         save_count: examDetails.save_count,
         save_and_mark_review_count: examDetails.save_and_mark_review_count,
-        mark_review_count: examDetails.mark_review_count
+        mark_review_count: examDetails.mark_review_count,
+        no_of_sections: no_of_sections,
+        section_names: section_names, 
+        total_questions: total_questions,
+        start_index_of_sections_array: start_index_of_sections_array
     };
     return {
         type: types.INDEX_DECREASE,
@@ -80,7 +90,7 @@ export function decreaseIndex(index, questionArray, notAnswerCount, examDetails,
 
 export function increaseIndexSave(index, questionArray, colorCode, answered, 
     notAnsweredCountParam, markReviewCountParam, saveCountParam, saveAndMarkReviewCountParam,
-    lengthOfData, buttonId, timerValue) {
+    lengthOfData, buttonId, timerValue, no_of_sections, section_names, total_questions, start_index_of_sections_array) {
 
     let saveStatus = questionArray[index].save;
     let saveMarkReviewStatus = questionArray[index].save_mark_review;
@@ -125,7 +135,11 @@ export function increaseIndexSave(index, questionArray, colorCode, answered,
         not_answered_count: not_answered_count_param,
         save_count: save_count_param,
         save_and_mark_review_count: save_and_mark_review_count_param,
-        mark_review_count: mark_review_count_param
+        mark_review_count: mark_review_count_param,
+        no_of_sections: no_of_sections,
+        section_names: section_names, 
+        total_questions: total_questions,
+        start_index_of_sections_array: start_index_of_sections_array
     };
     return {
         type: types.INDEX_INCREASE_SAVE,
@@ -136,12 +150,19 @@ export function increaseIndexSave(index, questionArray, colorCode, answered,
 
 // Summary: This function will provide the initial state for exam.
 export function initialStateExam(response, renderBool){
-    let questions_array_object_state = response;
-    
+    let questions_array_object_state = response.data;
+    let noOfsections = response.noOfSections;
+    let sectionNames = response.sectionNames;
+    let totalQuestions = response.totalQuestions;
+    let startIndexOfSections = response.startIndexOfSections;
     let questionObj = {
         questionObject: questions_array_object_state[0],
         questionArr: questions_array_object_state,
-        renderval: !(renderBool)
+        no_of_sections: noOfsections,
+        section_names: sectionNames,
+        total_questions: totalQuestions,
+        renderval: !(renderBool),
+        start_index_of_sections: startIndexOfSections
     };
 
     return {
