@@ -13,7 +13,11 @@ import {
 import CheckBox from '../../common_components/check_box';
 import FillInTheBlankesAnswer from './answer_type/fill_in_the_blankes_answer';
 import OptionAnswer from './answer_type/option_answer';
+import SectionToolTip from '../../common_components/section_tool_tip';
 import ScaledImage from '../../../utils/image/image_size';
+
+// Dependency
+import { Tooltip } from 'react-native-elements';
 
 // Stylesheet
 import { texts, styles } from './style-question-section-left';
@@ -140,24 +144,13 @@ export default class QuestionSectionLeft extends Component{
         this.props.getCheckBoxAnswerProps(this.state.checkSelected);
     }
 
-    // Summary: Use to create buttons with title for each section.
+    // Summary: Use to return SectionToolTip component
     getSectionsDetails(){
-        let sectionInfoView = this.props.sectionNamesProps.map((sectionInfo, index) => (
-            <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <TouchableOpacity 
-                    style = {{ height: '100%', paddingLeft: 5, paddingRight: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: '#C9D7DD' }}
-                    onPress = { () => {
-                        this.props.navigationToSectionProps(index);
-                }}>
-                    <Text>
-                        { sectionInfo }
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        ));
-        return <View style = {{ width: '100%', height: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            { sectionInfoView }
-        </View>;
+
+        return <SectionToolTip 
+                    navigationToSectionProps = { this.props.navigationToSectionProps }
+                    sectionNamesProps = { this.props.sectionNamesProps }
+                />;
     }
 
     render(){

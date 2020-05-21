@@ -221,7 +221,7 @@ class OnlineExam extends Component{
 
     // Summary: This function will user review and submit paper.
     examSummary(){
-        clearInterval(this.runTimer);
+        // clearInterval(this.runTimer);
         this.props.navigation.navigate('TestSummary');
     }
 

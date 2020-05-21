@@ -56,7 +56,6 @@ class ExamSummary extends Component{
     endExam(){
         // console.log("endExam()");
         clearInterval(this.runTimer);
-        // this.props.actions.stopTimer();
         this.props.navigation.navigate('TestResult');
     }
 
@@ -80,7 +79,7 @@ class ExamSummary extends Component{
 
     // SUmmary: This function is used to toggle the modal
     toggleModal(oKText){
-        if(oKText == "ok"){
+        if(oKText == "ok") {
             this.setState(prevState =>{
                 return{
                     modalVisible: !(prevState.modalVisible)
