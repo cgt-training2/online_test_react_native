@@ -26,7 +26,7 @@ export default class SectionToolTip extends Component{
         let sectionInfoView = this.props.sectionNamesProps.map((sectionInfo, index) => (
             <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <View 
-                    style = {{ height: '100%', paddingLeft: 5, paddingRight: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: '#C9D7DD' }}>
+                    style = {{ height: '100%', paddingLeft: 5, paddingRight: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: this.props.sectionButtonsColorArrayProps[index] }}>
                     <Tooltip 
                         containerStyle = {{ height: '100%', paddingLeft: 5, paddingRight: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffffff' }}
                         popover = { this.toolTipDesign() }

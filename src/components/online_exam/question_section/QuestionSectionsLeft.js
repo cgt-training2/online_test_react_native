@@ -150,11 +150,11 @@ export default class QuestionSectionLeft extends Component{
         return <SectionToolTip 
                     navigationToSectionProps = { this.props.navigationToSectionProps }
                     sectionNamesProps = { this.props.sectionNamesProps }
+                    sectionButtonsColorArrayProps = { this.props.sectionButtonsColorArrayProps }
                 />;
     }
 
     render(){
-       
         return(
             <View>
                 {/* <KeyboardAwareScrollView enableAutomaticScroll={(Platform.OS === 'ios')} enableOnAndroid={true}> */}

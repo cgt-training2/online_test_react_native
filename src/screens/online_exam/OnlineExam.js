@@ -82,7 +82,8 @@ class OnlineExam extends Component{
             this.props.examDetail.not_answer_count, this.props.examDetail, 
             this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
             this.props.examDetail.section_names, this.props.examDetail.total_questions,
-            this.props.examDetail.start_index_of_sections_array);        
+            this.props.examDetail.start_index_of_sections_array, this.props.examDetail.no_of_question_per_section_array, 
+            this.props.examDetail.section_buttons_color_array, this.props.examDetail.end_index_of_sections_array);        
     }
 
     // Summary: This function will increase the index for the question object.
@@ -97,19 +98,22 @@ class OnlineExam extends Component{
                     color_code_answer_button.saveAndNext, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
                     indexLength, buttonId, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array,
+                    this.props.examDetail.no_of_question_per_section_array, this.props.examDetail.section_buttons_color_array, this.props.examDetail.end_index_of_sections_array);
             }else if(buttonId == 1) {
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
                     indexLength, buttonId, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array,
+                    this.props.examDetail.no_of_question_per_section_array, this.props.examDetail.section_buttons_color_array, this.props.examDetail.end_index_of_sections_array);
             }else if(buttonId == 2) {
                 this.props.actions.increaseIndexSave(this.props.index, this.props.questionsObjectArray, 
                     color_code_answer_button.saveAndMarkReview, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                     this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
                     indexLength, buttonId, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+                    this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array,
+                    this.props.examDetail.no_of_question_per_section_array, this.props.examDetail.section_buttons_color_array, this.props.examDetail.end_index_of_sections_array);
             }else if(buttonId == 3) {
                 this.changeColorCodeQuestionPalleteNotAnsweredOrNextButton(indexLength, color_code_answer_button.next, true);
             }
@@ -129,13 +133,16 @@ class OnlineExam extends Component{
                 colorCode, true, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                 this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
                 indexLength, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-                this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+                this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array, this.props.examDetail.no_of_question_per_section_array, 
+                this.props.examDetail.section_buttons_color_array, this.props.examDetail.end_index_of_sections_array);
         }else{
             this.props.actions.increaseIndex(this.props.index, this.props.questionsObjectArray, 
                 colorCode, false, this.props.examDetail.not_answer_count, this.props.examDetail.mark_review_count,
                 this.props.examDetail.save_count, this.props.examDetail.save_and_mark_review_count, 
                 indexLength, this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-                this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+                this.props.examDetail.section_names, this.props.examDetail.total_questions, 
+                this.props.examDetail.start_index_of_sections_array, this.props.examDetail.no_of_question_per_section_array, 
+                this.props.examDetail.section_buttons_color_array, this.props.examDetail.end_index_of_sections_array);
         }
     }
 
@@ -185,8 +192,7 @@ class OnlineExam extends Component{
         //Summary: Action Fired
         this.props.actions.handleQuestionPallete(this.props.index, this.props.questionsObjectArray,
             this.props.questionLegendModalVisible, this.props.examDetail, this.props.index, 
-            this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-            this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+            this.props.timerDetail.totalSeconds, false, -1);
     }
 
     // Summary: This function handles the navigation to particular question when clicked 
@@ -197,8 +203,7 @@ class OnlineExam extends Component{
         //Summary: Action Fired
         this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
             this.props.questionLegendModalVisible, this.props.examDetail, currentIndex, 
-            this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-            this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
+            this.props.timerDetail.totalSeconds, false, -1);
     }
 
     // Summary: It'll navigate to the first question of the section.
@@ -207,9 +212,7 @@ class OnlineExam extends Component{
         let currentIndex = this.props.index;
         //Summary: Action Fired
         this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
-            true, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds, 
-            this.props.examDetail.no_of_sections, this.props.examDetail.section_names, this.props.examDetail.total_questions, 
-            this.props.examDetail.start_index_of_sections_array);
+            true, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds, true, index);
     }
 
     // Summary: This function will when time ends or user submit the paper.
@@ -244,7 +247,9 @@ class OnlineExam extends Component{
     }
 
     render() {
-        console.log("render() exam");
+        // console.log("render() exam");
+        // console.log(this.props.examDetail.end_index_of_sections_array);
+        // console.log(this.props.examDetail.section_buttons_color_array);
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
@@ -273,6 +278,7 @@ class OnlineExam extends Component{
                                 sectionNamesProps = { this.props.examDetail.section_names }
                                 totalQuestionsProps = { this.props.examDetail.total_questions }
                                 navigationToSectionProps = { this.navigationToSection }
+                                sectionButtonsColorArrayProps = { this.props.examDetail.section_buttons_color_array }
                             />
                         </View>  
                         <QuestionPalleteLegend 

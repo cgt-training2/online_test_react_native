@@ -10,7 +10,7 @@ import { getOnlineExamDetails } from '../utils/online_exam/online-exam-utils';
 import { timerUtil } from '../utils/online_exam/timer-exam-utils';
 
 const INITIAL_STATE = { 
-    examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0, 0, [], 0, []))),
+    examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0, 0, [], 0, [], [], [], []))),
     timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
     questionsObj: {}, 
     questionsObjArray: [],
@@ -25,7 +25,8 @@ export default (state = INITIAL_STATE , action) => {
             return Object.assign({}, state, {
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0, 
                     action.payload.no_of_sections, action.payload.section_names, action.payload.total_questions,
-                    action.payload.start_index_of_sections))),
+                    action.payload.start_index_of_sections, action.payload.no_of_questions_each_section, 
+                    action.payload.section_buttons_color_array, action.payload.end_index_section_arr))),
                 timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
                 questionsObj: action.payload.questionObject,
                 questionsObjArray: action.payload.questionArr,
@@ -35,21 +36,23 @@ export default (state = INITIAL_STATE , action) => {
         case types.INDEX_INCREASE:
             return Object.assign({}, state,{
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, action.payload.disable_next_button, action.payload.not_answered_count, action.payload.mark_review_count, action.payload.save_count, action.payload.save_and_mark_review_count, action.payload.no_of_sections, 
-                            action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array))),
+                            action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array, action.payload.no_of_question_per_section_array, action.payload.section_buttons_color_array, action.payload.end_index_section_arr))),
                 questionsObj: action.payload.questionsObj,
                 questionsObjArray: action.payload.questionsArr
             });
         case types.INDEX_INCREASE_SAVE:
             return Object.assign({}, state,{
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, action.payload.disable_next_button, action.payload.not_answered_count, action.payload.mark_review_count, action.payload.save_count, action.payload.save_and_mark_review_count, action.payload.no_of_sections, 
-                            action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array))),
+                            action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array, 
+                            action.payload.no_of_question_per_section_array, action.payload.section_buttons_color_array, action.payload.end_index_section_arr))),
                 questionsObj: action.payload.questionsObj,
                 questionsObjArray: action.payload.questionsArr
             });
         case types.INDEX_DECREASE:
             return Object.assign({}, state, {
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, false, action.payload.not_answered_count, action.payload.mark_review_count, 
-                            action.payload.save_count, action.payload.save_and_mark_review_count, action.payload.no_of_sections, action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array))),
+                            action.payload.save_count, action.payload.save_and_mark_review_count, action.payload.no_of_sections, action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array, 
+                            action.payload.no_of_question_per_section_array, action.payload.section_buttons_color_array, action.payload.end_index_section_arr))),
                 questionsObj: action.payload.questionsObj,
                 questionsObjArray: action.payload.questionsArr
             });
@@ -70,7 +73,9 @@ export default (state = INITIAL_STATE , action) => {
             });
         case types.HANDLE_QUESTION_PALLETE:
             return Object.assign({}, state, {
-                examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, action.payload.disable_next_button, action.payload.not_answered_count, action.payload.mark_review_count, action.payload.save_count, action.payload.save_and_mark_review_count, action.payload.no_of_sections, action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array))),
+                examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, action.payload.disable_next_button, action.payload.not_answered_count, action.payload.mark_review_count, action.payload.save_count, action.payload.save_and_mark_review_count, action.payload.no_of_sections, 
+                    action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array, 
+                    action.payload.no_of_question_per_section_array, action.payload.section_buttons_color_array, action.payload.end_index_section_arr))),
                 questionsObj: action.payload.question_obj,
                 questionLegendModalVisible: action.payload.questionLegendModalVisible
             });
@@ -84,7 +89,7 @@ export default (state = INITIAL_STATE , action) => {
             });
         case types.CLEAR_TIMER:
             return Object.assign({}, state, {
-                examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0, 0, [], 0, []))),
+                examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0, 0, [], 0, [], [], [], []))),
                 timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
                 questionsObj: {}, 
                 questionsObjArray: [],
