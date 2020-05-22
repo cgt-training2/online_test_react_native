@@ -218,7 +218,6 @@ class OnlineExam extends Component{
     // Summary: This function will when time ends or user submit the paper.
     endExam(){
         clearInterval(this.runTimer);
-        // this.props.actions.stopTimer();
         this.props.navigation.navigate('TestResult');
     }
 
@@ -247,9 +246,7 @@ class OnlineExam extends Component{
     }
 
     render() {
-        // console.log("render() exam");
-        // console.log(this.props.examDetail.end_index_of_sections_array);
-        // console.log(this.props.examDetail.section_buttons_color_array);
+        
         return(
             <View style={ styles.container }>
                 <View style={{flex:.5}}>
@@ -279,6 +276,8 @@ class OnlineExam extends Component{
                                 totalQuestionsProps = { this.props.examDetail.total_questions }
                                 navigationToSectionProps = { this.navigationToSection }
                                 sectionButtonsColorArrayProps = { this.props.examDetail.section_buttons_color_array }
+                                examDetailProps = { this.props.examDetail }
+                                questionsObjArrayProp = { this.props.questionsObjectArray }
                             />
                         </View>  
                         <QuestionPalleteLegend 

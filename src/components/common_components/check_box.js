@@ -8,6 +8,9 @@ import {
 // Enum
 import { checkBoxStyleColor } from '../../enums/global_colors';
 
+// StyleSheet
+import { check_style } from './style_common';
+
 // Summary: This class will provide the functionality for checkbox.
 export default class CheckBox extends Component {
     
@@ -33,22 +36,15 @@ export default class CheckBox extends Component {
       return (
         <View style={{ flexDirection : 'row' }}>
             <TouchableOpacity onPress={this.checkClicked} style={this.props.style}>
-                <View style={{
-                    height: 24,
-                    width: 24,
-                    borderWidth: 2,
-                    borderColor: checkBoxStyleColor.borderColour,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    <View style={{
-                        height: 12,
-                        width: 12,
+                <View style={ check_style.containerMain }>
+                    <View style={[
+                        check_style.containerSub,
+                        {
                         backgroundColor: this.state.isCheck ? checkBoxStyleColor.backgroudColourSelected : checkBoxStyleColor.backgroudColourNotSelected,
-                    }} />
+                    }]}/>
                 </View>
             </TouchableOpacity>
-            <View style = {{ marginTop: 25, marginLeft: 5, flex: 1  }}>
+            <View style = { check_style.textInContainer }>
                 <Text>
                     { this.props.value }
                 </Text>

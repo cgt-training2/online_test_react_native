@@ -11,7 +11,7 @@ import { timerUtil } from '../utils/online_exam/timer-exam-utils';
 
 const INITIAL_STATE = { 
     examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0, 0, [], 0, [], [], [], []))),
-    timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
+    timerDetail: JSON.parse(JSON.stringify(timerUtil(300, 0, 0, 0))),
     questionsObj: {}, 
     questionsObjArray: [],
     questionLegendModalVisible: false,
@@ -27,7 +27,7 @@ export default (state = INITIAL_STATE , action) => {
                     action.payload.no_of_sections, action.payload.section_names, action.payload.total_questions,
                     action.payload.start_index_of_sections, action.payload.no_of_questions_each_section, 
                     action.payload.section_buttons_color_array, action.payload.end_index_section_arr))),
-                timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
+                timerDetail: JSON.parse(JSON.stringify(timerUtil(300, 0, 0, 0))),
                 questionsObj: action.payload.questionObject,
                 questionsObjArray: action.payload.questionArr,
                 renderVal: action.payload.renderval
@@ -80,8 +80,6 @@ export default (state = INITIAL_STATE , action) => {
                 questionLegendModalVisible: action.payload.questionLegendModalVisible
             });
         case types.TIMER_START:
-            // console.log("startTimer = (initialDurationSeconds)");
-            // console.log(action.payload.totalSeconds);
             return Object.assign({}, state,{
                 timerDetail: JSON.parse(JSON.stringify(
                     timerUtil(action.payload.totalSeconds, action.payload.hours, action.payload.minutes, action.payload.seconds)
@@ -90,7 +88,7 @@ export default (state = INITIAL_STATE , action) => {
         case types.CLEAR_TIMER:
             return Object.assign({}, state, {
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(0, true, false, 0, 0, 0, 0, 0, [], 0, [], [], [], []))),
-                timerDetail: JSON.parse(JSON.stringify(timerUtil(60, 0, 0, 0))),
+                timerDetail: JSON.parse(JSON.stringify(timerUtil(300, 0, 0, 0))),
                 questionsObj: {}, 
                 questionsObjArray: [],
                 questionLegendModalVisible: false,

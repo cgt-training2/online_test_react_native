@@ -1,16 +1,11 @@
 // Actions
 import * as types from '../../action-types';
 
-// Enum
-import { answer_option, color_code_answer_button } from '../../../enums/global_colors';
-import { questions_array_object } from '../../../enums/question_answers_set1';
-
-
 export function increaseIndex(index, questionArray, colorCode, answered, notAnsweredCountParam, markReviewCountParam, 
     saveCountParam, saveAndMarkReviewCountParam, lengthOfData, timerValue, no_of_sections,
     section_names, total_questions, start_index_of_sections_array, 
     no_of_question_per_section_array, section_buttons_color_array, endIndexSectionArr) {
-                
+    
     let newIndex = index == (lengthOfData - 1) ? index : index+1;
     let saveStatus = questionArray[index].save;
     let saveMarkReviewStatus = questionArray[index].save_mark_review;

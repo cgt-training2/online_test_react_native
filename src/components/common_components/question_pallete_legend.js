@@ -49,7 +49,8 @@ export default class QuestionPalleteLegend extends Component {
                                     />                                
                                     <View style={{ width: '100%', height: 1, backgroundColor: '#000000'}}>
                                     </View>
-                                    <QuestionLegendCount 
+                                    <QuestionLegendCount
+                                        questionsObjProp = { this.props.questionsObjProp } 
                                         saveCountProps = { this.props.saveCountProps }
                                         markReviewCountProps = { this.props.markReviewCountProps }
                                         notAnsweredCountProps = { this.props.notAnsweredCountProps }

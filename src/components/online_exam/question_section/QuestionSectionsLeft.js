@@ -151,6 +151,8 @@ export default class QuestionSectionLeft extends Component{
                     navigationToSectionProps = { this.props.navigationToSectionProps }
                     sectionNamesProps = { this.props.sectionNamesProps }
                     sectionButtonsColorArrayProps = { this.props.sectionButtonsColorArrayProps }
+                    examDetailProps = { this.props.examDetailProps }
+                    questionsObjectArrayProps = { this.props.questionsObjArrayProp }
                 />;
     }
 

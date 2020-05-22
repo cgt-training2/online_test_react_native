@@ -33,9 +33,10 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { () => this.props.actionIncreaseIndexChange(0) }
-                        disabled={ 
-                            this.props.disableNext 
-                    }>
+                        // disabled={ 
+                        //     this.props.disableNext 
+                        // }
+                    >
                         <Icon name="save" size={45} color="#900" />
                     </TouchableOpacity>
                 </View>
@@ -43,9 +44,10 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { () => this.props.actionIncreaseIndexChange(1) }
-                        disabled={ 
-                            this.props.disableNext 
-                    }>
+                        // disabled={ 
+                        //     this.props.disableNext 
+                        // }
+                    >
                         <FontAwesome5 name={'bookmark'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>
@@ -53,9 +55,10 @@ export default class AnswerButtons extends Component{
                     <TouchableOpacity 
                         style= { buttons.buttonContainer }
                         onPress = { () => this.props.actionIncreaseIndexChange(2) }
-                        disabled={ 
-                            this.props.disableNext 
-                    }>
+                        // disabled={ 
+                        //     this.props.disableNext 
+                        // }
+                    >
                         <FontAwesome5 name={'flag'} size={45} color="#900" solid />
                     </TouchableOpacity>
                 </View>

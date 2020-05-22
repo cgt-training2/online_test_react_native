@@ -75,9 +75,11 @@ export default class QuestionLegendCount extends Component{
                             backgroundColor: color_code_answer_button.not_answered,
                         }]}>
                             <Text style={[stylesQuestion.Alert_Message, { color: '#000000' }]}> 
-                            { this.props.saveAndMarkReviewCountProps >= 0 ? 0 : null }
+                            { this.props.saveAndMarkReviewCountProps >= 0 ? 
+                              this.props.questionsObjProp.length - (this.props.notAnsweredCountProps + this.props.saveCountProps + this.props.markReviewCountProps + this.props.saveAndMarkReviewCountProps) 
+                                : null }
                             </Text>
-                        </View>
+                        </View>                         
                         <View>
                             <Text style={stylesQuestion.Alert_Message_Text}> 
                                 Not Visited

@@ -16,6 +16,7 @@ import HeaderOnlineExam from '../../components/online_exam/header/HeaderOnlineEx
 import QuestionSectionRight from '../../components/online_exam/question_section/QuestionSectionsRight';
 import QuestionLegendCount from '../../components/common_components/question_legend_count';
 import EndExamAlert from '../../components/common_components/end_exam_alert';
+import SectionToolTip from '../../components/common_components/section_tool_tip';
 
 // StyleSheet
 import { buttons, styles } from './style-exam-summary';
@@ -60,21 +61,26 @@ class ExamSummary extends Component{
     }
 
     navigationOfQuestion(questionNo){
+
         let indexClicked = questionNo -1;
         let currentIndex = this.props.index;
         clearInterval(this.runTimer);
         //Summary: Action Fired
         this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
-            true, this.props.examDetail, currentIndex, 
-            this.props.timerDetail.totalSeconds, this.props.examDetail.no_of_sections,
-            this.props.examDetail.section_names, this.props.examDetail.total_questions, this.props.examDetail.start_index_of_sections_array);
-        // Navigate back To Test
+            true, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds, false, -1);
         this.props.navigation.navigate('OnlineTest');
     }
 
     navigationToSectionProps(index){
         console.log("navigationToSectionProps(index)");
         console.log(index);
+        let indexClicked = this.props.examDetail.start_index_of_sections_array[index];
+        let currentIndex = this.props.index;
+        //Summary: Action Fired
+        clearInterval(this.runTimer);
+        this.props.actions.handleQuestionPallete(indexClicked, this.props.questionsObjectArray,
+            true, this.props.examDetail, currentIndex, this.props.timerDetail.totalSeconds, true, index);
+        this.props.navigation.navigate('OnlineTest');
     }
 
     // SUmmary: This function is used to toggle the modal
@@ -96,28 +102,19 @@ class ExamSummary extends Component{
         }
     }
 
+
     // Summary: Use to create buttons with title for each section.
-    getSectionsDetails(){
-        let sectionInfoView = this.props.examDetail.section_names.map((sectionInfo, index) => (
-            <View style = {{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <TouchableOpacity 
-                    style = {{ height: '100%', paddingLeft: 5, paddingRight: 5, alignItems: 'center', justifyContent: 'center', backgroundColor: '#C9D7DD' }}
-                    onPress = { () => {
-                        this.navigationToSectionProps(index);
-                }}>
-                    <Text>
-                        { sectionInfo }
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        ));
-        return <View style = {{ width: '100%', height: 50, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            { sectionInfoView }
-        </View>;
+    getSectionsDetails() {
+        return <SectionToolTip 
+            navigationToSectionProps = { this.navigationToSectionProps }
+            sectionNamesProps = { this.props.examDetail.section_names }
+            sectionButtonsColorArrayProps = { this.props.examDetail.section_buttons_color_array }
+            examDetailProps = { this.props.examDetail }
+            questionsObjectArrayProps = { this.props.questionsObjectArray }
+        />;
     }
 
     render(){
-        console.log("render() Summary");
         return(
             <View style = { styles.container }>
                 <EndExamAlert 
@@ -158,6 +155,7 @@ class ExamSummary extends Component{
                                 markReviewCountProps = { this.props.examDetail.mark_review_count }
                                 notAnsweredCountProps = { this.props.examDetail.not_answer_count }
                                 saveAndMarkReviewCountProps = { this.props.examDetail.save_and_mark_review_count }
+                                questionsObjProp = { this.props.questionsObjectArray }
                             />
                         </View>
                     </ScrollView>
