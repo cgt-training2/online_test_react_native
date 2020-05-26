@@ -1,6 +1,7 @@
 // Actions
 import * as types from '../../action-types';
 
+// Summary: increaseIndex will increase the index by one.
 export function increaseIndex(index, questionArray, colorCode, answered, notAnsweredCountParam, markReviewCountParam, 
     saveCountParam, saveAndMarkReviewCountParam, lengthOfData, timerValue, no_of_sections,
     section_names, total_questions, start_index_of_sections_array, 
@@ -109,6 +110,7 @@ export function decreaseIndex(index, questionArray, notAnswerCount, examDetails,
     }
 }
 
+// Summary: increaseIndex will increase the index by one and handle save, saveMark and mark review button.
 export function increaseIndexSave(index, questionArray, colorCode, answered, 
     notAnsweredCountParam, markReviewCountParam, saveCountParam, saveAndMarkReviewCountParam,
     lengthOfData, buttonId, timerValue, no_of_sections, section_names, total_questions, 
@@ -139,6 +141,54 @@ export function increaseIndexSave(index, questionArray, colorCode, answered,
             (buttonId == 2 && markReviewStatus == false)) ? not_answered_count_param - 1 : not_answered_count_param;
     }
 
+    // Summary: Changing the count of button. Eg: When a user click markReview on already save question.
+    // then change boolean and count status of different question.
+    // Date: 26-May-2020 (Before this working perfectly)
+    if(saveStatus == true || saveMarkReviewStatus == true || markReviewStatus == true){
+        
+        if(buttonId != 0 && saveStatus == true){
+            console.log("Welcome Back Save Changed");
+            console.log(colorCode);
+            questionArray[index].question_pallete_color = colorCode;
+            save_count_param -= 1;
+            questionArray[index].save = false;
+            save_and_mark_review_count_param = ( buttonId == 1 ) ? 
+                                saveAndMarkReviewCountParam + 1 : saveAndMarkReviewCountParam;        
+            mark_review_count_param = ( buttonId == 2 ) ? 
+                                markReviewCountParam + 1 : markReviewCountParam;                    
+            questionArray[index].save_mark_review = ( buttonId == 1 ) ? true: questionArray[index].save_mark_review;
+            questionArray[index].mark_review = ( buttonId == 2  ) ? true: questionArray[index].mark_review;                    
+        }
+        if(buttonId != 1 && saveMarkReviewStatus == true){
+            console.log("Welcome Back saveMarkReviewStatus Changed");
+            console.log(colorCode);
+            questionArray[index].question_pallete_color = colorCode;
+            save_and_mark_review_count_param -= 1;
+            questionArray[index].save_mark_review = false;
+            save_count_param = ( buttonId == 0 ) ? 
+                                saveCountParam + 1 : saveCountParam;
+            mark_review_count_param = ( buttonId == 2 ) ? 
+                                markReviewCountParam + 1 : markReviewCountParam;                    
+            questionArray[index].save = ( buttonId == 0 ) ? true: questionArray[index].save;
+            questionArray[index].mark_review = ( buttonId == 2 ) ? true: questionArray[index].mark_review;                    
+
+        }
+        if(buttonId != 2 && markReviewStatus == true){
+            console.log("Welcome Back markReviewStatus Changed");
+            console.log(colorCode);
+            questionArray[index].question_pallete_color = colorCode;
+            mark_review_count_param -= 1;
+            questionArray[index].mark_review = false;
+            save_count_param = ( buttonId == 0 ) ? 
+                                saveCountParam + 1 : saveCountParam;
+            save_and_mark_review_count_param = ( buttonId == 1 ) ? 
+                                saveAndMarkReviewCountParam + 1 : saveAndMarkReviewCountParam;
+            questionArray[index].save = ( buttonId == 0 ) ? true: questionArray[index].save;                    
+            questionArray[index].save_mark_review = ( buttonId == 1 ) ? true: questionArray[index].save_mark_review;
+        }
+
+    }        
+
     let displayTime =  questionArray[index].display_time_of_question;
     let alreadyTakenTime = questionArray[index].time_taken_by_question;
     let timerValueTaken = timeTakenByEachQuestion(displayTime, timerValue, alreadyTakenTime);
@@ -148,7 +198,7 @@ export function increaseIndexSave(index, questionArray, colorCode, answered,
     questionArray[index].save_mark_review = ( buttonId == 1 && conditionStatus ) ? true: questionArray[index].save_mark_review;
     questionArray[index].mark_review = ( buttonId == 2 && conditionStatus ) ? true: questionArray[index].mark_review;
     questionArray[index].time_taken_by_question = timerValueTaken;
-    questionArray[index].visited_not_answer = true;
+
     questionArray[newIndex].display_time_of_question = timerValue;
     let payloadObject = {
         index: newIndex,
@@ -204,5 +254,5 @@ export function initialStateExam(response, renderBool){
     }
 }
 
-// Summary: increaseIndex will increase the index by one.
+
 
