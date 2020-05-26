@@ -83,27 +83,30 @@ export default class QuestionSectionLeft extends Component{
                 getFillInTheBlanksChangeTextEventProps = { this.props.getFillInTheBlanksChangeTextEventProps }
             />;
         }else if(this.props.questionObjProps.multiselect == true){
+            console.log(this.props.questionObjProps.answer_multiselect);
             if(this.props.questionObjProps.answer_multiselect.length == 0){
-                const checkboxs = this.props.questionObjProps.options.map(({id, option}) =>
+                const checkboxs = this.props.questionObjProps.options.map(({id, option}, index) =>
                     <CheckBox 
                         style={{ marginTop: 25  }} 
                         key={id} 
                         value={option}
-                        selected = { false }
-                        clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
+                        selected =  { this.props.questionObjProps.multiselect_selected_boolean[index] }
+                        // selected = { false }
+                        clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck, index)}
                     >
                     </CheckBox>
                 );
                 return checkboxs;
             }else{
-                const checkboxs = this.props.questionObjProps.options.map(({id, option}) =>
+                const checkboxs = this.props.questionObjProps.options.map(({id, option}, index) =>
                 this.props.questionObjProps.answer_multiselect.indexOf(option) > -1 ?
                         <CheckBox 
                             style={{ marginTop: 25 }} 
                             key={ id } 
                             value={option}
-                            selected = { true }
-                            clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
+                            selected =  { this.props.questionObjProps.multiselect_selected_boolean[index] }
+                            // selected = { true }
+                            clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck, index)}
                         >
                         </CheckBox>
                         :
@@ -111,8 +114,9 @@ export default class QuestionSectionLeft extends Component{
                             style={{ marginTop: 25 }} 
                             key={ id } 
                             value={ option }
-                            selected = { false }
-                            clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck)}
+                            selected =  { this.props.questionObjProps.multiselect_selected_boolean[index] }
+                            // selected = { false }
+                            clicked={(id, isCheck) => this.toggleCheckBox(id, option, isCheck, index)}
                         >
                         </CheckBox>
                 );
@@ -129,7 +133,8 @@ export default class QuestionSectionLeft extends Component{
     }
 
     // Summary: This will give us the selected values for the checkbox.
-    toggleCheckBox = (id, option, isCheck) => {
+    toggleCheckBox = (id, option, isCheck, cBIndex) => {
+        console.log(isCheck);
         let { checkSelected } = this.state;
         if (isCheck) {
           checkSelected.push(option);
@@ -139,9 +144,8 @@ export default class QuestionSectionLeft extends Component{
             checkSelected.splice(index, 1);
           }
         }
-    
         this.setState({ checkSelected });
-        this.props.getCheckBoxAnswerProps(this.state.checkSelected);
+        this.props.getCheckBoxAnswerProps(this.state.checkSelected, cBIndex);
     }
 
     // Summary: Use to return SectionToolTip component

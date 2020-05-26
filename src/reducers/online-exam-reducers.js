@@ -48,6 +48,14 @@ export default (state = INITIAL_STATE , action) => {
                 questionsObj: action.payload.questionsObj,
                 questionsObjArray: action.payload.questionsArr
             });
+        case types.CLEAR_RESPONSE:
+            return Object.assign({}, state,{
+                examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, action.payload.disable_next_button, action.payload.not_answered_count, action.payload.mark_review_count, action.payload.save_count, action.payload.save_and_mark_review_count, action.payload.no_of_sections, 
+                            action.payload.section_names, action.payload.total_questions, action.payload.start_index_of_sections_array, 
+                            action.payload.no_of_question_per_section_array, action.payload.section_buttons_color_array, action.payload.end_index_section_arr))),
+                questionsObj: action.payload.questionsObj,
+                questionsObjArray: action.payload.questionsArr
+            });
         case types.INDEX_DECREASE:
             return Object.assign({}, state, {
                 examDetail: JSON.parse(JSON.stringify(getOnlineExamDetails(action.payload.index, action.payload.disable_prev_button, false, action.payload.not_answered_count, action.payload.mark_review_count, 

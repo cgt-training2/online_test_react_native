@@ -36,11 +36,12 @@ export const handleFillInTheBlanks = (index, questionArray, answerValue, renderS
 }
 
 // Summary: This action will handle text of fill in the blanks.
-export const handleCheckBox = (index, questionArray, answerValue, renderState) => {
+export const handleCheckBox = (index, questionArray, answerValue, renderState, cbIndex) => {
     
+    questionArray[index].multiselect_selected_boolean[cbIndex] = !(questionArray[index].multiselect_selected_boolean[cbIndex]);
     questionArray[index].answer_multiselect = answerValue; 
     questionArray[index].answered = true;
-
+    // console.log(questionArray[index].multiselect_selected_boolean[cbIndex]);
     let payloadObject = {
         questionsArr: questionArray,
         renderObj: !renderState

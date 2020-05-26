@@ -168,9 +168,17 @@ class OnlineExam extends Component{
     }
 
     // Summary: This function will handle the answer given by checkbox input.
-    getCheckBoxAnswer(answerArr){
+    // getCheckBoxAnswer(answerArr){
+    //     this.props.actions.handleCheckBox(this.props.index, this.props.questionsObjectArray,
+    //         answerArr, this.props.renderState);
+    // }
+
+    // Summary: This function will handle the answer given by checkbox input.
+    getCheckBoxAnswer(answerArr, cbIndex){
+        console.log("answerArr");
+        console.log(answerArr);
         this.props.actions.handleCheckBox(this.props.index, this.props.questionsObjectArray,
-            answerArr, this.props.renderState);
+            answerArr, this.props.renderState, cbIndex);
     }
 
     // Summary: It will handle event when keyboard show.
@@ -229,20 +237,7 @@ class OnlineExam extends Component{
 
     // Summary: This function will clear the answer.
     clearResponseFunction() {
-        this.setState(prevState => {
-            let questionsObjVar = Object.assign(
-                {}, prevState.questionsObj
-            ); // creating copy of state variable questionsObj
-            questionsObjVar[this.state.index].answer_multiselect = [];
-            questionsObjVar[this.state.index].descriptive_given_answer = ""; 
-            questionsObjVar[this.state.index].selected_option = "";
-            questionsObjVar[this.state.index].answered = false;
-            questionsObjVar[this.state.index].question_pallete_color = '#C9D7DD';
-            // update the answer_multiselect property, assign a new value.                 
-            return{
-               questionsObjVar
-            }
-        });
+        this.props.actions.clearResponse(this.props.examDetail, this.props.questionsObjectArray);
     }
 
     render() {

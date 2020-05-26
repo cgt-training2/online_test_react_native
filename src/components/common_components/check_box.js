@@ -16,22 +16,15 @@ export default class CheckBox extends Component {
     
     constructor(props) {
         super(props);
-        // console.log("export default class CheckBox extends Component");
-        // console.log(this.props.selected);
-        this.state = {
-            isCheck: this.props.selected
-        };
     }
     
     // Summary: checkClicked function will handle the click event. 
     checkClicked = async () => {
-        await this.setState(prevState => ({
-            isCheck: !prevState.isCheck,
-        })); // setState is async function.
+        // setState is async function.
         // Call function type prop with return values.
-        this.props.clicked(this.props.value, this.state.isCheck);
+        this.props.clicked(this.props.value, !(this.props.selected));
     }
-  
+    
     render() {
       return (
         <View style={{ flexDirection : 'row' }}>
@@ -40,7 +33,7 @@ export default class CheckBox extends Component {
                     <View style={[
                         check_style.containerSub,
                         {
-                        backgroundColor: this.state.isCheck ? checkBoxStyleColor.backgroudColourSelected : checkBoxStyleColor.backgroudColourNotSelected,
+                        backgroundColor: this.props.selected ? checkBoxStyleColor.backgroudColourSelected : checkBoxStyleColor.backgroudColourNotSelected,
                     }]}/>
                 </View>
             </TouchableOpacity>
